@@ -1,0 +1,27 @@
+﻿<Window x:Class="AutoParts.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AutoParts"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="282" Width="500">
+    <Grid>
+        <Menu Height="25" VerticalAlignment="Top">
+            <MenuItem Header="File">
+                <MenuItem Header="Exit" ></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Database" >
+                <MenuItem Header="Orders"></MenuItem>
+                <MenuItem Header="Parts"></MenuItem>
+                <MenuItem Header="Users"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Stats" Click="MenuItem_Click" ></MenuItem>
+        </Menu>
+        <Button Content="Продивитися товари" HorizontalAlignment="Left" Margin="15,65,0,0" VerticalAlignment="Top" Width="130" Height="75" Click="Button_Click"/>
+        <Button Content="Продивитися закази" HorizontalAlignment="Left" Margin="180,65,0,0" VerticalAlignment="Top" Width="130" Height="75" Click="Button_Click_1"/>
+        <Button Content="Продивитися користувачів" HorizontalAlignment="Left" Margin="345,65,0,0" VerticalAlignment="Top" Width="130" Height="75" Click="Button_Click_2"/>
+        <Button Content="Вибрати диск" HorizontalAlignment="Left" Margin="15,160,0,0" VerticalAlignment="Top" Width="130" Height="75" Click="Button_Click_3"/>
+
+    </Grid>
+</Window>

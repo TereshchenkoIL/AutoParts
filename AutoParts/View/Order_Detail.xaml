@@ -1,0 +1,27 @@
+﻿<Window x:Class="AutoParts.View.Order_Detail"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AutoParts.View"
+        mc:Ignorable="d"
+        Title="Order_Detail" Height="450" Width="409">
+    <Grid>
+        <Button x:Name="Report_Button" Background="White" Click="Report_Button_Click" Margin="280,40,6,249" >
+            <StackPanel Orientation="Vertical">
+                <Image Source="../Images/Print.jpg" Width="75" Height="83" />
+                <TextBlock Text="Надрукувати чек"/>
+            </StackPanel>
+        </Button>
+        <Label Content="Користувач" HorizontalAlignment="Left" Margin="26,25,0,0" VerticalAlignment="Top"/>
+        <Label Content="Час створення" HorizontalAlignment="Left" Margin="25,60,0,0" VerticalAlignment="Top"/>
+        <Label Content="Дата створення" HorizontalAlignment="Left" Margin="19,95,0,0" VerticalAlignment="Top"/>
+        <Label Content="Валюта" HorizontalAlignment="Left" Margin="35,130,0,0" VerticalAlignment="Top"/>
+        <DatePicker x:Name="Date_picker" HorizontalAlignment="Left" Margin="125,96,0,0" VerticalAlignment="Top" Width="145"/>
+        <TextBox x:Name="Time_Box" HorizontalAlignment="Left" Height="23" Margin="125,62,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="145"/>
+        <TextBox x:Name="Curr_Box" HorizontalAlignment="Left" Height="23" Margin="125,132,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="145"/>
+        <DataGrid x:Name="Part_Grid" HorizontalAlignment="Left" Height="210" Margin="15,175,0,0" VerticalAlignment="Top" Width="365"/>
+        <TextBox x:Name="UserBox" HorizontalAlignment="Left" Height="23" Margin="125,20,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="145"/>
+
+    </Grid>
+</Window>

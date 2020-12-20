@@ -1,0 +1,33 @@
+﻿<Window x:Class="AutoParts.EditPart"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AutoParts"
+        mc:Ignorable="d"
+        Title="EditPart" Height="412" Width="624">
+    <Grid Height="357" VerticalAlignment="Top" Margin="0,0,0,-1">
+        <Label Content="Ціна" HorizontalAlignment="Left" Margin="32,25,0,0" VerticalAlignment="Top"/>
+        <Label Content="Назва" HorizontalAlignment="Left" Margin="30,60,0,0" VerticalAlignment="Top"/>
+        <Label Content="Опис" HorizontalAlignment="Left" Margin="32,105,0,0" VerticalAlignment="Top"/>
+        <Label Content="Гарантія" HorizontalAlignment="Left" Margin="15,194,0,0" VerticalAlignment="Top"/>
+        <Label Content="Тип" HorizontalAlignment="Left" Margin="30,235,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="Type_Box" HorizontalAlignment="Left" Margin="95,235,0,0" VerticalAlignment="Top" Width="215" SelectionChanged="ComboBox_SelectionChanged"/>
+        <TextBox x:Name="Price_Box" HorizontalAlignment="Left" Height="23" Margin="95,25,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="210"/>
+        <TextBox x:Name="Name_Box" HorizontalAlignment="Left" Height="25" Margin="95,65,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="210"/>
+        <TextBox x:Name="Desc_Box" HorizontalAlignment="Left" Height="75" Margin="95,110,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="210"/>
+        <TextBox x:Name="Warrant_box" HorizontalAlignment="Left" Height="23" Margin="95,195,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="210"/>
+        <Label x:Name="AddLabel" Content="Додати властивості" HorizontalAlignment="Left" Margin="434,14,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="ValueLabel" Content="Значення" HorizontalAlignment="Left" Margin="375,50,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="Value_Box" HorizontalAlignment="Left" Height="23" Margin="455,52,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
+        <Label x:Name="CharactLabel" Content="Характеристика" HorizontalAlignment="Left" Margin="338,84,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="Property_Box" HorizontalAlignment="Left" Margin="455,83,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="Property_Box_SelectionChanged"/>
+        <DataGrid x:Name="Prop_Grid" HorizontalAlignment="Left" Height="125" Margin="340,175,0,0" VerticalAlignment="Top" Width="250"/>
+        <Button x:Name="Add_Prop" Content="Додати" HorizontalAlignment="Left" Margin="365,130,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+        <Button x:Name="Complete_Button" Content="Зберегти зміни" HorizontalAlignment="Left" Margin="35,330,0,0" VerticalAlignment="Top" Width="95" Click="Complete_Button_Click"/>
+        <Button x:Name="Cancel" Content="Відмінити" HorizontalAlignment="Left" Margin="150,330,0,0" VerticalAlignment="Top" Width="95" Click="Cancel_Click"/>
+        <Label Content="Автівка" HorizontalAlignment="Left" Margin="25,274,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="Car_Box" HorizontalAlignment="Left" Margin="95,275,0,0" VerticalAlignment="Top" Width="215" SelectionChanged="CarBox_SelectionChanged"/>
+
+    </Grid>
+</Window>
