@@ -5,10 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoParts.View"
         mc:Ignorable="d"
-        Title="ReviewAddWindow" Height="377" Width="389">
+        Icon="../Images/Parts.png"
+        Title="Додати відгук" Height="377" Width="389">
     <Grid>
         <Label Content="Оцінка" HorizontalAlignment="Left" Margin="27,30,0,0" VerticalAlignment="Top"/>
-        <StackPanel x:Name="stackPanel" Margin="130,30,76,286" Orientation="Horizontal">
+        <StackPanel x:Name="stackPanel" Margin="130,30,56,286" Orientation="Horizontal">
             <RadioButton GroupName="Stars" Content="1" Margin="0 5 10 0" Checked="RadioButton_Checked" />
             <RadioButton GroupName="Stars" Content="2" Margin="0 5 10 0" Checked="RadioButton_Checked" />
             <RadioButton GroupName="Stars" Content="3" Margin="0 5 10 0" Checked="RadioButton_Checked"/>
@@ -17,6 +18,6 @@
         </StackPanel>
         <Label Content="Відгук" HorizontalAlignment="Left" Margin="160,65,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="Message" HorizontalAlignment="Left" Height="205" Margin="20,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="340"/>
-        <Button x:Name="AddButton" Content="Додати" HorizontalAlignment="Left" Height="25" Margin="90,315,0,0" VerticalAlignment="Top" Width="205" Click="AddButton_Click"/>
+        <Button x:Name="AddButton" Content="Додати" HorizontalAlignment="Left" Height="25" Margin="90,305,0,0" VerticalAlignment="Top" Width="205" Click="AddButton_Click"/>
     </Grid>
 </Window>

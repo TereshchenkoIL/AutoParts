@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoParts"
         mc:Ignorable="d"
-        Title="Reports" Height="450" Width="800">
+        Icon="Images/Parts.png"
+        Title="Звіт" Height="450" Width="800">
     <Grid>
         <WindowsFormsHost x:Name="WFHost"/>
 

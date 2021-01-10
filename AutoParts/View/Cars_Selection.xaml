@@ -5,43 +5,45 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoParts.View"
         mc:Ignorable="d"
-        Title="Запчастини" Height="450" Width="1000">
+        Title="Каталог" Height="500" Width="1000"
+        Icon="../Images/Parts.png">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition Height="130*"></RowDefinition>
+            <RowDefinition Height="339*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="115*"></ColumnDefinition>
-            <ColumnDefinition Width="315*"/>
+            <ColumnDefinition Width="310*"/>
 
-            <ColumnDefinition Width="290*"></ColumnDefinition>
+            <ColumnDefinition Width="295*"></ColumnDefinition>
             <ColumnDefinition Width="272*"/>
         </Grid.ColumnDefinitions>
 
-        <Button x:Name="Report_Button" Background="White" Click="Report_Button_Click" >
+        <Button x:Name="Report_Button" Background="White" Click="Report_Button_Click" Height="Auto" Margin="0,5,0,0" >
             <StackPanel Orientation="Vertical">
                 <Image Source="../Images/Print.jpg" Width="75" Height="83" />
-                <TextBlock Text="Накладна"/>
+                <TextBlock Text="Накладна" Foreground="Black"/>
             </StackPanel>
         </Button>
-        <Button x:Name="Search_Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Background="White" Grid.Column="1" Margin="1,2,0,0" Click="Search_Button_Click" Height="103" BorderThickness="0">
+        <Button x:Name="Search_Button"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="94" Background="White" Grid.Column="1" Margin="1,2,0,0" Click="Search_Button_Click" Height="128" BorderThickness="0">
             <StackPanel Orientation="Vertical">
                 <Image Source="../Images/Search.jpg" Width="75" Height="83" />
-                <TextBlock Text="Знайти"/>
+                <TextBlock Text="Знайти" Foreground="Black"/>
             </StackPanel>
         </Button>
 
-        <TextBox x:Name="SearchBox" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap"  VerticalAlignment="Top" Width="209" Grid.Column="1" Margin="90,2,0,0"/>
+        <TextBox x:Name="SearchBox" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap"  VerticalAlignment="Top" Width="150" Grid.Column="1" Margin="105,5,0,0"/>
         <ScrollViewer Grid.Column="1" Margin="105,30,74,0" >
             <StackPanel x:Name="Search_Box"  >
                 <CheckBox x:Name="AllFields"  IsChecked="False" Height="20" Content="По всім полям" />
                 <CheckBox x:Name="ByName"  IsChecked="True" Height="20" Content="По назві" />
-                <CheckBox x:Name="ByDesc"   Height="20" Content="По опису"/>
                 <CheckBox x:Name="ByProd"   Height="20" Content="По виробнику"/>
+                <CheckBox x:Name="ByType"   Height="20" Content="По типу"/>
+                <CheckBox x:Name="ByСar"   Height="20" Content="По автомобілю"/>
             </StackPanel>
         </ScrollViewer>
-        <Grid Grid.Column="2" Grid.Row="0" Margin="5,25,10,0">
+        <Grid Grid.Column="2" Grid.Row="0" Margin="5,35,10,0">
             <ScrollViewer Margin="0,0,10,0" RenderTransformOrigin="0.5,0.5" >
                 <ScrollViewer.RenderTransform>
                     <TransformGroup>
@@ -67,64 +69,68 @@
                     <ComboBox x:Name="TypeBox" HorizontalAlignment="Left" Margin="75,125,0,0" Width="165" Height="22" VerticalAlignment="Top" SelectionChanged="Type_Box_SelectionChanged"/>
                     <CheckBox x:Name="Is_Type_Filtered" Content="" HorizontalAlignment="Left" Margin="57,125,0,0" VerticalAlignment="Top" Width="16"/>
 
+                    <Label Content="Рейтинг" HorizontalAlignment="Left" Margin="5,155,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Від" HorizontalAlignment="Left" Margin="55,155,0,0" VerticalAlignment="Top"/>
+                    <Label Content="До" HorizontalAlignment="Left" Margin="150,155,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="From_Rate" HorizontalAlignment="Left" Height="23" Margin="85,165,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60"/>
+                    <TextBox x:Name="To_Rate" HorizontalAlignment="Left" Height="23" Margin="175,165,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="65"/>
                 </Grid>
             </ScrollViewer>
         </Grid>
         <Label Content="Сортировать по" Grid.Column="3" HorizontalAlignment="Left" Margin="7,0,0,0" VerticalAlignment="Top" Height="26" Width="98"/>
-        <ComboBox Name="Sort" Grid.Row="0" Grid.Column="3" Margin="10,35,152,40" SelectionChanged="Sort_SelectionChanged">
+        <ComboBox Name="Sort" Grid.Row="0" Grid.Column="3" Margin="10,40,152,62" SelectionChanged="Sort_SelectionChanged" Height="28">
             <ComboBoxItem>Ціні</ComboBoxItem>
             <ComboBoxItem>Гарантії</ComboBoxItem>
             <ComboBoxItem>По рейтингу</ComboBoxItem>
+            <ComboBoxItem>Кількості оцінок</ComboBoxItem>
         </ComboBox>
-        <DataGrid x:Name="Grid" EnableRowVirtualization="False" IsReadOnly="True" HorizontalAlignment="Left" Height="290" Margin="55,15,0,0" Grid.Row="1" VerticalAlignment="Top" Width="810" Grid.ColumnSpan="3" Grid.Column="1" >
-
-        </DataGrid>
-        <Button x:Name="Asc" HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Background="White" Grid.Column="3" Margin="20,70,0,0" Click="ASC_Click" BorderBrush="Transparent" Height="34">
-            <StackPanel Orientation="Vertical">
-                <Image Source="../Images/ASC.png" Width="30" />
+        <DataGrid x:Name="Grid"  EnableRowVirtualization="False" IsReadOnly="True" HorizontalAlignment="Left" Height="313" Margin="40,15,0,0" Grid.Row="1" VerticalAlignment="Top" Width="810" Grid.ColumnSpan="3" Grid.Column="1" />
+        <Button x:Name="Asc" HorizontalAlignment="Left" Style="{x:Null}" VerticalAlignment="Top" Width="40" Background="White" Grid.Column="3" Margin="10,75,0,0" Click="ASC_Click" BorderBrush="Transparent" Height="35">
+            <StackPanel Width="33" Height="30">
+                <Image Source="../Images/ASC.png" Width="35"  />
             </StackPanel>
         </Button>
-        <Button x:Name="Dsc" HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Background="White" Grid.Column="3" Margin="85,70,0,0" Click="Dsc_Click" BorderBrush="Transparent" Height="34">
+        <Button x:Name="Dsc" Style="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Background="White" Grid.Column="3" Margin="70,81,0,0" Click="Dsc_Click" BorderBrush="Transparent" Height="34">
             <StackPanel Orientation="Vertical">
                 <Image Source="../Images/DESC.png" Width="30" />
             </StackPanel>
         </Button>
-        <Button x:Name="Filter_Button" Content="Фільтрувати" HorizontalAlignment="Left" Margin="170,10,0,0" VerticalAlignment="Top" Width="75" Click="Filter_Button_Click" Grid.Column="2" Height="20"/>
-        <Button x:Name="Basket_Button" Background="White"  Grid.Column="3" BorderThickness="0" Margin="220,15,12,50" Click="Basket_Button_Click">
+        <Button x:Name="Filter_Button" Content="Фільтрувати" HorizontalAlignment="Left" Margin="170,5,0,0" VerticalAlignment="Top" Width="85" Click="Filter_Button_Click" Grid.Column="2" Height="30"/>
+        <Button x:Name="Basket_Button" Style="{x:Null}" Background="White"  Grid.Column="3" BorderThickness="0" Margin="225,15,12,62" Click="Basket_Button_Click" Height="Auto">
             <StackPanel Orientation="Vertical">
                 <Image Source="../Images/Basket.png"  />
             </StackPanel>
         </Button>
-        <Button x:Name="AddBusket_Button" Background="White" BorderThickness="0" Margin="170,15,67,50" Click="AddBusket_Button_Click" Grid.Column="3">
+        <Button x:Name="AddBusket_Button" Style="{x:Null}" Background="White" BorderThickness="0" Margin="180,16,57,57" Click="AddBusket_Button_Click" Grid.Column="3" Height="Auto">
             <StackPanel Orientation="Vertical">
                 <Image Source="../Images/Add_Basket.png" />
             </StackPanel>
         </Button>
-        <Label Content="Марка автомобіля" HorizontalAlignment="Left" Margin="5,104,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
-        <ComboBox x:Name="MarkBox" HorizontalAlignment="Left" Margin="10,23,0,0" Grid.Row="1" VerticalAlignment="Top" Width="130" Grid.ColumnSpan="2" SelectionChanged="MarkBox_SelectionChanged" />
-        <Label Content="Рік випуску" HorizontalAlignment="Left" Margin="10,45,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-        <ComboBox x:Name="YearBox" HorizontalAlignment="Left" Margin="10,75,0,0" Grid.Row="1" VerticalAlignment="Top" Width="130" Grid.ColumnSpan="2" SelectionChanged="YearBox_SelectionChanged"/>
-        <Label Content="Модель" HorizontalAlignment="Left" Margin="12,100,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-        <ComboBox x:Name="ModelBox" HorizontalAlignment="Left" Margin="10,128,0,0" Grid.Row="1" VerticalAlignment="Top" Width="130" Grid.ColumnSpan="2" SelectionChanged="ModelBox_SelectionChanged"/>
-        <Label Content="Модифікація" HorizontalAlignment="Left" Margin="10,150,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-        <ComboBox x:Name="Modif" HorizontalAlignment="Left" Margin="10,178,0,0" Grid.Row="1" VerticalAlignment="Top" Width="130" Grid.ColumnSpan="2" SelectionChanged="Modif_SelectionChanged"/>
-        <Button x:Name="Info_Button" Background="White" BorderThickness="0" Margin="125,15,112,55" Click="Info_Button_Click" Grid.Column="3">
+        <Label Content="Марка автомобіля" HorizontalAlignment="Left" Margin="6,3,0,0" VerticalAlignment="Top" Height="24" Width="109" Grid.Row="1"/>
+        <ComboBox x:Name="MarkBox" HorizontalAlignment="Left" Margin="10,23,0,0" Grid.Row="1" VerticalAlignment="Top" Width="130" Grid.ColumnSpan="2" SelectionChanged="MarkBox_SelectionChanged" Height="28" />
+        <Label Content="Рік випуску" HorizontalAlignment="Left" Margin="10,45,0,0" Grid.Row="1" VerticalAlignment="Top" Height="24" Width="70"/>
+        <ComboBox x:Name="YearBox" HorizontalAlignment="Left" Margin="10,75,0,0" Grid.Row="1" VerticalAlignment="Top" Width="130" Grid.ColumnSpan="2" SelectionChanged="YearBox_SelectionChanged" Height="28"/>
+        <Label Content="Модель" HorizontalAlignment="Left" Margin="12,100,0,0" Grid.Row="1" VerticalAlignment="Top" Height="24" Width="51"/>
+        <ComboBox x:Name="ModelBox" HorizontalAlignment="Left" Margin="10,128,0,0" Grid.Row="1" VerticalAlignment="Top" Width="130" Grid.ColumnSpan="2" SelectionChanged="ModelBox_SelectionChanged" Height="28"/>
+        <Label Content="Модифікація" HorizontalAlignment="Left" Margin="10,150,0,0" Grid.Row="1" VerticalAlignment="Top" Height="24" Width="79"/>
+        <ComboBox x:Name="Modif" HorizontalAlignment="Left" Margin="10,178,0,0" Grid.Row="1" VerticalAlignment="Top" Width="130" Grid.ColumnSpan="2" SelectionChanged="Modif_SelectionChanged" Height="28"/>
+        <Button x:Name="Info_Button" Style="{x:Null}"  Background="White" BorderThickness="0" Margin="130,20,107,53" Click="Info_Button_Click" Grid.Column="3" Height="Auto">
             <StackPanel Orientation="Vertical">
                 <Image Source="../Images/Info.png"  />
             </StackPanel>
         </Button>
-        <Button x:Name="EndFilter"  Content="Скинути фільтр" Grid.Column="2" HorizontalAlignment="Left" Margin="70,10,0,0" VerticalAlignment="Top" Width="95" Click="EndFilter_Click"/>
-        <Label Content="Тип товару" HorizontalAlignment="Left" Margin="10,200,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-        <ComboBox Name="Type_SelectBox" HorizontalAlignment="Left" Margin="10,223,0,0" Grid.Row="1" VerticalAlignment="Top" Width="130" Grid.ColumnSpan="2" SelectionChanged="Type_SelectBox_SelectionChanged"/>
+        <Button x:Name="EndFilter"  Content="Скинути фільтр" Grid.Column="2" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Width="135" Click="EndFilter_Click" Height="30"/>
+        <Label Content="Тип товару" HorizontalAlignment="Left" Margin="10,200,0,0" Grid.Row="1" VerticalAlignment="Top" Height="24" Width="69"/>
+        <ComboBox Name="Type_SelectBox" HorizontalAlignment="Left" Margin="10,223,0,0" Grid.Row="1" VerticalAlignment="Top" Width="130" Grid.ColumnSpan="2" SelectionChanged="Type_SelectBox_SelectionChanged" Height="28"/>
         <Button x:Name="Pick_Item" Content="Підібрати" HorizontalAlignment="Left" Margin="10,270,0,0" Grid.Row="1" VerticalAlignment="Top" Width="125" Grid.ColumnSpan="2" Click="Pick_Item_Click"/>
-        <Button x:Name="AddReview_Button" Background="White" BorderThickness="0" Margin="125,60,102,5"  Grid.Column="3" Click="AddReview_Button_Click">
+        <Button x:Name="AddReview_Button" Style="{x:Null}" Background="White" BorderThickness="0" Margin="125,64,102,9"  Grid.Column="3" Click="AddReview_Button_Click" Height="Auto">
             <StackPanel Orientation="Vertical">
                 <Image Source="../Images/Lreview.jpg" Height="39" Width="44" />
             </StackPanel>
         </Button>
-        <Button x:Name="SeeReview_Button" Background="White" BorderThickness="0" Margin="170,55,47,5" Click="ViewReview_Button_Click" Grid.Column="3" RenderTransformOrigin="0.778,0.875">
+        <Button x:Name="SeeReview_Button" Style="{x:Null}" Background="White" BorderThickness="0" Margin="170,62,47,11" Click="ViewReview_Button_Click" Grid.Column="3" RenderTransformOrigin="0.778,0.875" Height="Auto">
             <StackPanel Orientation="Vertical">
-                <Image Source="../Images/Sreview.jpg" Height="39" Width="44" />
+                <Image Source="../Images/Sreview.jpg" Height="39" Width="44" RenderTransformOrigin="0.5,0.513" />
             </StackPanel>
         </Button>
 

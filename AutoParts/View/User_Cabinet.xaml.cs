@@ -46,7 +46,7 @@ namespace AutoParts.View
         public User_Cabinet(int id)
         {
             InitializeComponent();
-
+            Id = id;
             manager = new DBManager();
             user = manager.GetUserInformation(id).Tables[0].Rows[0];
             Name_Box.Text = (string)user["Name"];
@@ -56,7 +56,8 @@ namespace AutoParts.View
             PhoneBox.Text = (string)user["Phone"];
             CityBox.Text = (string)user["City"];
             AdressBox.Text = (string)user["Adress"];
-            orders = manager.GetUserOrderDetails(1).Tables[0];
+            orders = manager.GetUserOrderDetails(id).Tables[0];
+            if(orders.Rows.Count != 0)
             Grid.ItemsSource = orders.DefaultView;
 
         }

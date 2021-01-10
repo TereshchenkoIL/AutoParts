@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoParts.View"
         mc:Ignorable="d"
-        Title="Register" Height="492" Width="334" WindowStartupLocation="CenterScreen">
+        Title="Реєстрація" Height="492" Width="334" WindowStartupLocation="CenterScreen"
+        Icon="../Images/Parts.png">
     <Grid>
         <Grid Margin="0,0,0,1">
             <Rectangle Height="260" VerticalAlignment="Top">
@@ -19,29 +20,29 @@
             </Rectangle>
 
 
-            <Rectangle Width="280" Height="230" Fill="White" VerticalAlignment="Top" Margin="23,50,23,0" RadiusY="24" RadiusX="24">
+            <Rectangle Width="280" Height="355" Fill="White" VerticalAlignment="Top" Margin="23,50,23,0" RadiusY="24" RadiusX="24">
                 <Rectangle.Effect>
                     <DropShadowEffect Color="#FFBBBBBB" Direction="0" BlurRadius="15" ShadowDepth="1"/>
                 </Rectangle.Effect>
             </Rectangle>
             <Grid Width="280" Height="200" VerticalAlignment="Top" >
-                <Label Content="Регістрація" HorizontalAlignment="Center" Height="40"  Margin="72,45,73,115" Width="135" Foreground="#FF5F5E5E" FontSize="24"/>
-                <Label Content="UserName" HorizontalAlignment="Left" Height="30" Margin="-2,85,0,0" VerticalAlignment="Top" Width="64"/>
-                <Label Content="Password" HorizontalAlignment="Left" Height="30" Margin="2,125,0,0" VerticalAlignment="Top" Width="65"/>
-                <TextBox x:Name="UserNameBox" HorizontalAlignment="Left" Height="25" Margin="78,84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="160"/>
-                <PasswordBox x:Name="first_pas" HorizontalAlignment="Left" Height="25" Margin="79,131,0,0" VerticalAlignment="Top" Width="160"/>
-                <Label Content="Once more" HorizontalAlignment="Left" Height="25" Margin="-3,170,0,0" VerticalAlignment="Top" Width="95" />
-                <PasswordBox x:Name="second_pas" HorizontalAlignment="Left" Height="25" Margin="79,171,0,0" VerticalAlignment="Top" Width="160"/>
-                <Label Content="Email" HorizontalAlignment="Left" Height="25" Margin="2,210,0,-35" VerticalAlignment="Top" Width="95" />
-                <TextBox x:Name="Email_Box" HorizontalAlignment="Left" Height="25" Margin="79,210,0,-35" VerticalAlignment="Top" Width="160"/>
-                <Label Content="Ім'я" HorizontalAlignment="Left" Height="25" Margin="2,245,0,-70" VerticalAlignment="Top" Width="95" />
-                <Label Content="По-батькові" HorizontalAlignment="Left" Height="25" Margin="2,280,0,-105" VerticalAlignment="Top" Width="95" />
-                <Label Content="Прізвище" HorizontalAlignment="Left" Height="25" Margin="-3,315,0,-140" VerticalAlignment="Top" Width="95" />
-                <TextBox x:Name="NameBox" HorizontalAlignment="Left" Height="25" Margin="79,245,0,-70" VerticalAlignment="Top" Width="160"/>
-                <TextBox x:Name="SeconNameBox" HorizontalAlignment="Left" Height="25" Margin="79,280,0,-105" VerticalAlignment="Top" Width="160"/>
-                <TextBox x:Name="SurnameBox" HorizontalAlignment="Left" Height="25" Margin="79,315,0,-140" VerticalAlignment="Top" Width="160"/>
-                <Label Content="Телефон" HorizontalAlignment="Left" Height="25" Margin="-3,350,0,-175" VerticalAlignment="Top" Width="95" />
-                <TextBox x:Name="PhoneBox" HorizontalAlignment="Left" Height="25" Margin="79,350,0,-175" VerticalAlignment="Top" Width="160"/>
+                <Label Content="Реєстрація" HorizontalAlignment="Center" Height="40"  Margin="72,45,73,115" Width="135" Foreground="#FF5F5E5E" FontSize="24"/>
+                <Label Content="UserName" HorizontalAlignment="Left" Height="30" Margin="5,85,0,0" VerticalAlignment="Top" Width="64"/>
+                <Label Content="Password" HorizontalAlignment="Left" Height="30" Margin="5,125,0,0" VerticalAlignment="Top" Width="65"/>
+                <TextBox x:Name="UserNameBox" HorizontalAlignment="Left" Height="25" Margin="82,85,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="160"/>
+                <PasswordBox x:Name="first_pas" HorizontalAlignment="Left" Height="25" Margin="82,130,0,0" VerticalAlignment="Top" Width="160"/>
+                <Label Content="Once more" HorizontalAlignment="Left" Height="25" Margin="5,170,0,0" VerticalAlignment="Top" Width="75" />
+                <PasswordBox x:Name="second_pas" HorizontalAlignment="Left" Height="25" Margin="82,170,0,0" VerticalAlignment="Top" Width="160"/>
+                <Label Content="Email" HorizontalAlignment="Left" Height="25" Margin="5,210,0,-35" VerticalAlignment="Top" Width="55" />
+                <TextBox x:Name="Email_Box" HorizontalAlignment="Left" Height="25" Margin="82,210,0,-35" VerticalAlignment="Top" Width="160"/>
+                <Label Content="Ім'я" HorizontalAlignment="Left" Height="25" Margin="5,245,0,-70" VerticalAlignment="Top" Width="95" />
+                <Label Content="По-батькові" HorizontalAlignment="Left" Height="25" Margin="5,280,0,-105" VerticalAlignment="Top" Width="95" />
+                <Label Content="Прізвище" HorizontalAlignment="Left" Height="25" Margin="5,315,0,-140" VerticalAlignment="Top" Width="95" />
+                <TextBox x:Name="NameBox" HorizontalAlignment="Left" Height="25" Margin="82,245,0,-70" VerticalAlignment="Top" Width="160"/>
+                <TextBox x:Name="SeconNameBox" HorizontalAlignment="Left" Height="25" Margin="82,280,0,-105" VerticalAlignment="Top" Width="160"/>
+                <TextBox x:Name="SurnameBox" HorizontalAlignment="Left" Height="25" Margin="82,315,0,-140" VerticalAlignment="Top" Width="160"/>
+                <Label Content="Телефон" HorizontalAlignment="Left" Height="25" Margin="5,350,0,-175" VerticalAlignment="Top" Width="95" />
+                <TextBox x:Name="PhoneBox" HorizontalAlignment="Left" Height="25" Margin="82,350,0,-175" VerticalAlignment="Top" Width="160"/>
             </Grid>
             <Button Content="Зарегіструватися" HorizontalAlignment="Center" Height="40" Margin="65,405,76,0" VerticalAlignment="Top" Width="185" Background="#FF01AAF9" Foreground="White" FontSize="18" Click= "Register_Click" />
         </Grid>

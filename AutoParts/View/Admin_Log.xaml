@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoParts.View"
         mc:Ignorable="d"
-        Title="Admin_Log" Height="300" Width="300" WindowStartupLocation="CenterScreen">
+        Title="Вхід" Height="300" Width="300" WindowStartupLocation="CenterScreen"
+        Icon="../Images/Parts.png">
     <Grid>
         <Label Content="Вхід для адміна" HorizontalAlignment="Left" Height="35" Margin="80,10,0,0" VerticalAlignment="Top" Width="170" FontSize="20"/>
         <Label Content="name" HorizontalAlignment="Left" Height="25" Margin="40,80,0,0" VerticalAlignment="Top" Width="45"/>

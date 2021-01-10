@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoParts.View"
         mc:Ignorable="d"
-        Title="LogIn" Height="500" Width="350" KeyDown="Catch" WindowStartupLocation="CenterScreen">
+        Icon="../Images/Parts.png"
+        Title="Вхід" Height="500" Width="350" KeyDown="Catch" WindowStartupLocation="CenterScreen">
     <Grid>
         <Rectangle Height="280" VerticalAlignment="Top" >
             <Rectangle.Fill>
@@ -30,7 +31,7 @@
             <TextBox x:Name="user_name" HorizontalAlignment="Left" Height="25" Margin="78,84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="160"/>
             <PasswordBox x:Name="user_pas" HorizontalAlignment="Left" Height="25" Margin="78,164,0,0" VerticalAlignment="Top" Width="160"/>
         </Grid>
-        <Button Content="Вхід" HorizontalAlignment="Center" Height="40" Margin="0,345,0,0" VerticalAlignment="Top" Width="185" Background="#FF01AAF9" Foreground="White" FontSize="18" Click="LogIn_Click"/>
-        <Button Content="Зарегіструватися" HorizontalAlignment="Left" Height="25" Margin="110,405,0,0" VerticalAlignment="Top" Background="#FF01AAF9" Foreground="White" Width="110" Click="Button_Click"/>
+        <Button Content="Вхід" BorderThickness="0" HorizontalAlignment="Center" Height="40" Margin="0,345,0,0" VerticalAlignment="Top" Width="185" Background="#FF01AAF9" Foreground="White" FontSize="18" Click="LogIn_Click"/>
+        <Button Content="Зарегіструватися" BorderThickness="0" HorizontalAlignment="Left" Height="25" Margin="95,410,0,0" VerticalAlignment="Top" Background="#FF01AAF9" Foreground="White" Width="155" Click="Button_Click"/>
     </Grid>
 </Window>

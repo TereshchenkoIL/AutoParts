@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoParts.View"
         mc:Ignorable="d"
-        Title="ResponseViewWindow" Height="450" Width="364">
+        Icon="../Images/Parts.png"
+        Title="Відгуки" Height="450" Width="364">
     <Grid>
         <ListBox x:Name="List" ItemsSource="{Binding  Responses}" SelectionChanged="List_SelectionChanged" Margin="0,0,0,4" >
             <ListBox.ItemTemplate>
@@ -14,7 +15,7 @@
                         <TextBlock FontSize="16" Text="{Binding Path=Name}" HorizontalAlignment="Center" />
                         <TextBlock FontSize="12" Text="{Binding Path=Date}" HorizontalAlignment="Center" />
                         <TextBlock FontSize="16" Text="{Binding Path=Text}" HorizontalAlignment="Center" />
-                        <TextBlock FontSize="16" Text="{Binding Path=Rating}" HorizontalAlignment="Center" />
+                        <TextBlock FontSize="16" Text="{Binding Path=Rate}" HorizontalAlignment="Center" />
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

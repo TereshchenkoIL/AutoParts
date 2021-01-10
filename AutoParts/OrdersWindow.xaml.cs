@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
+using AutoParts.Model;
 
 namespace AutoParts
 {
@@ -28,15 +29,21 @@ namespace AutoParts
         private EnumerableRowCollection<DataRow> filtered;
         public bool IsFiltered;
         private bool ASC;
+        private DBManager manager;
         public OrdersWindow()
         {
             InitializeComponent();
+            manager = new DBManager();
             table = new DataTable();
 
             connection = new SqlConnection(ConfigurationManager.ConnectionStrings["Autoparts"].ConnectionString);
 
             connection.Open();
-            string sql = "Select o.Order_Id,SUM(p.Price*OP.Quantity) AS Total,CONCAT(u.Name,' ',u.Second_name,' ',u.Surname) AS FIO, o.Create_Date,o.Curr,o.Create_Time, o.User_Id From((Orders o INNER JOIN Order_Part op ON o.Order_Id = op.Order_Id) INNER JOIN Parts p ON op.Part_Id = p.Part_Id) INNER JOIN Users u on u.User_Id = o.User_Id Group BY o.Order_Id,o.Create_Date,o.Curr,o.Curr,o.Create_Time,u.Name,u.Second_name,u.Surname,o.User_Id";
+            string sql = "Select o.Order_Id,SUM(p.Price*OP.Quantity) AS Total,CONCAT(u.Name,' ',u.Second_name,' ',u.Surname) AS FIO, o.Create_Date,o.Curr,o.Create_Time, o.User_Id " +
+                "From((Orders o Left JOIN Order_Part op ON o.Order_Id = op.Order_Id)" +
+                " Left JOIN Parts p ON op.Part_Id = p.Part_Id)" +
+                " Left JOIN Users u on u.User_Id = o.User_Id" +
+                " Group BY o.Order_Id,o.Create_Date,o.Curr,o.Curr,o.Create_Time,u.Name,u.Second_name,u.Surname,o.User_Id";
             adapter = new SqlDataAdapter(sql, connection);
             adapter.DeleteCommand = new SqlCommand("sp_DeleteOrder", connection);
             adapter.DeleteCommand.CommandType = CommandType.StoredProcedure;
@@ -52,12 +59,19 @@ namespace AutoParts
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             connection.Open();
-            int id = table.Rows[Grid.SelectedIndex].Field<int>("Order_Id");
-            table.Rows.RemoveAt(Grid.SelectedIndex);
+            int id = -1;
+            if(IsFiltered)
+                id = filtered.CopyToDataTable().Rows[Grid.SelectedIndex].Field<int>("Order_Id");
+            else
+                id = table.Rows[Grid.SelectedIndex].Field<int>("Order_Id");
+
+            
             adapter.DeleteCommand.Parameters["@id"].Value = id;
             adapter.DeleteCommand.ExecuteNonQuery();
-            adapter.Update(table);
-            table.AcceptChanges();
+            table.Clear();
+            adapter.Fill(table);
+            IsFiltered = false;
+            Grid.ItemsSource = table.DefaultView;
             connection.Close();
         }
     
@@ -66,17 +80,27 @@ namespace AutoParts
         {
             EditOrder ed = new EditOrder();
             ed.ShowDialog();
-            adapter.Update(table);
+            table.Clear();
+            adapter.Fill(table);
+            IsFiltered = false;
+            Grid.ItemsSource = table.DefaultView;
         }
 
         private void Edit_Button_Click(object sender, RoutedEventArgs e)
         {
             int index = Grid.SelectedIndex;
-            var row = table.Rows[index];
+            DataRow row;
+            if (!IsFiltered)
+                row = table.Rows[index];
+            else
+                row = filtered.ElementAt(index);
             EditOrder ed = new EditOrder(row.Field<int>("Order_Id"),row.Field<int>("User_Id"),row.Field<DateTime>("Create_Date"), row.Field<TimeSpan>("Create_Time"), row.Field<string>("Curr"));
             ed.ShowDialog();
             table.Clear();
+            table.Clear();
             adapter.Fill(table);
+            IsFiltered = false;
+            Grid.ItemsSource = table.DefaultView;
         }
 
         private void Search_Button_Click(object sender, RoutedEventArgs e)
@@ -88,144 +112,46 @@ namespace AutoParts
                 row.Background = Brushes.White;
 
             }
-
+            DataTable temp;
             if (IsFiltered)
+                 temp = filtered.CopyToDataTable();            
+            else
+               temp = table;          
+
+            if (AllFields.IsChecked == true)
             {
-                DataTable temp = filtered.CopyToDataTable();
-                if (AllFields.IsChecked == true)
+                for (int i = 0; i < temp.Rows.Count; i++)
                 {
-                    for (int i = 0; i < temp.Rows.Count; i++)
+                    if (temp.Rows[i].Field<DateTime>("Create_Date").ToString().ToLower().Contains(SearchBox.Text.ToLower()))
                     {
-                        if (temp.Rows[i].Field<DateTime>("Create_Date").ToString().ToLower().Contains(SearchBox.Text.ToLower()))
-                        {
-                            var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                            row.Background = Brushes.Green;
-                        }
-                    }
-                    for (int i = 0; i < temp.Rows.Count; i++)
-                    {
-                        if (temp.Rows[i].Field<string>("Curr").ToLower().Contains(SearchBox.Text.ToLower()))
-                        {
-                            var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                            row.Background = Brushes.Green;
-                        }
-                    }
-                    for (int i = 0; i < temp.Rows.Count; i++)
-                    {
-                        if (temp.Rows[i].Field<string>("FIO").ToLower().Contains(SearchBox.Text.ToLower()))
-                        {
-                            var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                            row.Background = Brushes.Green;
-                        }
-                    }
-
-                }
-                else
-                {
-
-                    if (ByDate.IsChecked == true)
-                    {
-                        for (int i = 0; i < temp.Rows.Count; i++)
-                        {
-                            if (temp.Rows[i].Field<DateTime>("Create_Date").ToString().ToLower().Contains(SearchBox.Text.ToLower()))
-                            {
-                                var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                                row.Background = Brushes.Green;
-                            }
-                        }
-                    }
-                    if (ByCurr.IsChecked == true)
-                    {
-                        for (int i = 0; i < temp.Rows.Count; i++)
-                        {
-                            if (temp.Rows[i].Field<string>("Curr").ToLower().Contains(SearchBox.Text.ToLower()))
-                            {
-                                var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                                row.Background = Brushes.Green;
-                            }
-                        }
-                    }
-                    if (ByUser.IsChecked == true)
-                    {
-                        for (int i = 0; i < temp.Rows.Count; i++)
-                        {
-                            if (temp.Rows[i].Field<string>("FIO").ToLower().Contains(SearchBox.Text.ToLower()))
-                            {
-                                var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                                row.Background = Brushes.Green;
-                            }
-                        }
+                        var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
+                        row.Background = Brushes.Green;
                     }
                 }
+                Paint(temp, "Curr");
+                Paint(temp, "FIO");
+
             }
             else
             {
-                DataTable temp = table;
-                if (AllFields.IsChecked == true)
+
+                if (ByDate.IsChecked == true)
                 {
                     for (int i = 0; i < temp.Rows.Count; i++)
                     {
                         if (temp.Rows[i].Field<DateTime>("Create_Date").ToString().ToLower().Contains(SearchBox.Text.ToLower()))
                         {
                             var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                            row.Background = Brushes.Green;
-                        }
-                    }
-                    for (int i = 0; i < temp.Rows.Count; i++)
-                    {
-                        if (temp.Rows[i].Field<string>("Curr").ToLower().Contains(SearchBox.Text.ToLower()))
-                        {
-                            var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                            row.Background = Brushes.Green;
-                        }
-                    }
-                    for (int i = 0; i < temp.Rows.Count; i++)
-                    {
-                        if (temp.Rows[i].Field<string>("FIO").ToLower().Contains(SearchBox.Text.ToLower()))
-                        {
-                            var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                            row.Background = Brushes.Green;
-                        }
-                    }
-
-                }
-                else
-                {
-
-                    if (ByDate.IsChecked == true)
-                    {
-                        for (int i = 0; i < temp.Rows.Count; i++)
-                        {
-                            if (temp.Rows[i].Field<DateTime>("Create_Date").ToString().ToLower().Contains(SearchBox.Text.ToLower()))
-                            {
-                                var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                                row.Background = Brushes.Green;
-                            }
-                        }
-                    }
-                    if (ByCurr.IsChecked == true)
-                    {
-                        for (int i = 0; i < temp.Rows.Count; i++)
-                        {
-                            if (temp.Rows[i].Field<string>("Curr").ToLower().Contains(SearchBox.Text.ToLower()))
-                            {
-                                var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                                row.Background = Brushes.Green;
-                            }
-                        }
-                    }
-                    if (ByUser.IsChecked == true)
-                    {
-                        for (int i = 0; i < temp.Rows.Count; i++)
-                        {
-                            if (temp.Rows[i].Field<string>("FIO").ToLower().Contains(SearchBox.Text.ToLower()))
-                            {
-                                var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                                row.Background = Brushes.Green;
-                            }
+                            row.Background = Brushes.Purple;
                         }
                     }
                 }
+                if (ByCurr.IsChecked == true)
+                    Paint(temp, "Curr");
+ 
+                if (ByUser.IsChecked == true)
+                    Paint(temp, "FIO");
+
             }
         }
 
@@ -243,8 +169,10 @@ namespace AutoParts
                 filtered = filtered.Where(x => x.Field<string>("Curr") == Currbox.Text);
             if(From_Date.SelectedDate != null && To_Date.SelectedDate != null)
                 filtered = filtered.Where(x => x.Field<DateTime>("Create_Date") >From_Date.SelectedDate && x.Field<DateTime>("Create_Date") < To_Date.SelectedDate);
-
-            Grid.ItemsSource = filtered.CopyToDataTable().DefaultView;
+            if (filtered.Count() != 0)
+                Grid.ItemsSource = filtered.CopyToDataTable().DefaultView;
+            else
+                MessageBox.Show("Відповідний заказ відсутній");
         }
 
         private void Sort_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -283,7 +211,12 @@ namespace AutoParts
 
             }
 
-
+            if (IsFiltered)
+            {
+                filtered = temp.ToTable().AsEnumerable();
+            }
+            else
+                table = temp.ToTable();
             Grid.ItemsSource = temp;
         }
 
@@ -306,6 +239,17 @@ namespace AutoParts
             int id = table.Rows[Grid.SelectedIndex].Field<int>("Order_Id");
             Reports r = new Reports(true, id);
             r.ShowDialog();
+        }
+        public void Paint(DataTable temp, string column)
+        {
+            for (int i = 0; i < temp.Rows.Count; i++)
+            {
+                if (temp.Rows[i].Field<string>(column).ToLower().Contains(SearchBox.Text.ToLower()))
+                {
+                    var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
+                    row.Background = Brushes.Purple;
+                }
+            }
         }
     }
 }

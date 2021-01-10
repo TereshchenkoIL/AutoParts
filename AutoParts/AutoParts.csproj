@@ -37,6 +37,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DotNetProjects.DataVisualization.Toolkit, Version=6.0.85.0, Culture=neutral, PublicKeyToken=79778c5f2eed289b, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetProjects.WpfToolkit.DataVisualization.6.0.85\lib\net40\DotNetProjects.DataVisualization.Toolkit.dll</HintPath>
+    </Reference>
     <Reference Include="FastReport, Version=2020.4.9.0, Culture=neutral, PublicKeyToken=db7e5ce63278458c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\FastReports\FastReport.Net Trial\Framework 4.0\FastReport.dll</HintPath>
@@ -66,21 +69,6 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="WindowsFormsIntegration" />
-    <Reference Include="Xceed.Wpf.AvalonDock, Version=4.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.4.0.1\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=4.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.4.0.1\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=4.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.4.0.1\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=4.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.4.0.1\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.Toolkit, Version=4.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.4.0.1\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -103,8 +91,10 @@
     <Compile Include="Model\DBManager.cs" />
     <Compile Include="Model\EngineItem.cs" />
     <Compile Include="Model\IAnalog.cs" />
+    <Compile Include="Model\OilFilter.cs" />
     <Compile Include="Model\PartPicker.cs" />
     <Compile Include="Model\Picker.cs" />
+    <Compile Include="Model\ReportEnum.cs" />
     <Compile Include="Model\Response.cs" />
     <Compile Include="Model\Stabilizer.cs" />
     <Compile Include="Model\User.cs" />
@@ -130,14 +120,47 @@
     <Compile Include="View\BasketWindow.xaml.cs">
       <DependentUpon>BasketWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\CarsWindow.xaml.cs">
+      <DependentUpon>CarsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Cars_Selection.xaml.cs">
       <DependentUpon>Cars_Selection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DiscountsWindow.xaml.cs">
+      <DependentUpon>DiscountsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DoSQL.xaml.cs">
+      <DependentUpon>DoSQL.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EditCar.xaml.cs">
+      <DependentUpon>EditCar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EditDiscount.xaml.cs">
+      <DependentUpon>EditDiscount.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EditEngine.xaml.cs">
+      <DependentUpon>EditEngine.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EditModification.xaml.cs">
+      <DependentUpon>EditModification.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EditProducer.xaml.cs">
+      <DependentUpon>EditProducer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EnginesWindow.xaml.cs">
+      <DependentUpon>EnginesWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\LogIn.xaml.cs">
       <DependentUpon>LogIn.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\ModificationWindow.xaml.cs">
+      <DependentUpon>ModificationWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Order_Detail.xaml.cs">
       <DependentUpon>Order_Detail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ProducersWindow.xaml.cs">
+      <DependentUpon>ProducersWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Register.xaml.cs">
       <DependentUpon>Register.xaml</DependentUpon>
@@ -147,6 +170,9 @@
     </Compile>
     <Compile Include="View\ReviewAddWindow.xaml.cs">
       <DependentUpon>ReviewAddWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Scheme.xaml.cs">
+      <DependentUpon>Scheme.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\User_Cabinet.xaml.cs">
       <DependentUpon>User_Cabinet.xaml</DependentUpon>
@@ -210,7 +236,43 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\CarsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Cars_Selection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DiscountsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DoSQL.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditCar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditDiscount.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditEngine.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditModification.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditProducer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EnginesWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -218,7 +280,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\ModificationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Order_Detail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ProducersWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -231,6 +301,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ReviewAddWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Scheme.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -265,6 +339,8 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Reports\Check.frx" />
+    <None Include="Reports\Part.frx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -300,6 +376,36 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\home.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Parts.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Discounts.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Modifications.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\A_Parts.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Orders.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Users.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Cars.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Engines.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Factory.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Scheme.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.3.2.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.3.2.0\build\MaterialDesignThemes.targets')" />

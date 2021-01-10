@@ -33,7 +33,11 @@ namespace AutoParts.Model
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string sql = $"SELECT o.Order_Id, o.Create_Date, SUM(p.Price*op.Quantity) AS Total FROM Orders o INNER JOIN Order_Part op ON o.Order_Id = op.Order_Id INNER JOIN Parts p ON op.Part_Id = p.Part_Id WHERE o.User_Id = { Id} Group By o.Order_Id, o.Create_Date";
+                string sql = $"SELECT o.Order_Id, o.Create_Date, SUM(p.Price*op.Quantity) AS Total " +
+                    $"FROM Orders o INNER JOIN Order_Part op ON o.Order_Id = op.Order_Id " +
+                    $"INNER JOIN Parts p ON op.Part_Id = p.Part_Id " +
+                    $"WHERE o.User_Id = { Id} " +
+                    $"Group By o.Order_Id, o.Create_Date";
                 SqlDataAdapter adapter = new SqlDataAdapter(sql, connection);
                 DataSet ds = new DataSet();
                 adapter.Fill(ds);
@@ -83,7 +87,10 @@ namespace AutoParts.Model
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string sql = $"SELECT u.Name, u.Second_name, u.Surname, o.Order_Id, o.Create_Date, o.Create_Time, o.Curr FROM USERS u INNER JOIN ORDERS o ON u.User_Id = O.User_Id Where o.Order_Id = {id}";
+                string sql = $"SELECT u.Name, u.Second_name, u.Surname, o.Order_Id, o.Create_Date, o.Create_Time, o.Curr " +
+                    $"FROM USERS u " +
+                    $"INNER JOIN ORDERS o ON u.User_Id = O.User_Id" +
+                    $" Where o.Order_Id = {id}";
                 SqlDataAdapter adapter = new SqlDataAdapter(sql, connection);
                 DataSet ds = new DataSet();
                 adapter.Fill(ds);
@@ -98,7 +105,11 @@ namespace AutoParts.Model
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string sql = $"SELECT p.Name,op.Quantity, p.Price FROM Orders o INNER JOIN Order_Part op ON o.Order_Id = op.Order_Id INNER JOIN Parts p ON op.Part_Id = P.Part_Id WHERE o.Order_Id = {id}";
+                string sql = $"SELECT p.Name,op.Quantity, p.Price " +
+                    $"FROM Orders o " +
+                    $"INNER JOIN Order_Part op ON o.Order_Id = op.Order_Id " +
+                    $"INNER JOIN Parts p ON op.Part_Id = P.Part_Id" +
+                    $" WHERE o.Order_Id = {id}";
                 SqlDataAdapter adapter = new SqlDataAdapter(sql, connection);
                 DataSet ds = new DataSet();
                 adapter.Fill(ds);
@@ -125,7 +136,11 @@ namespace AutoParts.Model
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string sql = "Select * FROM Parts";
+                string sql = "SELECT p.Part_Id, P.Name, P.Price,P.Producer_Name, pt.Name AS 'Тип', p.Warranty AS 'Гарантія', CONCAT(c.Mark, ' ' , c.Model, ' ', C.Year) AS Car,  COUNT(r.Response_Id) AS 'Кількість оцінок', AVG(R.Rate) AS 'Середня оцінка' " +
+                    "FROM PARTS p INNER JOIN Pr_Types pt ON p.Type_Id = pT.Type_Id " +
+                    "LEFT JOIN Responses r ON P.Part_Id = r.Part_Id " +
+                    "LEFT JOIN Cars c ON P.Car_Id = c.Car_Id " +
+                    "GROUP BY p.Part_Id, P.Name, P.Price,P.Producer_Name, p.Warranty,  pt.Name,CONCAT(c.Mark, ' ', c.Model, ' ', C.Year)";
                 if(id != -1)
                     sql = $"Select * FROM Parts WHERE Part_Id = {id}";
 
@@ -149,13 +164,27 @@ namespace AutoParts.Model
 
             }
         }
+        public async Task<DataSet> SelectAsync(string sql)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter(sql, connection);
+                DataSet ds = new DataSet();
+                await Task.Run(()=> adapter.Fill(ds));
+                return ds;
+
+            }
+        }
 
         public DataSet GetProperties(int id)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string sql = $"Select p.Name,CONCAT(pp.value,p.Unit) As Значення  From((Parts pr INNER JOIN Prop_Part pp ON(pr.Part_Id = pp.Part_Id AND pr.Part_Id = { id})) INNER JOIN Properties p ON pp.Prop_Id = p.Prop_Id)";
+                string sql = $"Select p.Name,CONCAT(pp.value,p.Unit) As Значення  " +
+                    $"From((Parts pr INNER JOIN Prop_Part pp ON(pr.Part_Id = pp.Part_Id AND pr.Part_Id = { id})) " +
+                    $"INNER JOIN Properties p ON pp.Prop_Id = p.Prop_Id)";
                 SqlDataAdapter adapter = new SqlDataAdapter(sql, connection);
                 DataSet ds = new DataSet();
                 adapter.Fill(ds);
@@ -232,7 +261,9 @@ namespace AutoParts.Model
 
         public DataSet GetReviews(int part)
         {
-            string sql = $"SELECT CONCAT(u.Name,' ',u.Second_name,' ',u.Surname) AS Name, r.Response_Id, r.Part_Id,r.Create_Date,r.Rate,r.Text FROM Responses r INNER JOIN Users u ON r.User_Id = u.User_Id WHERE r.Part_Id = {part}";
+            string sql = $"SELECT CONCAT(u.Name,' ',u.Second_name,' ',u.Surname) AS Name, r.Response_Id, r.Part_Id,r.Create_Date,r.Rate,r.Text " +
+                $"FROM Responses r INNER JOIN Users u ON r.User_Id = u.User_Id " +
+                $"WHERE r.Part_Id = {part}";
             return Select(sql);
         }
 
@@ -243,7 +274,10 @@ namespace AutoParts.Model
         }
         public DataSet GetModifications(int car_Id)
         {
-            string sql = $"SELECT  Concat(e.Name, ' ', e.Power, ' лс ',e.Volume, ' л. ', e.Type) as ModName,e.Engine_Id, e.Power, e.Volume, e.Type, m.Drive_type From Modifications m INNER JOIN Engines e ON m.Engine_Id = e.Engine_Id Where m.Car_Id = {car_Id}";
+            string sql = $"SELECT  Concat(e.Name, ' ', e.Power, ' лс ',e.Volume, ' л. ', e.Type) as ModName,e.Engine_Id, e.Power, e.Volume, e.Type, m.Drive_type" +
+                $" From Modifications m " +
+                $"INNER JOIN Engines e ON m.Engine_Id = e.Engine_Id " +
+                $"Where m.Car_Id = {car_Id}";
             return Select(sql);
         }
 
@@ -284,5 +318,251 @@ namespace AutoParts.Model
             }
         }
 
+        public void Add_Producer(string name, string desc, int year)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sql = "INSERT INTO Producers (Producer_Name, Descript, Year)" +
+                    $"Values ('{name}','{desc}', {year})";
+                SqlCommand command = new SqlCommand(sql, connection);
+                command.ExecuteNonQuery();
+
+            }
+
+        }
+        public void Update_Producer(string name, string desc, int year)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sql = "Update Producers SET " +
+                    $"Descript = '{desc}', Year = {year}" +
+                    $"WHERE Producer_Name = '{name}'";
+                SqlCommand command = new SqlCommand(sql, connection);
+                command.ExecuteNonQuery();
+
+            }
+
+        }
+        public void Delete_Producer(string name)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sql = "DELETE FROM Producers " +                 
+                    $"WHERE Producer_Name = '{name}'";
+                SqlCommand command = new SqlCommand(sql, connection);
+                command.ExecuteNonQuery();
+
+            }
+
+        }
+
+        public void Add_Car(string mark, string model,string type, int year)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sql = "INSERT INTO Cars (Mark, Model,Type, Year)" +
+                    $"Values ('{mark}','{model}','{type}', {year})";
+                SqlCommand command = new SqlCommand(sql, connection);
+                command.ExecuteNonQuery();
+
+            }
+
+        }
+        public void Update_Car(int car_id, string mark, string model, string type, int year)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sql = "Update Cars SET " +
+                    $"Mark = '{mark}', Year = {year}," +
+                    $"Model = '{model}', Type = '{type}'" +
+                    $"WHERE Car_Id = {car_id}";
+                SqlCommand command = new SqlCommand(sql, connection);
+                command.ExecuteNonQuery();
+
+            }
+
+        }
+        public void Delete_Car(int car_id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sql = "DELETE FROM Cars  " +
+                    $"WHERE Car_Id = {car_id}";
+                SqlCommand command = new SqlCommand(sql, connection);
+                command.ExecuteNonQuery();
+
+            }
+
+        }
+
+        public DataSet GetModifications()
+        {
+            string sql = "SELECT m.Modif_Id,  m.NAME, M.Car_Id,m.Complect, M.Drive_type," +
+                "CONCAT(e.Name,' ', e.Power, 'лс.  ', e.Volume, 'л. ') AS Engine," +
+                " CONCAT(c.Mark,' ', c.Model, ' ',c.Year) AS Car " +
+                "FROM Engines e INNER JOIN Modifications m ON e.Engine_Id = M.Engine_Id " +
+                "INNER JOIN CARS c ON m.Car_Id = c.Car_Id; ";
+            return Select(sql);
+        }
+
+        public void Add_Modification(string name, string complect, string type, int car_id, int engine_id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sql = "INSERT INTO Modifications (Name, Complect,Drive_Type, Car_Id, Engine_Id)" +
+                    $"Values ('{name}','{complect}','{type}', {car_id}, {engine_id})";
+                SqlCommand command = new SqlCommand(sql, connection);
+                command.ExecuteNonQuery();
+
+            }
+
+        }
+        public void Update_Modification(int id, string name, string complect, string type, int car_id, int engine_id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sql = "Update Modifications SET " +
+                    $"Name = '{name}', Complect = '{complect}'," +
+                    $"Drive_type = '{type}', Car_Id = {car_id}," +
+                    $"Engine_Id = {engine_id}" +
+                    $"WHERE Modif_Id = {id}";
+                SqlCommand command = new SqlCommand(sql, connection);
+                command.ExecuteNonQuery();
+
+            }
+
+        }
+        public void Delete_Modification(int id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sql = "DELETE FROM Modifications  " +
+                    $"WHERE Modif_Id = {id}";
+                SqlCommand command = new SqlCommand(sql, connection);
+                command.ExecuteNonQuery();
+
+            }
+
+        }
+
+        public void Add_Engine(string name, int power, double volume, string type)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sql = "INSERT INTO Engines (Name, Power,Volume, Type)" +
+                    $"Values ('{name}',{power},{volume}, '{type}')";
+                SqlCommand command = new SqlCommand(sql, connection);
+                command.ExecuteNonQuery();
+
+            }
+
+        }
+        public void Update_Engine(int id, string name, int power, double volume, string type)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sql = "Update Engines SET " +
+                    $"Name = '{name}', Power = {power}," +
+                    $"Volume = {volume}, Type = '{type}'"+
+                    $"WHERE Engine_Id = {id}";
+                SqlCommand command = new SqlCommand(sql, connection);
+                command.ExecuteNonQuery();
+
+            }
+
+        }
+        public void Delete_Engine(int id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sql = "DELETE FROM Engines  " +
+                    $"WHERE Engine_Id = {id}";
+                SqlCommand command = new SqlCommand(sql, connection);
+                command.ExecuteNonQuery();
+
+            }
+
+        }
+
+        public void Add_Disc(string name, string desc, int disc)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sql = "INSERT INTO Discounts (Discount_Name, Descript,Disc)" +
+                    $"Values ('{name}','{desc}',{disc})";
+                SqlCommand command = new SqlCommand(sql, connection);
+                command.ExecuteNonQuery();
+
+            }
+
+        }
+        public void Update_Disc(string name, string desc, int disc)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sql = "Update Discounts SET " +
+                    $"Descript = '{desc}'," +
+                    $"Disc = {disc}"+
+                    $"WHERE Discount_Name = '{name}'";
+                SqlCommand command = new SqlCommand(sql, connection);
+                command.ExecuteNonQuery();
+
+            }
+
+        }
+        public void Delete_Disc(string name)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sql = "DELETE FROM Discounts  " +
+                    $"WHERE Discount_Name = '{name}'";
+                SqlCommand command = new SqlCommand(sql, connection);
+                command.ExecuteNonQuery();
+
+            }
+
+        }
+
+        public void Delete_Part_Prop(int prop_id, int part_id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sql = "DELETE FROM Prop_Part  " +
+                    $"WHERE Prop_Id = {prop_id} AND Part_Id = {part_id}";
+                SqlCommand command = new SqlCommand(sql, connection);
+                command.ExecuteNonQuery();
+
+            }
+
+        }
+        public void Delete_Order_Part(int order_id, int part_id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sql = "DELETE FROM Order_Part  " +
+                    $"WHERE Order_Id = {order_id} AND Part_Id = {part_id}";
+                SqlCommand command = new SqlCommand(sql, connection);
+                command.ExecuteNonQuery();
+
+            }
+
+        }
     }
 }

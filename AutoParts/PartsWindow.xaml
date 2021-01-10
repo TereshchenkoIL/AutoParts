@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoParts"
         mc:Ignorable="d"
-        Title="PartsWindow" Height="450" Width="1000">
+        Icon="Images/Parts.png"
+        Title="Запчастини" Height="450" Width="1000">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
@@ -19,16 +20,16 @@
             <ColumnDefinition Width="110*"/>
         </Grid.ColumnDefinitions>
 
-        <Button x:Name="Edit_Button" Content="Редагувати" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.5,0.5" Margin="15,75,0,0" Grid.Column="1" Height="20" Click="Edit_Button_Click"/>
-        <Button x:Name="Add_Button" Content="Додати" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.5,0.5" Margin="15,40,0,0" Grid.Column="1" Height="20" Click="Add_Button_Click"/>
-        <Button Content="Видалити" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.533,0.5" Margin="15,10,0,0" Grid.Column="1" Height="20" Click="Button_Click"/>
-        <Button x:Name="Report_Button" Background="White" Click="Report_Button_Click" >
-        <StackPanel Orientation="Vertical">
-            <Image Source="Images/Print.jpg" Width="75" Height="83" />
-            <TextBlock Text="Накладна"/>
-        </StackPanel>
+        <Button x:Name="Edit_Button" Content="Редагувати" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="105" RenderTransformOrigin="0.5,0.5" Margin="100,75,0,0" Height="25" Click="Edit_Button_Click" Grid.ColumnSpan="3"/>
+        <Button x:Name="Add_Button" BorderThickness="0" Content="Додати" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.5,0.5" Margin="100,45,0,0" Height="25" Click="Add_Button_Click" Grid.ColumnSpan="3"/>
+        <Button Content="Видалити" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.533,0.5" Margin="100,15,0,0" Height="25" Click="Button_Click" Grid.ColumnSpan="3"/>
+        <Button x:Name="Report_Button" Style="{x:Null}" Background="White" Click="Report_Button_Click" >
+            <StackPanel Orientation="Vertical">
+                <Image Source="Images/Print.jpg" Width="75" Height="83" />
+                <TextBlock Text="Накладна"/>
+            </StackPanel>
         </Button>
-        <Button x:Name="Search_Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Background="White" Grid.Column="2" Margin="1,2,0,0" Click="Search_Button_Click">
+        <Button x:Name="Search_Button" BorderThickness="0" Style="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Background="White" Grid.Column="2" Margin="1,2,0,0" Click="Search_Button_Click">
             <StackPanel Orientation="Vertical">
                 <Image Source="Images/Search.jpg" Width="75" Height="83" />
                 <TextBlock Text="Знайти"/>
@@ -70,17 +71,16 @@
         <ComboBox Name="Sort" Height="30" Grid.Row="0" Grid.Column="3" Margin="349,30,7,45" Grid.ColumnSpan="2" SelectionChanged="Sort_SelectionChanged">
             <ComboBoxItem>Ціні</ComboBoxItem>
             <ComboBoxItem>Гарантії</ComboBoxItem>
-            <ComboBoxItem>По рейтингу</ComboBoxItem>
         </ComboBox>
         <DataGrid x:Name="Grid" EnableRowVirtualization="False" IsReadOnly="True" HorizontalAlignment="Left" Height="290" Margin="10,15,0,0" Grid.Row="1" VerticalAlignment="Top" Width="970" Grid.ColumnSpan="5">
-          
+
         </DataGrid>
-            <Button x:Name="Asc" HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Background="White" Grid.Column="4" Margin="3,65,0,0" Click="ASC_Click" BorderBrush="Transparent">
+        <Button x:Name="Asc" Style="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Background="White" Grid.Column="4" Margin="3,65,0,0" Click="ASC_Click" BorderBrush="Transparent">
             <StackPanel Orientation="Vertical">
                 <Image Source="Images/ASC.png" Width="30" />
             </StackPanel>
         </Button>
-        <Button x:Name="Dsc" HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Background="White" Grid.Column="4" Margin="58,66,0,0" Click="Dsc_Click" BorderBrush="Transparent">
+        <Button x:Name="Dsc"  Style="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Background="White" Grid.Column="4" Margin="58,66,0,0" Click="Dsc_Click" BorderBrush="Transparent">
             <StackPanel Orientation="Vertical">
                 <Image Source="Images/DESC.png" Width="30" />
             </StackPanel>

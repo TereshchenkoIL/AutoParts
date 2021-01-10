@@ -5,25 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoParts"
         mc:Ignorable="d"
-        Title="EditOrder" Height="450" Width="694">
+        Icon="Images/Parts.png"
+        Title="Редагування заказу" Height="427" Width="694">
     <Grid>
-        <Label Content="Користувач" HorizontalAlignment="Left" Margin="45,70,0,0" VerticalAlignment="Top"/>
-        <Label Content="Час створення" HorizontalAlignment="Left" Margin="50,104,0,0" VerticalAlignment="Top"/>
-        <Label Content="Дата створення" HorizontalAlignment="Left" Margin="50,140,0,0" VerticalAlignment="Top"/>
-        <Label Content="Валюта" HorizontalAlignment="Left" Margin="54,175,0,0" VerticalAlignment="Top"/>
-        <DatePicker x:Name="Date_picker" HorizontalAlignment="Left" Margin="170,145,0,0" VerticalAlignment="Top" Width="145"/>
-        <TextBox x:Name="Time_Box" HorizontalAlignment="Left" Height="23" Margin="170,105,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="145"/>
-        <TextBox x:Name="Curr_Box" HorizontalAlignment="Left" Height="23" Margin="170,177,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="145"/>
-        <ComboBox x:Name="User_Box" HorizontalAlignment="Left" Margin="170,73,0,0" VerticalAlignment="Top" Width="145" SelectionChanged="User_Box_SelectionChanged"/>
-        <Label Content="Додати товар в заказ" HorizontalAlignment="Left" Margin="454,40,0,0" VerticalAlignment="Top"/>
-        <Label Content="Товар" HorizontalAlignment="Left" Margin="397,70,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="Part_Box" HorizontalAlignment="Left" Margin="455,75,0,0" VerticalAlignment="Top" Width="150"/>
-        <Label Content="Кількість" HorizontalAlignment="Left" Margin="385,105,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="Amount_Box" HorizontalAlignment="Left" Height="23" Margin="455,107,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="150"/>
-        <Button Content="Додати" HorizontalAlignment="Left" Margin="385,140,0,0" VerticalAlignment="Top" Width="60" Click="Button_Click"/>
-        <DataGrid x:Name="Part_Grid" HorizontalAlignment="Left" Height="155" Margin="385,175,0,0" VerticalAlignment="Top" Width="285"/>
-        <Button x:Name="Complete_Button" Content="Зберігти зміни" HorizontalAlignment="Left" Margin="30,285,0,0" VerticalAlignment="Top" Width="95" Click="Complete_Button_Click"/>
-        <Button x:Name="Cancel_Button" Content="Відмінити" HorizontalAlignment="Left" Margin="155,285,0,0" VerticalAlignment="Top" Width="95" Click="Cancel_Button_Click"/>
+        <Label Content="Користувач" HorizontalAlignment="Left" Margin="35,42,0,0" VerticalAlignment="Top"/>
+        <Label Content="Час створення" HorizontalAlignment="Left" Margin="40,76,0,0" VerticalAlignment="Top"/>
+        <Label Content="Дата створення" HorizontalAlignment="Left" Margin="40,120,0,0" VerticalAlignment="Top"/>
+        <Label Content="Валюта" HorizontalAlignment="Left" Margin="44,155,0,0" VerticalAlignment="Top"/>
+        <DatePicker x:Name="Date_picker" HorizontalAlignment="Left" Margin="160,125,0,0" VerticalAlignment="Top" Width="145"/>
+        <TextBox x:Name="Time_Box" HorizontalAlignment="Left" Height="23" Margin="160,77,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="145"/>
+        <TextBox x:Name="Curr_Box" HorizontalAlignment="Left" Height="23" Margin="160,157,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="145"/>
+        <ComboBox x:Name="User_Box" HorizontalAlignment="Left" Margin="160,45,0,0" VerticalAlignment="Top" Width="145" SelectionChanged="User_Box_SelectionChanged"/>
+        <Label Content="Додати товар в заказ" HorizontalAlignment="Left" Margin="454,25,0,0" VerticalAlignment="Top"/>
+        <Label Content="Товар" HorizontalAlignment="Left" Margin="397,55,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="Part_Box" HorizontalAlignment="Left" Margin="455,60,0,0" VerticalAlignment="Top" Width="150"/>
+        <Label Content="Кількість" HorizontalAlignment="Left" Margin="385,90,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="Amount_Box" HorizontalAlignment="Left" Height="23" Margin="455,92,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="150"/>
+        <Button Content="Додати" HorizontalAlignment="Left" Margin="385,140,0,0" VerticalAlignment="Top" Width="85" Click="Button_Click"/>
+        <DataGrid x:Name="Part_Grid" HorizontalAlignment="Left" Height="190" Margin="385,190,0,0" VerticalAlignment="Top" Width="285"/>
+        <Button x:Name="Complete_Button" Content="Зберігти зміни" HorizontalAlignment="Left" Margin="10,281,0,0" VerticalAlignment="Top" Width="135" Click="Complete_Button_Click"/>
+        <Button x:Name="Cancel_Button" Content="Відмінити" HorizontalAlignment="Left" Margin="170,280,0,0" VerticalAlignment="Top" Width="110" Click="Cancel_Button_Click"/>
+        <Button Content="Видалити" HorizontalAlignment="Left" Margin="505,138,0,0" VerticalAlignment="Top" Width="100" Click="DeleteButton_Click"/>
 
     </Grid>
 </Window>

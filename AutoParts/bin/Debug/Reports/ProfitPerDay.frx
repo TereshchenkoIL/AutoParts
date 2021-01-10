@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="01/09/2021 13:52:41" ReportInfo.Modified="01/09/2021 14:03:04" ReportInfo.CreatorVersion="2020.4.9.0">
+  <Dictionary>
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqjSfgSqWTaGZp1VGjtc0gyMGnFUqk75cVrPzDgf2SBb22e46BXXhhf80lo57hP5ldKv4iPkbTINvmbrtNsrAlkBBBac4GCtRmUPkyPMZ8iJL7cghEN8yCUaOinhFrnxT5NoV9sHLnVen1k5AIQZJdSWjVUGd7QDlUjeS5vs5UVRTWEVAEeCZuqArjIe38YYkoMIYxAH3MzfxiWfznAROYpw==">
+      <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand="SELECT  Format(o.Create_Date,'MM-yy-dd') As Date, SUM(op.Quantity * p.Price) AS Total &#13;&#10;FROM(Orders o INNER JOIN  Order_Part op ON o.Order_Id = op.Order_Id)&#13;&#10;INNER JOIN Parts p ON op.Part_Id = p.Part_Id &#13;&#10;WHERE o.Create_Date BETWEEN '2-08-20' AND  '16-09-20'&#13;&#10;Group By  Format(o.Create_Date,'MM-yy-dd')">
+        <Column Name="Date" DataType="System.String"/>
+        <Column Name="Total" DataType="System.Decimal"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Parameter Name="From" DataType="System.String"/>
+    <Parameter Name="To" DataType="System.String"/>
+    <Parameter Name="TotalSum" DataType="System.String"/>
+  </Dictionary>
+  <ReportPage Name="Page1" Watermark.Font="Arial, 60pt">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="37.8">
+      <TextObject Name="Text1" Left="264.6" Top="9.45" Width="255.15" Height="18.9" Text="Виручка від продажу товару по дням" Font="Arial, 10pt"/>
+    </ReportTitleBand>
+    <PageHeaderBand Name="PageHeader1" Top="41.8" Width="718.2" Height="151.2">
+      <TextObject Name="Text2" Left="321.3" Top="18.9" Width="94.5" Height="18.9" Fill.Color="Plum" Text="Період" Font="Arial, 10pt"/>
+      <TextObject Name="Text3" Left="170.1" Top="75.6" Width="28.35" Height="18.9" Text="З" Font="Arial, 10pt"/>
+      <TextObject Name="Text4" Left="425.25" Top="75.6" Width="28.35" Height="18.9" Text="По" Font="Arial, 10pt"/>
+      <TextObject Name="Text5" Left="226.8" Top="75.6" Width="94.5" Height="18.9" Text="[From]" Font="Arial, 10pt"/>
+      <TextObject Name="Text6" Left="481.95" Top="75.6" Width="94.5" Height="18.9" Text="[To]" Font="Arial, 10pt"/>
+      <TextObject Name="Text7" Left="179.55" Top="132.3" Width="94.5" Height="18.9" Fill.Color="Plum" Text="Дата" Font="Arial, 10pt"/>
+      <TextObject Name="Text8" Left="359.1" Top="132.3" Width="94.5" Height="18.9" Fill.Color="Plum" Text="Сума" Font="Arial, 10pt"/>
+    </PageHeaderBand>
+    <DataBand Name="Data1" Top="197" Width="718.2" Height="151.2" DataSource="Table">
+      <TableObject Name="Table1" Left="179.55" Top="28.35" Width="406.35" Height="94.5">
+        <TableColumn Name="Column1" Width="179.55"/>
+        <TableColumn Name="Column2" Width="226.8"/>
+        <TableRow Name="Row1">
+          <TableCell Name="Cell1" Text="[Table.Date]" Font="Arial, 10pt"/>
+          <TableCell Name="Cell2" Text="[Table.Total]" Font="Arial, 10pt"/>
+        </TableRow>
+        <TableRow Name="Row2">
+          <TableCell Name="Cell6" Font="Arial, 10pt"/>
+          <TableCell Name="Cell7" Font="Arial, 10pt"/>
+        </TableRow>
+        <TableRow Name="Row3">
+          <TableCell Name="Cell11" Font="Arial, 10pt"/>
+          <TableCell Name="Cell12" Font="Arial, 10pt"/>
+        </TableRow>
+        <TableRow Name="Row4">
+          <TableCell Name="Cell16" Font="Arial, 10pt"/>
+          <TableCell Name="Cell17" Font="Arial, 10pt"/>
+        </TableRow>
+        <TableRow Name="Row5">
+          <TableCell Name="Cell21" Font="Arial, 10pt"/>
+          <TableCell Name="Cell22" Font="Arial, 10pt"/>
+        </TableRow>
+      </TableObject>
+      <DataFooterBand Name="DataFooter1" Top="352.2" Width="718.2" Height="37.8">
+        <TextObject Name="Text9" Left="425.25" Top="9.45" Width="122.85" Height="18.9" Text="Загальна сума" Font="Arial, 10pt"/>
+        <TextObject Name="Text10" Left="585.9" Top="9.45" Width="94.5" Height="18.9" Text="[TotalSum]" Font="Arial, 10pt"/>
+      </DataFooterBand>
+    </DataBand>
+    <ReportSummaryBand Name="ReportSummary1" Top="394" Width="718.2" Height="321.3">
+      <TextObject Name="Text11" Left="321.3" Top="9.45" Width="94.5" Height="18.9" Text="Графік" Font="Arial, 10pt"/>
+      <MSChartObject Name="MSChart1" Left="141.75" Top="37.8" Width="434.7" Height="274.05" DataSource="Table" ChartData="PENoYXJ0IEJvcmRlcmxpbmVDb2xvcj0iRGFya0dyYXkiIEJvcmRlcmxpbmVXaWR0aD0iMiIgQm9yZGVybGluZURhc2hTdHlsZT0iU29saWQiPg0KICA8U2VyaWVzPg0KICAgIDxTZXJpZXMgTmFtZT0i0J/RgNC40LHRg9GC0L7QuiIgTGVnZW5kPSJEZWZhdWx0IiBYVmFsdWVUeXBlPSJTdHJpbmciIFlWYWx1ZVR5cGU9IkRvdWJsZSIgQ2hhcnRBcmVhPSJEZWZhdWx0Ij4NCiAgICAgIDxQb2ludHM+DQogICAgICAgIDxEYXRhUG9pbnQgWVZhbHVlcz0iMSIgQXhpc0xhYmVsPSJBIiAvPg0KICAgICAgICA8RGF0YVBvaW50IFlWYWx1ZXM9IjMiIEF4aXNMYWJlbD0iQiIgLz4NCiAgICAgICAgPERhdGFQb2ludCBZVmFsdWVzPSIyIiBBeGlzTGFiZWw9IkMiIC8+DQogICAgICAgIDxEYXRhUG9pbnQgWVZhbHVlcz0iNCIgQXhpc0xhYmVsPSJEIiAvPg0KICAgICAgPC9Qb2ludHM+DQogICAgPC9TZXJpZXM+DQogIDwvU2VyaWVzPg0KICA8TGVnZW5kcz4NCiAgICA8TGVnZW5kIE5hbWU9IkRlZmF1bHQiPg0KICAgIDwvTGVnZW5kPg0KICA8L0xlZ2VuZHM+DQogIDxUaXRsZXM+DQogICAgPFRpdGxlIE5hbWU9IlRpdGxlMSIgVmlzaWJsZT0iRmFsc2UiPg0KICAgIDwvVGl0bGU+DQogIDwvVGl0bGVzPg0KICA8Q2hhcnRBcmVhcz4NCiAgICA8Q2hhcnRBcmVhIE5hbWU9IkRlZmF1bHQiPg0KICAgICAgPEF4aXNZPg0KICAgICAgICA8TWFqb3JHcmlkIExpbmVDb2xvcj0iNjQsIDY0LCA2NCwgNjQiIC8+DQogICAgICA8L0F4aXNZPg0KICAgICAgPEF4aXNYPg0KICAgICAgICA8TWFqb3JHcmlkIExpbmVDb2xvcj0iNjQsIDY0LCA2NCwgNjQiIC8+DQogICAgICA8L0F4aXNYPg0KICAgICAgPEF4aXNYMj4NCiAgICAgICAgPE1ham9yR3JpZCBMaW5lQ29sb3I9IjY0LCA2NCwgNjQsIDY0IiAvPg0KICAgICAgPC9BeGlzWDI+DQogICAgICA8QXhpc1kyPg0KICAgICAgICA8TWFqb3JHcmlkIExpbmVDb2xvcj0iNjQsIDY0LCA2NCwgNjQiIC8+DQogICAgICA8L0F4aXNZMj4NCiAgICA8L0NoYXJ0QXJlYT4NCiAgPC9DaGFydEFyZWFzPg0KICA8Qm9yZGVyU2tpbiBTa2luU3R5bGU9IkVtYm9zcyIgLz4NCjwvQ2hhcnQ+">
+        <MSChartSeries Name="Series2" XValue="[Table.Date]" YValue1="[Table.Total]"/>
+      </MSChartObject>
+    </ReportSummaryBand>
+    <PageFooterBand Name="PageFooter1" Top="719.3" Width="718.2" Height="18.9"/>
+  </ReportPage>
+</Report>

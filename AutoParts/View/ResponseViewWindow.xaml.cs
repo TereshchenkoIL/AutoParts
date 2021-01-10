@@ -29,7 +29,7 @@ namespace AutoParts.View
         }
         public ResponseViewWindow(int part)
         {
-            part = 1;
+            
             InitializeComponent();
             var resp = new ResponsesViewModel(part);
             DataContext = resp ;

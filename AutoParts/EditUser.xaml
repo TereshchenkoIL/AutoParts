@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoParts"
         mc:Ignorable="d"
-        Title="EditUser" Height="482" Width="400">
+        Icon="Images/Parts.png"
+        Title="Редагування користувача" Height="482" Width="400">
     <Grid>
         <Label Content="Ім'я" HorizontalAlignment="Left" Margin="60,33,0,0" VerticalAlignment="Top"/>
         <Label Content="По-батькові" HorizontalAlignment="Left" Margin="58,68,0,0" VerticalAlignment="Top"/>
@@ -25,10 +26,10 @@
         <TextBox x:Name="City_Box" HorizontalAlignment="Left" Height="23" Margin="165,238,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="185"/>
         <TextBox x:Name="Phone_Box" HorizontalAlignment="Left" Height="23" Margin="165,268,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="185"/>
         <TextBox x:Name="Adress_Box" HorizontalAlignment="Left" Height="23" Margin="165,300,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="185"/>
-        <Button x:Name="Complete_Button" Content="Зберігти зміни" HorizontalAlignment="Left" Margin="55,410,0,0" VerticalAlignment="Top" Width="105" Click="Complete_Button_Click"/>
-        <Button x:Name="Cancel_Button" Content="Відмінити" HorizontalAlignment="Left" Margin="235,410,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="Complete_Button" Content="Зберігти зміни" HorizontalAlignment="Left" Margin="55,410,0,0" VerticalAlignment="Top" Width="120" Click="Complete_Button_Click"/>
+        <Button x:Name="Cancel_Button" Content="Відмінити" HorizontalAlignment="Left" Margin="235,410,0,0" VerticalAlignment="Top" Width="100"/>
         <Label Content="Знижка" HorizontalAlignment="Left" Margin="65,340,0,0" VerticalAlignment="Top"/>
-        <ComboBox Name="Discount_Box" HorizontalAlignment="Left" Margin="165,340,0,0" VerticalAlignment="Top" Width="180"/>
+        <ComboBox Name="Discount_Box" HorizontalAlignment="Left" Margin="165,340,0,0" VerticalAlignment="Top" Width="180" SelectionChanged="Discount_Box_SelectionChanged"/>
 
     </Grid>
 </Window>

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="12/26/2020 22:48:45" ReportInfo.Modified="01/08/2021 23:43:59" ReportInfo.CreatorVersion="2020.4.9.0">
+  <Dictionary>
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqjSfgSqWTaGZp1VGjtc0gyMGnFUqk75cVrPzDgf2SBb22e46BXXhhf80lo57hP5ldKv4iPkbTINvmbrtNsrAlkBBBac4GCtRmUPkyPMZ8iJL7cghEN8yCUaOinhFrnxT5NoV9sHLnVen1k5AIQZJdSWjVUGd7QDlUjeS5vs5UVRTWEVAEeCZuqArjIe38YYkoorF8+nE2bmMUVPjDCG5aOg==">
+      <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand="SELECT COUNT(Orders) As 'Кількість заказів', SUM(Count_Parts) AS 'Кількість деталей', Sum(Total) AS 'Загальна сума' &#13;&#10;FROM( &#13;&#10;SELECT COUNT(o.Order_Id) AS Orders, SUM(op.Quantity) AS Count_Parts, SUM(op.Quantity * p.Price) AS Total&#13;&#10;FROM(Orders o INNER JOIN  Order_Part op ON o.Order_Id = op.Order_Id) &#13;&#10;INNER JOIN Parts p ON op.Part_Id = p.Part_Id&#13;&#10;WHERE o.Create_Date BETWEEN '01-09-2020'  AND  '21-12-2020'&#13;&#10;Group By o.Order_Id) Temp&#13;&#10;">
+        <Column Name="Кількість заказів" DataType="System.Int32"/>
+        <Column Name="Кількість деталей" DataType="System.Int32"/>
+        <Column Name="Загальна сума" DataType="System.Decimal"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Parameter Name="From" DataType="System.String"/>
+    <Parameter Name="To" DataType="System.String"/>
+  </Dictionary>
+  <ReportPage Name="Page1" Watermark.Font="Arial, 60pt">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="47.25">
+      <TextObject Name="Text1" Left="274.05" Top="18.9" Width="141.75" Height="18.9" Text="Прибуток за певний період" Font="Arial, 10pt"/>
+    </ReportTitleBand>
+    <PageHeaderBand Name="PageHeader1" Top="51.25" Width="718.2" Height="66.15">
+      <TextObject Name="Text12" Left="283.5" Width="94.5" Height="18.9" Fill.Color="GhostWhite" Text="Період" Font="Arial, 10pt"/>
+      <TextObject Name="Text8" Left="207.9" Top="28.35" Width="94.5" Height="18.9" Text="[From]" Font="Arial, 10pt"/>
+      <TextObject Name="Text10" Left="481.95" Top="28.35" Width="94.5" Height="18.9" Text="[To]" Font="Arial, 10pt"/>
+      <TextObject Name="Text9" Left="75.6" Top="28.35" Width="94.5" Height="18.9" Fill.Color="Plum" Text="З" Font="Arial, 10pt"/>
+      <TextObject Name="Text11" Left="349.65" Top="28.35" Width="94.5" Height="18.9" Fill.Color="Plum" Text="До" Font="Arial, 10pt"/>
+    </PageHeaderBand>
+    <DataBand Name="Data1" Top="121.4" Width="718.2" Height="103.95" DataSource="Table">
+      <TextObject Name="Text3" Left="18.9" Top="9.45" Width="132.3" Height="18.9" Fill.Color="Plum" Text="Кількість заказів" Font="Arial, 10pt"/>
+      <TextObject Name="Text5" Left="18.9" Top="37.8" Width="132.3" Height="18.9" Fill.Color="Plum" Text="Кількість деталей" Font="Arial, 10pt"/>
+      <TextObject Name="Text7" Left="18.9" Top="66.15" Width="132.3" Height="18.9" Fill.Color="Plum" Text="Загальна сума" Font="Arial, 10pt"/>
+      <TextObject Name="Text13" Left="359.1" Top="9.45" Width="321.3" Height="18.9" Text="[Table.Кількість заказів]" Font="Arial, 10pt"/>
+      <TextObject Name="Text14" Left="359.1" Top="37.8" Width="321.3" Height="18.9" Text="[Table.Кількість деталей]" Font="Arial, 10pt"/>
+      <TextObject Name="Text15" Left="359.1" Top="66.15" Width="321.3" Height="18.9" Text="[Table.Загальна сума]" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" WordWrap="false" Font="Arial, 10pt" Trimming="EllipsisCharacter"/>
+    </DataBand>
+    <PageFooterBand Name="PageFooter1" Top="229.35" Width="718.2" Height="28.35"/>
+  </ReportPage>
+</Report>

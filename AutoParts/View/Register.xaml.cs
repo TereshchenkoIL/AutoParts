@@ -26,7 +26,8 @@ namespace AutoParts.View
         List<string> users;
         public Register()
         {
-            InitializeComponent();         
+            InitializeComponent();
+            manager = new DBManager();
             users = manager.Select("SELECT UserName FROM Users").Tables[0].AsEnumerable().Select(x => (string)x["UserName"]).ToList() ;
         }
 

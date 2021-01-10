@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace AutoParts.Model
 {
@@ -21,6 +22,7 @@ namespace AutoParts.Model
         public List<int> GetParts()
         {
             Select_Undirect();
+            
             var res = direct.Concat(undirect);
 
             return res.Select(x => x.id).ToList();

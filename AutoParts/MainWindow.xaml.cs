@@ -15,7 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using AutoParts.View;
 
 namespace AutoParts
 {
@@ -42,12 +42,8 @@ namespace AutoParts
             ow.ShowDialog();
         }
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            UsersWindow uw = new UsersWindow();
-            uw.ShowDialog();
-
-        }
+     
+      
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -60,6 +56,49 @@ namespace AutoParts
         {
             Select_Part sp = new Select_Part();
             sp.ShowDialog();
+        }
+
+        private void Cars_Button_Click(object sender, RoutedEventArgs e)
+        {
+            CarsWindow cw = new CarsWindow();
+            cw.ShowDialog();
+        }
+
+        private void Engines_Button_Click(object sender, RoutedEventArgs e)
+        {
+            EnginesWindow ew = new EnginesWindow();
+            ew.ShowDialog();
+        }
+
+        private void Modif_Button_Click(object sender, RoutedEventArgs e)
+        {
+            ModificationWindow mw = new ModificationWindow();
+            mw.ShowDialog();
+        }
+
+        private void Discounts_Button_Click(object sender, RoutedEventArgs e)
+        {
+            DiscountsWindow dw = new DiscountsWindow();
+            dw.ShowDialog();
+        }
+
+        private void Producer_Button_Click(object sender, RoutedEventArgs e)
+        {
+            ProducersWindow pw = new ProducersWindow();
+            pw.ShowDialog();
+        }
+
+        private void Users_Click(object sender, RoutedEventArgs e)
+        {
+            UsersWindow uw = new UsersWindow();
+            uw.ShowDialog();
+
+        }
+
+        private void Sql_Click(object sender, RoutedEventArgs e)
+        {
+            DoSQL ds = new DoSQL();
+            ds.ShowDialog();
         }
     }
 }

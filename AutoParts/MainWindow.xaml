@@ -5,23 +5,63 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoParts"
         mc:Ignorable="d"
-        Title="MainWindow" Height="282" Width="500">
+        Icon="Images/Parts.png"
+        Title="Головна панель" Height="367" Width="554">
     <Grid>
-        <Menu Height="25" VerticalAlignment="Top">
-            <MenuItem Header="File">
-                <MenuItem Header="Exit" ></MenuItem>
-            </MenuItem>
-            <MenuItem Header="Database" >
-                <MenuItem Header="Orders"></MenuItem>
-                <MenuItem Header="Parts"></MenuItem>
-                <MenuItem Header="Users"></MenuItem>
-            </MenuItem>
-            <MenuItem Header="Stats" Click="MenuItem_Click" ></MenuItem>
+        <Menu Height="35" VerticalAlignment="Top">
+           
+           
+            <MenuItem Header="Статистика" Click="MenuItem_Click" ></MenuItem>
+            <MenuItem Header="Довільний запит" Click="Sql_Click" ></MenuItem>
         </Menu>
-        <Button Content="Продивитися товари" HorizontalAlignment="Left" Margin="15,65,0,0" VerticalAlignment="Top" Width="130" Height="75" Click="Button_Click"/>
-        <Button Content="Продивитися закази" HorizontalAlignment="Left" Margin="180,65,0,0" VerticalAlignment="Top" Width="130" Height="75" Click="Button_Click_1"/>
-        <Button Content="Продивитися користувачів" HorizontalAlignment="Left" Margin="345,65,0,0" VerticalAlignment="Top" Width="130" Height="75" Click="Button_Click_2"/>
-        <Button Content="Вибрати диск" HorizontalAlignment="Left" Margin="15,160,0,0" VerticalAlignment="Top" Width="130" Height="75" Click="Button_Click_3"/>
+        <Button x:Name="Parts_Button" BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" Background="White" Margin="15,70,0,0" Click="Button_Click" Height="113">
+            <StackPanel Orientation="Vertical">
+                <Image Source="Images/A_Parts.png" Width="75" Height="83" />
+
+            </StackPanel>
+        </Button>
+        <Button x:Name="Users_Button" BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Top"  Background="White" Margin="280,70,0,0" Click="Users_Click" Height="115" Width="114" >
+            <StackPanel Orientation="Vertical">
+                <Image Source="Images/Users.png" Height="72" Width="88"  />
+
+            </StackPanel>
+        </Button>
+        <Button x:Name="Orders_Button" BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" Background="White" Margin="145,70,0,0" Click="Button_Click_1" Height="113">
+            <StackPanel Orientation="Vertical">
+                <Image Source="Images/Orders.jpg" Width="75" Height="83" />
+
+            </StackPanel>
+        </Button>
+        <Button x:Name="Cars_Button" BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" Background="White" Margin="421,67,0,0"  Height="113" Click="Cars_Button_Click">
+            <StackPanel Orientation="Vertical">
+                <Image Source="Images/Cars.png" Width="75" Height="83" />
+
+            </StackPanel>
+        </Button>
+        <Button x:Name="Engines_Button" BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" Background="White" Margin="15,195,0,0"  Height="113" Click="Engines_Button_Click">
+            <StackPanel Orientation="Vertical">
+                <Image Source="Images/Engines.jpg" Width="84" Height="90" />
+
+            </StackPanel>
+        </Button>
+        <Button x:Name="Modif_Button" BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" Background="White" Margin="146,195,0,0"  Height="113" Click="Modif_Button_Click">
+            <StackPanel Orientation="Vertical">
+                <Image Source="Images/Modifications.png" Width="75" Height="83" />
+
+            </StackPanel>
+        </Button>
+        <Button x:Name="Discounts_Button" BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" Background="White" Margin="281,195,0,0"  Height="113" Click="Discounts_Button_Click">
+            <StackPanel Orientation="Vertical">
+                <Image Source="Images/Discounts.png" Width="84" Height="86" />
+
+            </StackPanel>
+        </Button>
+        <Button x:Name="Producer_Button" BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" Background="White" Margin="420,195,0,0"  Height="113" Click="Producer_Button_Click">
+            <StackPanel Orientation="Vertical">
+                <Image Source="Images/Factory.png" Width="75" Height="83" />
+
+            </StackPanel>
+        </Button>
 
     </Grid>
 </Window>

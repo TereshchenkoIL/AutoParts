@@ -37,7 +37,11 @@ namespace AutoParts
             connection = new SqlConnection(ConfigurationManager.ConnectionStrings["Autoparts"].ConnectionString);
 
             connection.Open();
-            string sql = "SELECT u.User_Id, u.Name,u.Second_name,u.Surname, u.Email, u.Phone, u.UserName, u.City, u.Adress, SUM(p.Price * OP.Quantity) AS Bill,  u.Password From((Users u Left JOIN Orders o ON u.User_Id = o.User_Id) Left JOIN Order_Part op ON o.Order_Id = op.Order_Id AND o.User_Id = u.User_Id) Left JOIN Parts p ON op.Part_Id = p.Part_Id Group By u.User_Id,u.Name,u.Second_name,u.Surname, u.Email, u.Phone, u.UserName, u.City, u.Adress, u.Password ";
+            string sql = "SELECT u.User_Id, u.Name,u.Second_name,u.Surname, u.Email, u.Phone, u.UserName, u.City, u.Adress, SUM(p.Price * OP.Quantity) AS Bill,  u.Password, u.Discount_Name" +
+                " From((Users u Left JOIN Orders o ON u.User_Id = o.User_Id)" +
+                " Left JOIN Order_Part op ON o.Order_Id = op.Order_Id AND o.User_Id = u.User_Id)" +
+                " Left JOIN Parts p ON op.Part_Id = p.Part_Id" +
+                " Group By u.User_Id,u.Name,u.Second_name,u.Surname, u.Email, u.Phone, u.UserName, u.City, u.Adress, u.Password,u.Discount_Name ";
             adapter = new SqlDataAdapter(sql, connection);
             adapter.DeleteCommand = new SqlCommand("sp_DeleteUser", connection);
             adapter.DeleteCommand.CommandType = CommandType.StoredProcedure;
@@ -57,7 +61,7 @@ namespace AutoParts
             IsFiltered = true;
 
             if (From_Sum.Text != "" && To_Sum.Text != "")
-                filtered = filtered.Where(x => x.Field<decimal>("Bill") > decimal.Parse(From_Sum.Text) && x.Field<decimal>("Bill") < decimal.Parse(To_Sum.Text));
+                filtered = filtered.Where(x => x.Field<decimal?>("Bill") > decimal.Parse(From_Sum.Text) && x.Field<decimal>("Bill") < decimal.Parse(To_Sum.Text));
             if (Name_box.Text != "")
                 filtered = filtered.Where(x => x.Field<string>("Name") == Name_box.Text);
             if (Phonebox.Text != "")
@@ -66,7 +70,10 @@ namespace AutoParts
                 filtered = filtered.Where(x => x.Field<string>("City") == CityBox.Text);
             if (AdresBox.Text != "")
                 filtered = filtered.Where(x => x.Field<string>("Adress") == AdresBox.Text);
-            Grid.ItemsSource = filtered.CopyToDataTable().DefaultView;
+            if (filtered.Count() != 0)
+                Grid.ItemsSource = filtered.CopyToDataTable().DefaultView;
+            else
+                MessageBox.Show("Відповідного користувача не знайшлося");
         }
 
         private void Add_Button_Click(object sender, RoutedEventArgs e)
@@ -75,17 +82,27 @@ namespace AutoParts
             ed.ShowDialog();
             table.Clear();
             adapter.Fill(table);
+            Grid.ItemsSource = table.DefaultView;
+            IsFiltered = false;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             connection.Open();
-            int id = table.Rows[Grid.SelectedIndex].Field<int>("User_Id");
-            table.Rows.RemoveAt(Grid.SelectedIndex);
+
+            int id = -1; 
+            if(!IsFiltered)
+                id = table.Rows[Grid.SelectedIndex].Field<int>("User_Id");
+            else
+                id = filtered.CopyToDataTable().Rows[Grid.SelectedIndex].Field<int>("User_Id");
+            if (id == -1) return;
+
+            IsFiltered = false;
             adapter.DeleteCommand.Parameters["@id"].Value = id;
             adapter.DeleteCommand.ExecuteNonQuery();
-            adapter.Update(table);
-            table.AcceptChanges();
+            table.Clear();
+            adapter.Fill(table);
+            Grid.ItemsSource = table.DefaultView;
             connection.Close();
         
         }
@@ -93,11 +110,17 @@ namespace AutoParts
         private void Edit_Button_Click(object sender, RoutedEventArgs e)
         {
             int index = Grid.SelectedIndex;
-            var row = table.Rows[index];
-            EditUser eu = new EditUser(row.Field<int>("User_Id"),row.Field<string>("Name"), row.Field<string>("Second_name"), row.Field<string>("Surname"), row.Field<string>("Email"), row.Field<string>("Phone"), row.Field<string>("UserName"), row.Field<string>("Password"), row.Field<string>("City"), row.Field<string>("Adress"), null);
+            DataRow row;
+            if (!IsFiltered)
+                row = table.Rows[index];
+            else
+                row = filtered.ElementAt(index);
+            EditUser eu = new EditUser(row.Field<int>("User_Id"),row.Field<string>("Name"), row.Field<string>("Second_name"), row.Field<string>("Surname"), row.Field<string>("Email"), row.Field<string>("Phone"), row.Field<string>("UserName"), row.Field<string>("Password"), row.Field<string>("City"), row.Field<string>("Adress"), row.Field<string>("Discount_Name") ?? "" );
             eu.ShowDialog();
             table.Clear();
             adapter.Fill(table);
+            Grid.ItemsSource = table.DefaultView;
+            IsFiltered = false;
 
         }
 
@@ -110,220 +133,33 @@ namespace AutoParts
                 row.Background = Brushes.White;
 
             }
-
+            DataTable temp;
             if (IsFiltered)
-            {
-                DataTable temp = filtered.CopyToDataTable();
-                if (AllFields.IsChecked == true)
-                {
-                    for (int i = 0; i < temp.Rows.Count; i++)
-                    {
-                        if (temp.Rows[i].Field<string>("Name").ToLower().Contains(SearchBox.Text.ToLower()))
-                        {
-                            var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                            row.Background = Brushes.Green;
-                        }
-                    }
-                    for (int i = 0; i < temp.Rows.Count; i++)
-                    {
-                        if (temp.Rows[i].Field<string>("Surname").ToLower().Contains(SearchBox.Text.ToLower()))
-                        {
-                            var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                            row.Background = Brushes.Green;
-                        }
-                    }
-                    for (int i = 0; i < temp.Rows.Count; i++)
-                    {
-                        if (temp.Rows[i].Field<string>("City").ToLower().Contains(SearchBox.Text.ToLower()))
-                        {
-                            var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                            row.Background = Brushes.Green;
-                        }
-                    }
-                    for (int i = 0; i < temp.Rows.Count; i++)
-                    {
-                        if (temp.Rows[i].Field<string>("Adress").ToLower().Contains(SearchBox.Text.ToLower()))
-                        {
-                            var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                            row.Background = Brushes.Green;
-                        }
-                    }
-                    for (int i = 0; i < temp.Rows.Count; i++)
-                    {
-                        if (temp.Rows[i].Field<string>("Phone").ToLower().Contains(SearchBox.Text.ToLower()))
-                        {
-                            var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                            row.Background = Brushes.Green;
-                        }
-                    }
+                temp = filtered.CopyToDataTable();
+            else
+                 temp = table;
 
-                }
-                else
-                {
-
-                    if (ByName.IsChecked == true)
-                    {
-                        for (int i = 0; i < temp.Rows.Count; i++)
-                        {
-                            if (temp.Rows[i].Field<string>("Name").ToLower().Contains(SearchBox.Text.ToLower()))
-                            {
-                                var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                                row.Background = Brushes.Green;
-                            }
-                        }
-                    }
-                    if (BySur.IsChecked == true)
-                    {
-                        for (int i = 0; i < temp.Rows.Count; i++)
-                        {
-                            if (temp.Rows[i].Field<string>("Surname").ToLower().Contains(SearchBox.Text.ToLower()))
-                            {
-                                var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                                row.Background = Brushes.Green;
-                            }
-                        }
-                    }
-                    if (ByCity.IsChecked == true)
-                    {
-                        for (int i = 0; i < temp.Rows.Count; i++)
-                        {
-                            if (temp.Rows[i].Field<string>("City").ToLower().Contains(SearchBox.Text.ToLower()))
-                            {
-                                var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                                row.Background = Brushes.Green;
-                            }
-                        }
-                    }
-                    if (ByAdress.IsChecked == true)
-                    {
-                        for (int i = 0; i < temp.Rows.Count; i++)
-                        {
-                            if (temp.Rows[i].Field<string>("Adress").ToLower().Contains(SearchBox.Text.ToLower()))
-                            {
-                                var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                                row.Background = Brushes.Green;
-                            }
-                        }
-                    }
-                    if (ByPhone.IsChecked == true)
-                    {
-                        for (int i = 0; i < temp.Rows.Count; i++)
-                        {
-                            if (temp.Rows[i].Field<string>("Phone").ToLower().Contains(SearchBox.Text.ToLower()))
-                            {
-                                var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                                row.Background = Brushes.Green;
-                            }
-                        }
-                    }
-                }
+            if (AllFields.IsChecked == true)
+            { 
+                    Paint(temp, "Name");                
+                    Paint(temp, "Surname");              
+                    Paint(temp, "City");      
+                    Paint(temp, "Adress");
+                    Paint(temp, "Phone");
             }
             else
             {
-                DataTable temp = table;
-                if (AllFields.IsChecked == true)
-                {
-                    for (int i = 0; i < temp.Rows.Count; i++)
-                    {
-                        if (temp.Rows[i].Field<string>("Name").ToLower().Contains(SearchBox.Text.ToLower()))
-                        {
-                            var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                            row.Background = Brushes.Green;
-                        }
-                    }
-                    for (int i = 0; i < temp.Rows.Count; i++)
-                    {
-                        if (temp.Rows[i].Field<string>("Surname").ToLower().Contains(SearchBox.Text.ToLower()))
-                        {
-                            var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                            row.Background = Brushes.Green;
-                        }
-                    }
-                    for (int i = 0; i < temp.Rows.Count; i++)
-                    {
-                        if (temp.Rows[i].Field<string>("City").ToLower().Contains(SearchBox.Text.ToLower()))
-                        {
-                            var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                            row.Background = Brushes.Green;
-                        }
-                    }
-                    for (int i = 0; i < temp.Rows.Count; i++)
-                    {
-                        if (temp.Rows[i].Field<string>("Adress").ToLower().Contains(SearchBox.Text.ToLower()))
-                        {
-                            var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                            row.Background = Brushes.Green;
-                        }
-                    }
-                    for (int i = 0; i < temp.Rows.Count; i++)
-                    {
-                        if (temp.Rows[i].Field<string>("Phone").ToLower().Contains(SearchBox.Text.ToLower()))
-                        {
-                            var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                            row.Background = Brushes.Green;
-                        }
-                    }
 
-                }
-                else
-                {
-
-                    if (ByName.IsChecked == true)
-                    {
-                        for (int i = 0; i < temp.Rows.Count; i++)
-                        {
-                            if (temp.Rows[i].Field<string>("Name").ToLower().Contains(SearchBox.Text.ToLower()))
-                            {
-                                var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                                row.Background = Brushes.Green;
-                            }
-                        }
-                    }
-                    if (BySur.IsChecked == true)
-                    {
-                        for (int i = 0; i < temp.Rows.Count; i++)
-                        {
-                            if (temp.Rows[i].Field<string>("Surname").ToLower().Contains(SearchBox.Text.ToLower()))
-                            {
-                                var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                                row.Background = Brushes.Green;
-                            }
-                        }
-                    }
-                    if (ByCity.IsChecked == true)
-                    {
-                        for (int i = 0; i < temp.Rows.Count; i++)
-                        {
-                            if (temp.Rows[i].Field<string>("City").ToLower().Contains(SearchBox.Text.ToLower()))
-                            {
-                                var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                                row.Background = Brushes.Green;
-                            }
-                        }
-                    }
-                    if (ByAdress.IsChecked == true)
-                    {
-                        for (int i = 0; i < temp.Rows.Count; i++)
-                        {
-                            if (temp.Rows[i].Field<string>("Adress").ToLower().Contains(SearchBox.Text.ToLower()))
-                            {
-                                var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                                row.Background = Brushes.Green;
-                            }
-                        }
-                    }
-                    if (ByPhone.IsChecked == true)
-                    {
-                        for (int i = 0; i < temp.Rows.Count; i++)
-                        {
-                            if (temp.Rows[i].Field<string>("Phone").ToLower().Contains(SearchBox.Text.ToLower()))
-                            {
-                                var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                                row.Background = Brushes.Green;
-                            }
-                        }
-                    }
-                }
+                if (ByName.IsChecked == true)
+                    Paint(temp, "Name");                 
+                if (BySur.IsChecked == true)
+                    Paint(temp, "Surname");                 
+                if (ByCity.IsChecked == true)
+                    Paint(temp, "City");
+                if (ByAdress.IsChecked == true)
+                    Paint(temp, "Adress");
+                if (ByPhone.IsChecked == true)
+                    Paint(temp, "Phone");
             }
         }
 
@@ -363,7 +199,12 @@ namespace AutoParts
 
             }
 
-
+            if (IsFiltered)
+            {
+                filtered = temp.ToTable().AsEnumerable();
+            }
+            else
+                table = temp.ToTable();
             Grid.ItemsSource = temp;
         }
         private void ASC_Click(object sender, RoutedEventArgs e)
@@ -378,6 +219,18 @@ namespace AutoParts
             ASC = false;
             Asc.BorderBrush = Brushes.Transparent;
             Dsc.BorderBrush = Brushes.Black;
+        }
+
+        public void Paint(DataTable temp,string column)
+        {
+            for (int i = 0; i < temp.Rows.Count; i++)
+            {
+                if (temp.Rows[i].Field<string>(column).ToLower().Contains(SearchBox.Text.ToLower()))
+                {
+                    var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
+                    row.Background = Brushes.Purple;
+                }
+            }
         }
     }
 }

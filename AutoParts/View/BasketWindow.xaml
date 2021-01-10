@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoParts.View"
         mc:Ignorable="d"
-        Title="BasketWindow" Height="450" Width="449">
+        Title="Корзина" Height="450" Width="449"
+        Icon="../Images/Parts.png">
     <Grid >
         <Label Content="Корзина" HorizontalAlignment="Left" Height="30" Margin="175,10,0,0" VerticalAlignment="Top" Width="75"/>
         <DataGrid x:Name="Grid" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="295" Margin="10,40,0,0" VerticalAlignment="Top" Width="420" RowEditEnding="Updated">
@@ -19,8 +20,8 @@
         <Label x:Name="TotalLabel" HorizontalAlignment="Left" Margin="235,375,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Width="140">
 
         </Label>
-        <Button x:Name="DeleteButton" Content="Видалити" HorizontalAlignment="Left" Height="25" Margin="40,345,0,0" VerticalAlignment="Top" Width="70" Click="DeleteButton_Click"/>
-        <Button x:Name="CompleteButton" Content="Оформити" HorizontalAlignment="Left" Height="25" Margin="310,345,0,0" VerticalAlignment="Top" Width="70" Click="CompleteButton_Click"/>
+        <Button x:Name="DeleteButton" Content="Видалити" HorizontalAlignment="Left" Height="25" Margin="40,345,0,0" VerticalAlignment="Top" Width="105" Click="DeleteButton_Click"/>
+        <Button x:Name="CompleteButton" Content="Оформити" HorizontalAlignment="Left" Height="25" Margin="310,345,0,0" VerticalAlignment="Top" Width="115" Click="CompleteButton_Click"/>
 
     </Grid>
 </Window>

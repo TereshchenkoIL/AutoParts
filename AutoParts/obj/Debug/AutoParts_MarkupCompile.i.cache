@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 D:\Projects\Univer\DB\Course_work\AutoParts\AutoParts\App.xaml
-19268185797
+311982363391
 
-40556610659
-26-980270192
-EditOrder.xaml;EditPart.xaml;EditUser.xaml;MainWindow.xaml;OrdersWindow.xaml;PartsWindow.xaml;Reports.xaml;Select_Part.xaml;StatsWindow.xaml;UsersWindow.xaml;View\Admin_Log.xaml;View\BasketWindow.xaml;View\Cars_Selection.xaml;View\LogIn.xaml;View\Order_Detail.xaml;View\Register.xaml;View\ResponseViewWindow.xaml;View\ReviewAddWindow.xaml;View\User_Cabinet.xaml;
+541419465947
+22-561964008
+EditOrder.xaml;EditPart.xaml;EditUser.xaml;MainWindow.xaml;OrdersWindow.xaml;PartsWindow.xaml;Reports.xaml;Select_Part.xaml;StatsWindow.xaml;UsersWindow.xaml;View\Admin_Log.xaml;View\BasketWindow.xaml;View\CarsWindow.xaml;View\Cars_Selection.xaml;View\DiscountsWindow.xaml;View\DoSQL.xaml;View\EditCar.xaml;View\EditDiscount.xaml;View\EditEngine.xaml;View\EditModification.xaml;View\EditProducer.xaml;View\EnginesWindow.xaml;View\LogIn.xaml;View\ModificationWindow.xaml;View\Order_Detail.xaml;View\ProducersWindow.xaml;View\Register.xaml;View\ResponseViewWindow.xaml;View\ReviewAddWindow.xaml;View\Scheme.xaml;View\User_Cabinet.xaml;
 
 True
 

@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoParts.View"
         mc:Ignorable="d"
-        Title="Order_Detail" Height="450" Width="409">
+        Icon="../Images/Parts.png"
+        Title="Інформація про заказ" Height="450" Width="409">
     <Grid>
-        <Button x:Name="Report_Button" Background="White" Click="Report_Button_Click" Margin="280,40,6,249" >
+        <Button Style="{x:Null}" x:Name="Report_Button" Background="White" Click="Report_Button_Click" Margin="280,40,6,249" >
             <StackPanel Orientation="Vertical">
                 <Image Source="../Images/Print.jpg" Width="75" Height="83" />
                 <TextBlock Text="Надрукувати чек"/>

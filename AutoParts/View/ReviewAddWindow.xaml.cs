@@ -1,6 +1,7 @@
 ﻿using AutoParts.Model;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,6 +46,7 @@ namespace AutoParts.View
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
+            
             manager.AddRewiev(User_Id,Part_Id,stars,Message.Text);
             MessageBox.Show("Дякуємо за відгук!");
             Close();

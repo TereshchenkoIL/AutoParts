@@ -9,6 +9,6 @@ namespace AutoParts.Model
     interface IAnalog
     {
         int id { get; set; }
-        bool HasAnalog(IAnalog item);
+         bool  HasAnalog(IAnalog item);
     }
 }

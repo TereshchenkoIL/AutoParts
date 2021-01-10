@@ -1,0 +1,28 @@
+﻿<Window x:Class="AutoParts.View.EditProducer"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AutoParts.View"
+        mc:Ignorable="d"
+        Icon="../Images/Parts.png"
+        Title="Редагування виробника" Height="312" Width="329">
+    <Grid>
+        <Label Content="Назва" HorizontalAlignment="Left" Margin="15,55,0,0" VerticalAlignment="Top"/>
+        <Label Content="Опис" HorizontalAlignment="Left" Margin="15,90,0,0" VerticalAlignment="Top"/>
+        <Label Content="Рік створення" HorizontalAlignment="Left" Margin="10,176,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="NameBox"  Text="{Binding Path=Name,
+                        RelativeSource={RelativeSource FindAncestor,  AncestorType=local:EditProducer}, 
+                        UpdateSourceTrigger=PropertyChanged, 
+                        Mode=TwoWay}" HorizontalAlignment="Left" Height="25" Margin="110,55,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="190"/>
+        <TextBox x:Name="DescBox" Text="{Binding Path=Desc,
+                        RelativeSource={RelativeSource FindAncestor,  AncestorType=local:EditProducer}, 
+                        UpdateSourceTrigger=PropertyChanged, 
+                        Mode=TwoWay}" HorizontalAlignment="Left" Height="75" Margin="110,85,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="190"/>
+        <TextBox x:Name="YearBox" Text="{Binding Path=Year,
+                        RelativeSource={RelativeSource FindAncestor,  AncestorType=local:EditProducer}, 
+                        UpdateSourceTrigger=PropertyChanged, 
+                        Mode=TwoWay}" HorizontalAlignment="Left" Height="25" Margin="110,175,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="190"/>
+        <Button x:Name="Complete_Button" Content="Зберігти зміни" HorizontalAlignment="Left" Height="35" Margin="70,225,0,0" VerticalAlignment="Top" Width="170" Click="Complete_Button_Click"/>
+    </Grid>
+</Window>

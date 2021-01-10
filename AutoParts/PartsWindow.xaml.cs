@@ -63,13 +63,22 @@ namespace AutoParts
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            if (Grid.SelectedIndex == -1) return;
+            int id;
             connection.Open();
-            int id = table.Rows[Grid.SelectedIndex].Field<int>("Part_Id");
-            table.Rows.RemoveAt(Grid.SelectedIndex);
+
+            if(!IsFiltered)
+             id = table.Rows[Grid.SelectedIndex].Field<int>("Part_Id");
+            else
+             id = filtered.CopyToDataTable().Rows[Grid.SelectedIndex].Field<int>("Part_Id");
+
+            
             adapter.DeleteCommand.Parameters["@id"].Value = id;
             adapter.DeleteCommand.ExecuteNonQuery();
-            adapter.Update(table);
-            table.AcceptChanges();
+            table.Clear();
+            adapter.Fill(table);
+            IsFiltered = false;
+            Grid.ItemsSource = table.DefaultView;
             connection.Close();
         }
 
@@ -81,25 +90,31 @@ namespace AutoParts
             
             EditPart ed = new EditPart();
             ed.ShowDialog();
-            table.Clear();
+           
             connection.Open();
+            table.Clear();
             adapter.Fill(table);
+            IsFiltered = false;
+            Grid.ItemsSource = table.DefaultView;
             connection.Close();
         }
 
         private void Edit_Button_Click(object sender, RoutedEventArgs e)
         {
             int index = Grid.SelectedIndex;
+            if (index == -1) return;
             DataRow row;
             if (IsFiltered)
                 row = filtered.ElementAt(index);
             else
                row = table.Rows[index];
 
-            EditPart ed = new EditPart(row.Field<int>("Part_Id"), row.Field<int?>("Car_Id"), row.Field<decimal>("Price"), row.Field<int>("Type_Id"), row.Field<string>("Name"), row.Field<string>("Descript"), row.Field<string>("Producer_Name"), row.Field<int>("Warranty"));
+            EditPart ed = new EditPart(row);
             ed.ShowDialog();
             table.Clear();
             adapter.Fill(table);
+            IsFiltered = false;
+            Grid.ItemsSource = table.DefaultView;
         }
 
 
@@ -116,10 +131,16 @@ namespace AutoParts
                 filtered = filtered.Where(x => x.Field<string>("Name") == Name_box.Text);
             if (Warrantbox.Text != "")
                 filtered = filtered.Where(x => x.Field<int>("Warranty") == int.Parse(Warrantbox.Text));
-            if(Is_Type_Filtered.IsChecked == true && type_id != -1)
+            if (ProducerBox.Text != "")
+            {
+                filtered = filtered.Where(x => x.Field<string>("Producer_Name") != null && x.Field<string>("Producer_Name").ToLower() == ProducerBox.Text.ToLower());
+            }
+            if (Is_Type_Filtered.IsChecked == true && type_id != -1)
                 filtered = filtered.Where(x => x.Field<int>("Type_Id") == type_id);
-            if(filtered.Count() != 0)
-            Grid.ItemsSource = filtered.CopyToDataTable().DefaultView;
+            if (filtered.Count() != 0)
+                Grid.ItemsSource = filtered.CopyToDataTable().DefaultView;
+            else
+                MessageBox.Show("Відповідня деталь відсутня");
         }
 
 
@@ -134,196 +155,39 @@ namespace AutoParts
                     row.Background = Brushes.White;
                 
             }
-
+            DataTable temp;
             if (IsFiltered)
+                  temp = filtered.CopyToDataTable();      
+            else
+                 temp =((DataView) Grid.ItemsSource).Table;            
+
+
+            if (AllFields.IsChecked == true)
             {
-                DataTable temp = filtered.CopyToDataTable();
-                if (AllFields.IsChecked == true)
-                {
-                    for (int i = 0; i < temp.Rows.Count; i++)
-                    {
-                        if (temp.Rows[i].Field<string>("Name").ToLower().Contains(SearchBox.Text.ToLower()))
-                        {
-                            var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                            if (row != null)
-                                row.Background = Brushes.Green;
-                        }
-                    }
-                    for (int i = 0; i < temp.Rows.Count; i++)
-                    {
-                        if (temp.Rows[i].Field<string>("Descript").ToLower().Contains(SearchBox.Text.ToLower()))
-                        {
-                            var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                            if (row != null)
-                                row.Background = Brushes.Green;
-                        }
-                    }
-                    for (int i = 0; i < temp.Rows.Count; i++)
-                    {
-                        if (temp.Rows[i].Field<string>("Producer_Name") != null && temp.Rows[i].Field<string>("Producer_Name").ToLower().Contains(SearchBox.Text.ToLower()))
-                        {
-                            var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                            if (row != null)
-                                row.Background = Brushes.Green;
-                        }
-                    }
-                    int num = 0;
-                    bool isNumber = int.TryParse(SearchBox.Text, out num);
-                    if (!isNumber) return;
-                    for (int i = 0; i < temp.Rows.Count; i++)
-                    {
-                        if (temp.Rows[i].Field<int>("Warranty") == num)
-                        {
-                            
-                            var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                            if (row != null)
-                                row.Background = Brushes.Green;
-                        }
-                    }
-                    for (int i = 0; i < temp.Rows.Count; i++)
-                    {
-                        if (temp.Rows[i].Field<int>("Warranty") == num)
-                        {
-                            var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                            if (row != null)
-                                row.Background = Brushes.Green;
-                        }
-                    }
+                Paint(temp, "Name");               
+                Paint(temp, "Descript");      
+                Paint(temp, "Producer_Name");               
+                int num = 0;
+                bool isNumber = int.TryParse(SearchBox.Text, out num);
+                if (!isNumber) return;
+              
 
-                }
-                else
-                {
-
-                    if (ByName.IsChecked == true)
-                    {
-                        for (int i = 0; i < temp.Rows.Count; i++)
-                        {
-                            if (temp.Rows[i].Field<string>("Name").ToLower().Contains(SearchBox.Text.ToLower()))
-                            {
-                                var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                                row.Background = Brushes.Green;
-                            }
-                        }
-                    }
-                    if (ByDesc.IsChecked == true)
-                    {
-                        for (int i = 0; i < temp.Rows.Count; i++)
-                        {
-                            if (temp.Rows[i].Field<string>("Descript").ToLower().Contains(SearchBox.Text.ToLower()))
-                            {
-                                var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                                row.Background = Brushes.Green;
-                            }
-                        }
-                    }
-                    if (ByProd.IsChecked == true)
-                    {
-                        for (int i = 0; i < temp.Rows.Count; i++)
-                        {
-                            if (temp.Rows[i].Field<string>("Producer_Name").ToLower().Contains(SearchBox.Text.ToLower()))
-                            {
-                                var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                                row.Background = Brushes.Green;
-                            }
-                        }
-                    }
-                }
             }
             else
             {
-                DataTable temp =((DataView) Grid.ItemsSource).Table;
-                if (AllFields.IsChecked == true)
-                {
-                    for (int i = 0; i < temp.Rows.Count; i++)
-                    {
-                        if (temp.Rows[i].Field<string>("Name").ToLower().Contains(SearchBox.Text.ToLower()))
-                        {
-                            var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                            if (row != null)
-                                row.Background = Brushes.Green;
-                        }
-                    }
-                    for (int i = 0; i < temp.Rows.Count; i++)
-                    {
-                        if (temp.Rows[i].Field<string>("Descript").ToLower().Contains(SearchBox.Text.ToLower()))
-                        {
-                            var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                            if (row != null)
-                                row.Background = Brushes.Green;
-                        }
-                    }
-                    for (int i = 0; i < temp.Rows.Count; i++)
-                    {
-                        if (temp.Rows[i].Field<string>("Producer_Name")!= null && temp.Rows[i].Field<string>("Producer_Name").ToLower().Contains(SearchBox.Text.ToLower()))
-                        {
-                            var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                            if (row != null)
-                                row.Background = Brushes.Green;
-                        }
-                    }
-                    int num = 0;
-                    bool isNumber = int.TryParse(SearchBox.Text, out num);
-                    if (!isNumber) return;
-                    for (int i = 0; i < temp.Rows.Count; i++)
-                    {
-                        if (temp.Rows[i].Field<int>("Warranty") == num)
-                        {
-                            var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                            if (row != null)
-                                row.Background = Brushes.Green;
-                        }
-                    }
-                    for (int i = 0; i < temp.Rows.Count; i++)
-                    {
-                        if (temp.Rows[i].Field<int>("Warranty") == num)
-                        {
-                            var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                            if (row != null)
-                                row.Background = Brushes.Green;
-                        }
-                    }
 
+                if (ByName.IsChecked == true)
+                {
+                    Paint(temp, "Name");            
                 }
-                else
+                if (ByDesc.IsChecked == true)
                 {
-
-                    if (ByName.IsChecked == true)
-                    {
-                        for (int i = 0; i < temp.Rows.Count; i++)
-                        {
-                            if (temp.Rows[i].Field<string>("Name").ToLower().Contains(SearchBox.Text.ToLower()))
-                            {
-                                var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                                if(row != null)
-                                row.Background = Brushes.Green;
-                              
-                            }
-                        }
-                    }
-                    if (ByDesc.IsChecked == true)
-                    {
-                        for (int i = 0; i < temp.Rows.Count; i++)
-                        {
-                            if (temp.Rows[i].Field<string>("Descript").ToLower().Contains(SearchBox.Text.ToLower()))
-                            {
-                                var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                                if (row != null)
-                                    row.Background = Brushes.Green;
-                            }
-                        }
-                    }
-                    if (ByProd.IsChecked == true)
-                    {
-                        for (int i = 0; i < temp.Rows.Count; i++)
-                        {
-                            if (temp.Rows[i].Field<string>("Producer_Name").ToLower().Contains(SearchBox.Text.ToLower()))
-                            {
-                                var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
-                                if (row != null)
-                                    row.Background = Brushes.Green;
-                            }
-                        }
-                    }
+                    Paint(temp, "Descript");
+                   
+                }
+                if (ByProd.IsChecked == true)
+                {
+                    Paint(temp, "Producer_Name");                   
                 }
             }
         }
@@ -358,7 +222,12 @@ namespace AutoParts
                     
                 }
 
-           
+            if (IsFiltered)
+            {
+                filtered = temp.ToTable().AsEnumerable();
+            }
+            else
+                table = temp.ToTable();
             Grid.ItemsSource = temp;
         }
 
@@ -381,14 +250,38 @@ namespace AutoParts
        public void Type_Box_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             type_id = (int)TypeBox.SelectedValue;
-            MessageBox.Show(type_id.ToString());
+            //MessageBox.Show(type_id.ToString());
         }
 
         private void Report_Button_Click(object sender, RoutedEventArgs e)
         {
-           
-            Reports r = new Reports(false, 0);
+
+            int part = SelectedPart();
+            Reports r = new Reports(false, part);
             r.ShowDialog();
+        }
+        public void Paint(DataTable temp, string column)
+        {
+            for (int i = 0; i < temp.Rows.Count; i++)
+            {
+                if (temp.Rows[i].Field<string>(column) != null && temp.Rows[i].Field<string>(column).ToLower().Contains(SearchBox.Text.ToLower()))
+                {
+                    var row = (DataGridRow)Grid.ItemContainerGenerator.ContainerFromIndex(i);
+                    row.Background = Brushes.Purple;
+                }
+            }
+        }
+
+        public int SelectedPart()
+        {
+            int index = Grid.SelectedIndex;
+            if (index == -1) return -1;
+            int part = -1;
+            if (IsFiltered)
+                part = filtered.ElementAt(index).Field<int>("Part_Id");
+            else
+                part = (int)table.Rows[index]["Part_Id"];
+            return part;
         }
     }
 }

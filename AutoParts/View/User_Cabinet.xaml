@@ -6,12 +6,13 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:AutoParts.View"
         mc:Ignorable="d"
-        Title="Кабінет користувача" Height="522" Width="454">
+        Icon="../Images/Parts.png"
+        Title="Кабінет користувача" Height="522" Width="454" WindowStartupLocation="CenterScreen">
     <Grid x:Name="MainGrid">
-        <Button x:Name="Edit_Button"  Background="White" Click="Edit_Button_Click" Margin="350,5,26,421" BorderThickness="0"  >
+        <Button x:Name="Edit_Button"  Background="White" Click="Edit_Button_Click" Margin="315,2,26,411" BorderThickness="0" Height="Auto"  >
             <StackPanel Orientation="Vertical" RenderTransformOrigin="0.522,0.455" Width="80" Height="70">
-                <Image Source="../Images/Edit.png" Width="36" Height="43" />
-                <TextBlock x:Name="Edit_Label" Text="Редагувати" Margin="0,0,-12,0" Height="26"/>
+                <Image Source="../Images/Edit.png" Width="36" Height="43" />  
+                <TextBlock x:Name="Edit_Label" Text="Редагувати" Foreground="Black" Height="26"/>
             </StackPanel>
         </Button>
         <Label x:Name="Name_Label" Content="Name" HorizontalAlignment="Left" Margin="15,16,0,0" VerticalAlignment="Top"/>
@@ -29,8 +30,8 @@
         <Label  Content="Адреса" HorizontalAlignment="Left" Margin="20,354,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.385"/>
         <TextBox x:Name="AdressBox" IsReadOnly="True" HorizontalAlignment="Left" Height="23" Margin="15,377,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <DataGrid x:Name="Grid" HorizontalAlignment="Left" Height="275" Margin="165,75,0,0" VerticalAlignment="Top" Width="255"/>
-        <Button Content="Продивитися детальну інформацію" HorizontalAlignment="Left" Margin="195,365,0,0" VerticalAlignment="Top" Width="220" Click="Button_Click"/>
-        <Button Content="Переглянути каталог" HorizontalAlignment="Left" Height="35" Margin="275,425,0,0" VerticalAlignment="Top" Width="125" Click="Button_Click_1"/>
+        <Button Content="Продивитися детальну інформацію" HorizontalAlignment="Left" Margin="160,365,0,0" VerticalAlignment="Top" Width="280" Click="Button_Click"/>
+        <Button Content="Переглянути каталог" HorizontalAlignment="Left" Height="35" Margin="210,425,0,0" VerticalAlignment="Top" Width="190" Click="Button_Click_1"/>
 
     </Grid>
 </Window>

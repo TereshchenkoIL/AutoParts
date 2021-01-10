@@ -58,6 +58,7 @@ namespace AutoParts.View
         {
             manager.AddOrder(user, basket);
             basket.Elements.Clear();
+            MessageBox.Show("Операцію виконано успішно");
             Close();
         }
     }

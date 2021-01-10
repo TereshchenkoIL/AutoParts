@@ -29,32 +29,17 @@ namespace AutoParts
         private int prop_id;
         private int type_id;
         private bool edit;
+        private string discount = "";
         int Id;
         public EditUser()
         {
             InitializeComponent();
             edit = false;
             connection = new SqlConnection(ConfigurationManager.ConnectionStrings["Autoparts"].ConnectionString);
-
-            connection.Open();
-            string select_disc = "Select * FROM Discounts";
-            
-            discounts = new DataTable();
-          
-            
-            discount_adapter = new SqlDataAdapter(select_disc, connection);
-            discount_adapter.Fill(discounts);
-     
-
-            Discount_Box.ItemsSource = discounts.DefaultView;
-            Discount_Box.DisplayMemberPath = "Name";
-            Discount_Box.SelectedValuePath = "Prop_Id";
-
-          
-            connection.Close();
+            Prepare();
         }
 
-        public EditUser(int _id,string _name, string _second, string _sur, string _email, string _phone, string _usern, string _pass, string _city, string _adress, int? _disc)
+        public EditUser(int _id,string _name, string _second, string _sur, string _email, string _phone, string _usern, string _pass, string _city, string _adress, string _disc)
         {
             InitializeComponent();
             edit = true;
@@ -69,20 +54,31 @@ namespace AutoParts
             City_Box.Text = _city;
             Adress_Box.Text = _adress;
             Discount_Box.Text = _disc.ToString();
+            Id = _id;
+            Prepare();
+            if (_disc != "")
+            {
+                discount = _disc;
+                ShowDiscount(_disc);
+            }
+          
+        }
+
+        public void Prepare()
+        {
             connection.Open();
-            string select_disc = "Select * FROM Discounts";
+            string select_disc = "Select Discount_Name FROM Discounts";
 
             discounts = new DataTable();
 
-            Id = _id;
 
             discount_adapter = new SqlDataAdapter(select_disc, connection);
             discount_adapter.Fill(discounts);
 
 
             Discount_Box.ItemsSource = discounts.DefaultView;
-            Discount_Box.DisplayMemberPath = "Name";
-            Discount_Box.SelectedValuePath = "Prop_Id";
+            Discount_Box.DisplayMemberPath = "Discount_Name";
+            Discount_Box.SelectedValuePath = "Discount_Name";
 
 
             connection.Close();
@@ -103,7 +99,7 @@ namespace AutoParts
                 command.Parameters.Add(new SqlParameter("@password", SqlDbType.NVarChar, 50));
                 command.Parameters.Add(new SqlParameter("@city", SqlDbType.NVarChar, 25));
                 command.Parameters.Add(new SqlParameter("@adress", SqlDbType.NVarChar, 25));
-                command.Parameters.Add(new SqlParameter("@disc", SqlDbType.Int, 0));
+                command.Parameters.Add(new SqlParameter("@disc", SqlDbType.NVarChar, 70));
                 command.Parameters.Add(new SqlParameter("@isAdmin", SqlDbType.Bit, 0));
                 SqlParameter parameter = command.Parameters.Add("@Id", SqlDbType.Int, 0, "Id");
                 parameter.Direction = ParameterDirection.Output;
@@ -115,7 +111,10 @@ namespace AutoParts
                 command.Parameters["@username"].Value = UserName_Box.Text;
                 command.Parameters["@password"].Value = Password_Box.Text;
                 command.Parameters["@city"].Value = City_Box.Text;
-                command.Parameters["@disc"].Value = DBNull.Value;
+                if (discount != "")
+                    command.Parameters["@disc"].Value = discount;
+                else
+                    command.Parameters["@disc"].Value = DBNull.Value;
                 command.Parameters["@isAdmin"].Value = false;
                 command.Parameters["@adress"].Value = Adress_Box.Text;
                 command.ExecuteNonQuery();
@@ -136,7 +135,7 @@ namespace AutoParts
                 command.Parameters.Add(new SqlParameter("@password", SqlDbType.NVarChar, 50));
                 command.Parameters.Add(new SqlParameter("@city", SqlDbType.NVarChar, 25));
                 command.Parameters.Add(new SqlParameter("@adress", SqlDbType.NVarChar, 25));
-                command.Parameters.Add(new SqlParameter("@disc", SqlDbType.Int, 0));
+                command.Parameters.Add(new SqlParameter("@disc", SqlDbType.NVarChar, 70));
                 command.Parameters.Add(new SqlParameter("@isAdmin", SqlDbType.Bit, 0));
                 command.Parameters.Add("@Id", SqlDbType.Int, 0, "User_Id");
    
@@ -148,7 +147,10 @@ namespace AutoParts
                 command.Parameters["@username"].Value = UserName_Box.Text;
                 command.Parameters["@password"].Value = Password_Box.Text;
                 command.Parameters["@city"].Value = City_Box.Text;
-                command.Parameters["@disc"].Value = DBNull.Value;
+                if (discount != "")
+                    command.Parameters["@disc"].Value = discount;
+                else
+                    command.Parameters["@disc"].Value = DBNull.Value;
                 command.Parameters["@isAdmin"].Value = false;
                 command.Parameters["@adress"].Value = Adress_Box.Text;
                 command.Parameters["@Id"].Value = Id;
@@ -158,6 +160,29 @@ namespace AutoParts
 
             }
 
+        }
+
+        private void Discount_Box_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            discount = (string)Discount_Box.SelectedValue;
+        }
+
+
+        private void ShowDiscount(string name)
+        {
+            if(name != null && name != "")
+            {
+                int index = -1;
+
+                for(int i = 0; i < discounts.Rows.Count;i++)
+                {
+                    if(((string)discounts.Rows[i]["Discount_Name"]) == name)
+                    {
+                        Discount_Box.SelectedIndex = i;
+                        break;
+                    }
+                }
+            }
         }
     }
 }
