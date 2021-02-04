@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="01/03/2021 17:25:17" ReportInfo.Modified="01/09/2021 13:47:16" ReportInfo.CreatorVersion="2020.4.9.0">
+  <Dictionary>
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqjSfgSqWTaGZp1VGjtc0gyMGnFUqk75cVrPzDgf2SBb22e46BXXhhf80lo57hP5ldKv4iPkbTINvmbrtNsrAlkBBBac4GCtRmUPkyPMZ8iJL7cghEN8yCUaOinhFrnxT5NoV9sHLnVen1k5AIQZJdSWjVUGd7QDlUjeS5vs5UVRTWEVAEeCZuqArjIe38YYkoOYajiJc8phpRFfqVXPiQPg==">
+      <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand="SELECT  Format(o.Create_Date,'MM-yy') As Date,  SUM(op.Quantity) As Quant, SUM(op.Quantity*p.Price) AS Total &#13;&#10;FROM(Orders o INNER JOIN  Order_Part op ON o.Order_Id = op.Order_Id)&#13;&#10;INNER JOIN Parts p ON op.Part_Id = p.Part_Id&#13;&#10;WHERE o.Create_Date BETWEEN '2020-07-21' AND '2020-12-21'&#13;&#10; GROUP BY Format(o.Create_Date, 'MM-yy')">
+        <Column Name="Date" DataType="System.String"/>
+        <Column Name="Quant" DataType="System.Int32"/>
+        <Column Name="Total" DataType="System.Decimal"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Parameter Name="From" DataType="System.String"/>
+    <Parameter Name="To" DataType="System.String"/>
+    <Parameter Name="TotalSum" DataType="System.String"/>
+  </Dictionary>
+  <ReportPage Name="Page1" Watermark.Font="Arial, 60pt">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="37.8">
+      <TextObject Name="Text2" Left="302.4" Top="9.45" Width="170.1" Height="18.9" Text="Виручка по місяцям" Font="Arial, 10pt"/>
+    </ReportTitleBand>
+    <PageHeaderBand Name="PageHeader1" Top="41.8" Width="718.2" Height="113.4">
+      <TextObject Name="Text3" Left="236.25" Top="66.15" Width="56.7" Height="37.8" Fill.Color="Plum" Text="Дата" Font="Arial, 10pt"/>
+      <TextObject Name="Text4" Left="302.4" Top="66.15" Width="141.75" Height="37.8" Fill.Color="Plum" Text="Кількість проданих товарів" Font="Arial, 10pt"/>
+      <TextObject Name="Text5" Left="453.6" Top="66.15" Width="75.6" Height="37.8" Fill.Color="Plum" Text="Сума" Font="Arial, 10pt"/>
+      <TextObject Name="Text6" Left="330.75" Width="94.5" Height="18.9" Fill.Color="Plum" Text="Період " Font="Arial, 10pt"/>
+      <TextObject Name="Text7" Left="236.25" Top="28.35" Width="94.5" Height="18.9" Text="[From]" Font="Arial, 10pt"/>
+      <TextObject Name="Text8" Left="425.25" Top="28.35" Width="94.5" Height="18.9" Text="[To]" Font="Arial, 10pt"/>
+      <TextObject Name="Text9" Left="349.65" Top="28.35" Width="47.25" Height="18.9" Text="По" Font="Arial, 10pt"/>
+      <TextObject Name="Text10" Left="151.2" Top="28.35" Width="47.25" Height="18.9" Text="З" Font="Arial, 10pt"/>
+    </PageHeaderBand>
+    <DataBand Name="Data1" Top="159.2" Width="718.2" Height="122.85" DataSource="Table">
+      <TableObject Name="Table1" Left="255.15" Top="9.45" Width="279.72" Height="113.4">
+        <TableColumn Name="Column1" Width="90.09"/>
+        <TableColumn Name="Column2" Width="90.09"/>
+        <TableColumn Name="Column3" Width="99.54"/>
+        <TableRow Name="Row1" Height="22.68">
+          <TableCell Name="Cell1" Text="[Table.Date]" Font="Arial, 10pt"/>
+          <TableCell Name="Cell2" Text="[Table.Quant]" Font="Arial, 10pt"/>
+          <TableCell Name="Cell3" Text="[Table.Total]" Font="Arial, 10pt"/>
+        </TableRow>
+        <TableRow Name="Row2" Height="22.68">
+          <TableCell Name="Cell6" Font="Arial, 10pt"/>
+          <TableCell Name="Cell7" Font="Arial, 10pt"/>
+          <TableCell Name="Cell8" Font="Arial, 10pt"/>
+        </TableRow>
+        <TableRow Name="Row3" Height="22.68">
+          <TableCell Name="Cell11" Font="Arial, 10pt"/>
+          <TableCell Name="Cell12" Font="Arial, 10pt"/>
+          <TableCell Name="Cell13" Font="Arial, 10pt"/>
+        </TableRow>
+        <TableRow Name="Row4" Height="22.68">
+          <TableCell Name="Cell16" Font="Arial, 10pt"/>
+          <TableCell Name="Cell17" Font="Arial, 10pt"/>
+          <TableCell Name="Cell18" Font="Arial, 10pt"/>
+        </TableRow>
+        <TableRow Name="Row5" Height="22.68">
+          <TableCell Name="Cell21" Font="Arial, 10pt"/>
+          <TableCell Name="Cell22" Font="Arial, 10pt"/>
+          <TableCell Name="Cell23" Font="Arial, 10pt"/>
+        </TableRow>
+      </TableObject>
+      <DataFooterBand Name="DataFooter1" Top="286.05" Width="718.2" Height="37.8">
+        <TextObject Name="Text11" Left="359.1" Top="9.45" Width="132.3" Height="18.9" Fill.Color="Plum" Text="Загальна сумма" Font="Arial, 10pt"/>
+        <TextObject Name="Text12" Left="538.65" Top="9.45" Width="94.5" Height="18.9" Text="[TotalSum]" Font="Arial, 10pt"/>
+      </DataFooterBand>
+    </DataBand>
+    <ReportSummaryBand Name="ReportSummary1" Top="327.85" Width="718.2" Height="292.95">
+      <MSChartObject Name="MSChart1" Left="182.45" Top="36" Width="444.15" Height="255.15" DataSource="Table" AlignXValues="true" AutoSeriesColumn="[Table.Total]" AutoSeriesColor="[Table.Total]" ChartData="PENoYXJ0IEJvcmRlcmxpbmVDb2xvcj0iRGFya0dyYXkiIEJvcmRlcmxpbmVXaWR0aD0iMiIgQm9yZGVybGluZURhc2hTdHlsZT0iU29saWQiPg0KICA8U2VyaWVzPg0KICAgIDxTZXJpZXMgTmFtZT0i0JzRltGB0Y/RhtGWIiBMZWdlbmQ9IkRlZmF1bHQiIFhWYWx1ZVR5cGU9IlN0cmluZyIgWVZhbHVlVHlwZT0iRG91YmxlIiBDaGFydEFyZWE9IkRlZmF1bHQiPg0KICAgICAgPFBvaW50cz4NCiAgICAgICAgPERhdGFQb2ludCBZVmFsdWVzPSIxIiBBeGlzTGFiZWw9IkEiIC8+DQogICAgICAgIDxEYXRhUG9pbnQgWVZhbHVlcz0iMyIgQXhpc0xhYmVsPSJCIiAvPg0KICAgICAgICA8RGF0YVBvaW50IFlWYWx1ZXM9IjIiIEF4aXNMYWJlbD0iQyIgLz4NCiAgICAgICAgPERhdGFQb2ludCBZVmFsdWVzPSI0IiBBeGlzTGFiZWw9IkQiIC8+DQogICAgICA8L1BvaW50cz4NCiAgICA8L1Nlcmllcz4NCiAgPC9TZXJpZXM+DQogIDxMZWdlbmRzPg0KICAgIDxMZWdlbmQgTmFtZT0iRGVmYXVsdCI+DQogICAgPC9MZWdlbmQ+DQogIDwvTGVnZW5kcz4NCiAgPFRpdGxlcz4NCiAgICA8VGl0bGUgTmFtZT0iVGl0bGUxIiBWaXNpYmxlPSJGYWxzZSI+DQogICAgPC9UaXRsZT4NCiAgPC9UaXRsZXM+DQogIDxDaGFydEFyZWFzPg0KICAgIDxDaGFydEFyZWEgTmFtZT0iRGVmYXVsdCI+DQogICAgICA8QXhpc1k+DQogICAgICAgIDxNYWpvckdyaWQgTGluZUNvbG9yPSI2NCwgNjQsIDY0LCA2NCIgLz4NCiAgICAgIDwvQXhpc1k+DQogICAgICA8QXhpc1g+DQogICAgICAgIDxNYWpvckdyaWQgTGluZUNvbG9yPSI2NCwgNjQsIDY0LCA2NCIgLz4NCiAgICAgIDwvQXhpc1g+DQogICAgICA8QXhpc1gyPg0KICAgICAgICA8TWFqb3JHcmlkIExpbmVDb2xvcj0iNjQsIDY0LCA2NCwgNjQiIC8+DQogICAgICA8L0F4aXNYMj4NCiAgICAgIDxBeGlzWTI+DQogICAgICAgIDxNYWpvckdyaWQgTGluZUNvbG9yPSI2NCwgNjQsIDY0LCA2NCIgLz4NCiAgICAgIDwvQXhpc1kyPg0KICAgIDwvQ2hhcnRBcmVhPg0KICA8L0NoYXJ0QXJlYXM+DQogIDxCb3JkZXJTa2luIFNraW5TdHlsZT0iRW1ib3NzIiAvPg0KPC9DaGFydD4=">
+        <MSChartSeries Name="Series2" XValue="[Table.Date]" YValue1="[Table.Total]"/>
+      </MSChartObject>
+      <TextObject Name="Text1" Left="349.65" Top="9.45" Width="94.5" Height="18.9" Text="Графік" Font="Arial, 10pt"/>
+    </ReportSummaryBand>
+    <PageFooterBand Name="PageFooter1" Top="624.8" Width="718.2" Height="18.9"/>
+  </ReportPage>
+</Report>

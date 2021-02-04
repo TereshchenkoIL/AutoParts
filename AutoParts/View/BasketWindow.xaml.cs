@@ -61,5 +61,10 @@ namespace AutoParts.View
             MessageBox.Show("Операцію виконано успішно");
             Close();
         }
+
+        private void Updated(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            TotalLabel.Content = basket.SumTotal().ToString();
+        }
     }
 }

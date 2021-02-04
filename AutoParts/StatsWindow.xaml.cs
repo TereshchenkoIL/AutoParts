@@ -116,7 +116,7 @@ namespace AutoParts
 
                 case "Кількість відгуків по певному товару":
                     sql = "SELECT p.Name, COUNT(r.Response_Id) AS COUNT" +
-                        " FROM PARTS p INNER JOIN Responses r ON P.Part_Id = r.Part_Id" +
+                        " FROM PARTS p LEFT JOIN Responses r ON P.Part_Id = r.Part_Id" +
                         " GROUP BY p.Name";
                     Columns = true;
                     break;
@@ -180,12 +180,7 @@ namespace AutoParts
                         Dict.Add((string)row["Date"], (decimal)row["Total"]);
                     }
                     break;
-                case "Кількість відгуків по певному товару":
-                    foreach (DataRow row in table.Rows)
-                    {
-                        Dict.Add((string)row["Name"], (int)row["Count"]);
-                    }
-                    break;
+                
                 case "Частка типів":
                     foreach (DataRow row in table.Rows)
                     {

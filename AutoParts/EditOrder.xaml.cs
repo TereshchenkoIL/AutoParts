@@ -161,6 +161,7 @@ namespace AutoParts
             command.Parameters["@quant"].Value = q;
             command.ExecuteNonQuery();
             connection.Close();
+            Display_Ref();
 
         }
         private void Display_Ref()

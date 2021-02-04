@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="11/17/2020 00:05:32" ReportInfo.Modified="12/26/2020 21:39:11" ReportInfo.CreatorVersion="2020.4.9.0">
+  <Styles Name="Green">
+    <Style Name="Title" Font="Arial, 12pt, style=Bold"/>
+    <Style Name="Header" Fill.Color="PaleGreen" Font="Arial, 10pt, style=Bold"/>
+    <Style Name="Group" Font="Arial, 10pt, style=Bold"/>
+    <Style Name="Data" Font="Arial, 10pt"/>
+    <Style Name="Footer" Fill.Color="PaleGreen" Font="Arial, 10pt"/>
+    <Style Name="EvenRows" Fill.Color="Honeydew" Font="Arial, 10pt"/>
+  </Styles>
+  <Dictionary>
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqjSfgSqWTaGZp1VGjtc0gyMGnFUqk75cVrPzDgf2SBb22e46BXXhhf80lo57hP5ldKv4iPkbTINvmbrtNsrAlkBBBac4GCtRmUPkyPMZ8iJL7cghEN8yCUaOinhFrnxT5NoV9sHLnVen1k5AIQZJdSWjVUGd7QDlUjeS5vs5UVRTWEVAEeCZuqArjIe38YYkoZyZDd6S8UWafKN5S8Dr46Q==">
+      <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand="SELECT p.Part_Id,p.Name, p.Price, p.Descript,p.Price,p.Warranty, p.Producer_Name, (SELECT t.Name FROM Pr_Types t WHERE t.Type_Id = p.Type_Id) AS Type&#13;&#10;FROM Parts p &#13;&#10;">
+        <Column Name="Part_Id" DataType="System.Int32"/>
+        <Column Name="Name" DataType="System.String"/>
+        <Column Name="Price" DataType="System.Decimal"/>
+        <Column Name="Descript" DataType="System.String"/>
+        <Column Name="Price1" DataType="System.Decimal"/>
+        <Column Name="Warranty" DataType="System.Int32"/>
+        <Column Name="Producer_Name" DataType="System.String"/>
+        <Column Name="Type" DataType="System.String"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <MsSqlDataConnection Name="Connection1" ConnectionString="rijcmlqjSfgSqWTaGZp1VGjtc0gyMGnFUqk75cVrPzDgf2SBb22e46BXXhhf80lo57hP5ldKv4iPkbTINvmbrtNsrAlkBBBac4GCtRmUPkyPMZ8iJL7cghEN8yCUaOinhFrnxT5NoV9sHLnVen1k5AIQZJdSWjVUGd7QDlUjeS5vs5UVRTWEVAEeCZuqArjIe38YYkoLWmKWIQeAtj/NSMhDoE3Qw==">
+      <TableDataSource Name="Properties1" DataType="System.Int32" Enabled="true" TableName="Properties">
+        <Column Name="Prop_Id" DataType="System.Int32"/>
+        <Column Name="Name" DataType="System.String"/>
+        <Column Name="Unit" DataType="System.String"/>
+      </TableDataSource>
+      <TableDataSource Name="Prop_Part1" DataType="System.Int32" Enabled="true" TableName="Prop_Part">
+        <Column Name="Prop_Id" DataType="System.Int32"/>
+        <Column Name="Part_Id" DataType="System.Int32"/>
+        <Column Name="Value" DataType="System.String"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Relation Name="Table_Prop_Part1" ParentDataSource="Table" ChildDataSource="Prop_Part1" ParentColumns="Part_Id" ChildColumns="Part_Id" Enabled="true"/>
+    <Relation Name="Prop_Part1_Properties1" ParentDataSource="Prop_Part1" ChildDataSource="Properties1" ParentColumns="Prop_Id" ChildColumns="Prop_Id" Enabled="true"/>
+  </Dictionary>
+  <ReportPage Name="Page1" Watermark.Font="Arial, 60pt">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="37.8">
+      <TextObject Name="Text1" Width="718.2" Height="37.8" Dock="Fill" Text="Накладна" HorzAlign="Center" VertAlign="Center" Font="Arial, 12pt, style=Bold" Style="Title"/>
+    </ReportTitleBand>
+    <PageHeaderBand Name="PageHeader1" Top="41.8" Width="718.2" Height="28.35"/>
+    <DataBand Name="Data1" Top="74.15" Width="718.2" Height="396.9" EvenStyle="EvenRows" DataSource="Table">
+      <TextObject Name="Text2" Left="141.75" Top="9.45" Width="529.2" Height="18.9" Text="[Table.Part_Id]" Font="Arial, 10pt" Style="Data"/>
+      <TextObject Name="Text4" Left="141.75" Top="37.8" Width="529.2" Height="18.9" Text="[Table.Name]" Font="Arial, 10pt" Style="Data"/>
+      <TextObject Name="Text6" Left="141.75" Top="75.6" Width="529.2" Height="18.9" Text="[Table.Price]" Font="Arial, 10pt" Style="Data"/>
+      <TextObject Name="Text8" Left="141.75" Top="113.4" Width="529.2" Height="85.05" Text="[Table.Descript]" Font="Arial, 10pt" Style="Data"/>
+      <TextObject Name="Text12" Left="141.75" Top="226.8" Width="529.2" Height="18.9" Text="[Table.Warranty]" Font="Arial, 10pt" Style="Data"/>
+      <TextObject Name="Text14" Left="141.75" Top="264.6" Width="529.2" Height="18.9" Text="[Table.Producer_Name]" Font="Arial, 10pt" Style="Data"/>
+      <TextObject Name="Text16" Left="141.75" Top="292.95" Width="529.2" Height="18.9" Text="[Table.Type]" Font="Arial, 10pt" Style="Data"/>
+      <TextObject Name="Text3" Top="9.45" Width="122.85" Height="18.9" Fill.Color="Plum" Text="Код товару" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text5" Top="37.8" Width="122.85" Height="18.9" Fill.Color="Plum" Text="Назва" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text7" Top="75.6" Width="122.85" Height="18.9" Fill.Color="Plum" Text="Ціна" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text9" Top="113.4" Width="122.85" Height="18.9" Fill.Color="Plum" Text="Опис" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text13" Top="226.8" Width="122.85" Height="18.9" Fill.Color="Plum" Text="Гарантія" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text15" Top="264.6" Width="122.85" Height="18.9" Fill.Color="Plum" Text="Виробник" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text17" Top="292.95" Width="122.85" Height="18.9" Fill.Color="Plum" Text="Тип" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text19" Left="425.25" Top="368.55" Width="94.5" Height="18.9" Text="Властивості" Font="Arial, 10pt"/>
+      <DataBand Name="Data2" Top="475.05" Width="718.2" DataSource="Prop_Part1">
+        <DataBand Name="Data3" Top="479.05" Width="718.2" Height="103.95" DataSource="Properties1">
+          <TableObject Name="Table1" Left="122.85" Top="9.45" Width="368.55" Height="94.5">
+            <TableColumn Name="Column1" Width="132.3"/>
+            <TableColumn Name="Column2" Width="132.3"/>
+            <TableColumn Name="Column3" Width="103.95"/>
+            <TableRow Name="Row1">
+              <TableCell Name="Cell1" Text="[Properties1.Name]" Font="Arial, 10pt"/>
+              <TableCell Name="Cell2" Text="[Properties1.Prop_Part1.Value]" Font="Arial, 10pt"/>
+              <TableCell Name="Cell3" Text="[Properties1.Unit]" Font="Arial, 10pt"/>
+            </TableRow>
+            <TableRow Name="Row2">
+              <TableCell Name="Cell6" Font="Arial, 10pt"/>
+              <TableCell Name="Cell7" Font="Arial, 10pt"/>
+              <TableCell Name="Cell8" Font="Arial, 10pt"/>
+            </TableRow>
+            <TableRow Name="Row3">
+              <TableCell Name="Cell11" Font="Arial, 10pt"/>
+              <TableCell Name="Cell12" Font="Arial, 10pt"/>
+              <TableCell Name="Cell13" Font="Arial, 10pt"/>
+            </TableRow>
+            <TableRow Name="Row4">
+              <TableCell Name="Cell16" Font="Arial, 10pt"/>
+              <TableCell Name="Cell17" Font="Arial, 10pt"/>
+              <TableCell Name="Cell18" Font="Arial, 10pt"/>
+            </TableRow>
+            <TableRow Name="Row5">
+              <TableCell Name="Cell21" Font="Arial, 10pt"/>
+              <TableCell Name="Cell22" Font="Arial, 10pt"/>
+              <TableCell Name="Cell23" Font="Arial, 10pt"/>
+            </TableRow>
+          </TableObject>
+        </DataBand>
+      </DataBand>
+    </DataBand>
+    <PageFooterBand Name="PageFooter1" Top="587" Width="718.2" Height="18.9">
+      <TextObject Name="Text18" Width="718.2" Height="18.9" Dock="Fill" Fill.Color="Plum" Text="[PageN]" HorzAlign="Right" Font="Arial, 10pt"/>
+    </PageFooterBand>
+  </ReportPage>
+</Report>

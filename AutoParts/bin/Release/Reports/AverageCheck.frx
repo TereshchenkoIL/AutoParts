@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="01/09/2021 11:48:01" ReportInfo.Modified="01/09/2021 13:40:43" ReportInfo.CreatorVersion="2020.4.9.0">
+  <Dictionary>
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqjSfgSqWTaGZp1VGjtc0gyMGnFUqk75cVrPzDgf2SBb22e46BXXhhf80lo57hP5ldKv4iPkbTINvmbrtNsrAlkBBBac4GCtRmUPkyPMZ8iJL7cghEN8yCUaOinhFrnxT5NoV9sHLnVen1k5AIQZJdSWjVUGd7QDlUjeS5vs5UVRTWEVAEeCZuqArjIe38YYkoSwhYgk2EyTqJNHeS2cRz0w==">
+      <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand="SELECT  Format(o.Create_Date,'MM-yy-dd') As Date, SUM(op.Quantity * p.Price)/SUM(op.Quantity) AS 'Середній  чек' &#13;&#10;FROM (Orders o INNER JOIN  Order_Part op ON o.Order_Id = op.Order_Id) &#13;&#10;INNER JOIN Parts p ON op.Part_Id = p.Part_Id &#13;&#10;Where Format(o.Create_Date,'MM-yy-dd') BETWEEN Format(CAST( '2020-07-21' as date),'MM-yy-dd')  AND Format(CAST( '2020-12-21' as date),'MM-yy-dd')&#13;&#10; GROUP BY  Format(o.Create_Date,'MM-yy-dd')">
+        <Column Name="Date" DataType="System.String"/>
+        <Column Name="Середній  чек" DataType="System.Decimal"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Parameter Name="From" DataType="System.String"/>
+    <Parameter Name="To" DataType="System.String"/>
+  </Dictionary>
+  <ReportPage Name="Page1" Watermark.Font="Arial, 60pt">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="37.8">
+      <TextObject Name="Text1" Left="292.95" Top="9.45" Width="151.2" Height="18.9" Text="Середній чек" Font="Arial, 10pt"/>
+    </ReportTitleBand>
+    <PageHeaderBand Name="PageHeader1" Top="41.8" Width="718.2" Height="141.75">
+      <TextObject Name="Text2" Left="103.95" Top="103.95" Width="94.5" Height="18.9" Fill.Color="Plum" Text="Дата" Font="Arial, 10pt"/>
+      <TextObject Name="Text3" Left="264.6" Top="103.95" Width="179.55" Height="18.9" Fill.Color="Plum" Text="Середній чек" Font="Arial, 10pt"/>
+      <TextObject Name="Text6" Left="311.85" Width="94.5" Height="18.9" Text="Період" Font="Arial, 10pt"/>
+      <TextObject Name="Text7" Left="132.3" Top="37.8" Width="47.25" Height="18.9" Text="З" Font="Arial, 10pt"/>
+      <TextObject Name="Text8" Left="321.3" Top="37.8" Width="28.35" Height="18.9" Text="По" Font="Arial, 10pt"/>
+      <TextObject Name="Text9" Left="198.45" Top="37.8" Width="94.5" Height="18.9" Text="[From]" Font="Arial, 10pt"/>
+      <TextObject Name="Text10" Left="368.55" Top="37.8" Width="94.5" Height="18.9" Text="[To]" Font="Arial, 10pt"/>
+    </PageHeaderBand>
+    <DataBand Name="Data1" Top="187.55" Width="718.2" Height="141.75" DataSource="Table">
+      <TableObject Name="Table1" Left="103.95" Top="37.8" Width="406.35" Height="94.5">
+        <TableColumn Name="Column1" Width="160.65"/>
+        <TableColumn Name="Column2" Width="245.7"/>
+        <TableRow Name="Row1">
+          <TableCell Name="Cell1" Text="[Table.Date]" Font="Arial, 10pt"/>
+          <TableCell Name="Cell2" Text="[Table.Середній  чек]" Font="Arial, 10pt"/>
+        </TableRow>
+        <TableRow Name="Row2">
+          <TableCell Name="Cell6" Font="Arial, 10pt"/>
+          <TableCell Name="Cell7" Font="Arial, 10pt"/>
+        </TableRow>
+        <TableRow Name="Row3">
+          <TableCell Name="Cell11" Font="Arial, 10pt"/>
+          <TableCell Name="Cell12" Font="Arial, 10pt"/>
+        </TableRow>
+        <TableRow Name="Row4">
+          <TableCell Name="Cell16" Font="Arial, 10pt"/>
+          <TableCell Name="Cell17" Font="Arial, 10pt"/>
+        </TableRow>
+        <TableRow Name="Row5">
+          <TableCell Name="Cell21" Font="Arial, 10pt"/>
+          <TableCell Name="Cell22" Font="Arial, 10pt"/>
+        </TableRow>
+      </TableObject>
+    </DataBand>
+    <ReportSummaryBand Name="ReportSummary1" Top="333.3" Width="718.2" Height="359.1">
+      <MSChartObject Name="MSChart1" Left="113.4" Top="56.7" Width="453.6" Height="302.4" DataSource="Table" ChartData="PENoYXJ0IEJvcmRlcmxpbmVDb2xvcj0iRGFya0dyYXkiIEJvcmRlcmxpbmVXaWR0aD0iMiIgQm9yZGVybGluZURhc2hTdHlsZT0iU29saWQiPg0KICA8U2VyaWVzPg0KICAgIDxTZXJpZXMgTmFtZT0i0KHQtdGA0LXQtNC90ZbQuSDRh9C10LoiIExlZ2VuZD0iRGVmYXVsdCIgWFZhbHVlVHlwZT0iU3RyaW5nIiBZVmFsdWVUeXBlPSJEb3VibGUiIENoYXJ0QXJlYT0iRGVmYXVsdCI+DQogICAgICA8UG9pbnRzPg0KICAgICAgICA8RGF0YVBvaW50IFlWYWx1ZXM9IjEiIEF4aXNMYWJlbD0iQSIgLz4NCiAgICAgICAgPERhdGFQb2ludCBZVmFsdWVzPSIzIiBBeGlzTGFiZWw9IkIiIC8+DQogICAgICAgIDxEYXRhUG9pbnQgWVZhbHVlcz0iMiIgQXhpc0xhYmVsPSJDIiAvPg0KICAgICAgICA8RGF0YVBvaW50IFlWYWx1ZXM9IjQiIEF4aXNMYWJlbD0iRCIgLz4NCiAgICAgIDwvUG9pbnRzPg0KICAgIDwvU2VyaWVzPg0KICA8L1Nlcmllcz4NCiAgPExlZ2VuZHM+DQogICAgPExlZ2VuZCBOYW1lPSJEZWZhdWx0Ij4NCiAgICA8L0xlZ2VuZD4NCiAgPC9MZWdlbmRzPg0KICA8VGl0bGVzPg0KICAgIDxUaXRsZSBOYW1lPSJUaXRsZTEiIFZpc2libGU9IkZhbHNlIj4NCiAgICA8L1RpdGxlPg0KICA8L1RpdGxlcz4NCiAgPENoYXJ0QXJlYXM+DQogICAgPENoYXJ0QXJlYSBOYW1lPSJEZWZhdWx0Ij4NCiAgICAgIDxBeGlzWT4NCiAgICAgICAgPE1ham9yR3JpZCBMaW5lQ29sb3I9IjY0LCA2NCwgNjQsIDY0IiAvPg0KICAgICAgPC9BeGlzWT4NCiAgICAgIDxBeGlzWD4NCiAgICAgICAgPE1ham9yR3JpZCBMaW5lQ29sb3I9IjY0LCA2NCwgNjQsIDY0IiAvPg0KICAgICAgPC9BeGlzWD4NCiAgICAgIDxBeGlzWDI+DQogICAgICAgIDxNYWpvckdyaWQgTGluZUNvbG9yPSI2NCwgNjQsIDY0LCA2NCIgLz4NCiAgICAgIDwvQXhpc1gyPg0KICAgICAgPEF4aXNZMj4NCiAgICAgICAgPE1ham9yR3JpZCBMaW5lQ29sb3I9IjY0LCA2NCwgNjQsIDY0IiAvPg0KICAgICAgPC9BeGlzWTI+DQogICAgPC9DaGFydEFyZWE+DQogIDwvQ2hhcnRBcmVhcz4NCiAgPEJvcmRlclNraW4gU2tpblN0eWxlPSJFbWJvc3MiIC8+DQo8L0NoYXJ0Pg==">
+        <MSChartSeries Name="Series2" XValue="[Table.Date]" YValue1="[Table.Середній  чек]"/>
+      </MSChartObject>
+      <TextObject Name="Text5" Left="302.4" Top="18.9" Width="94.5" Height="18.9" Text="Графік" Font="Arial, 10pt"/>
+    </ReportSummaryBand>
+    <PageFooterBand Name="PageFooter1" Top="696.4" Width="718.2" Height="56.7" Guides="9.45"/>
+  </ReportPage>
+</Report>

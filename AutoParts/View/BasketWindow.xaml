@@ -9,11 +9,11 @@
         Icon="../Images/Parts.png">
     <Grid >
         <Label Content="Корзина" HorizontalAlignment="Left" Height="30" Margin="175,10,0,0" VerticalAlignment="Top" Width="75"/>
-        <DataGrid x:Name="Grid" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="295" Margin="10,40,0,0" VerticalAlignment="Top" Width="420" RowEditEnding="Updated">
+        <DataGrid x:Name="Grid" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="295" Margin="10,40,0,0" VerticalAlignment="Top" Width="420" RowEditEnding="Updated" LostKeyboardFocus="Updated">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Назва" Binding="{Binding Path=Name}" Width="90" />
-                <DataGridTextColumn Header="Кількість" Binding="{Binding Path=Quantity}" Width="80" />
-                <DataGridTextColumn Header="Цена" Binding="{Binding Path=Price}" Width="50" />
+                <DataGridTextColumn Header="Назва" Binding="{Binding Path=Name}" Width="140" />
+                <DataGridTextColumn Header="Кількість" Binding="{Binding Path=Quantity}" Width="100" />
+                <DataGridTextColumn Header="Ціна" Binding="{Binding Path=Price}" Width="80" />
             </DataGrid.Columns>
         </DataGrid>
         <Label Content="Загальна сума" HorizontalAlignment="Left" Height="30" Margin="40,375,0,0" VerticalAlignment="Top" Width="105"/>

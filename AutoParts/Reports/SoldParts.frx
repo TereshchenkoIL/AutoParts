@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="12/26/2020 23:29:37" ReportInfo.Modified="01/03/2021 17:18:15" ReportInfo.CreatorVersion="2020.4.9.0">
+  <Dictionary>
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqjSfgSqWTaGZp1VGjtc0gyMGnFUqk75cVrPzDgf2SBb22e46BXXhhf80lo57hP5ldKv4iPkbTINvmbrtNsrAlkBBBac4GCtRmUPkyPMZ8iJL7cghEN8yCUaOinhFrnxT5NoV9sHLnVen1k5AIQZJdSWjVUGd7QDlUjeS5vs5UVRTWEVAEeCZuqArjIe38YYkoQXyReh3cAqzfwfQ01Kxe5A==">
+      <TableDataSource Name="Table" DataType="System.Int32" Enabled="true" SelectCommand="SELECT  p.Part_Id, p.Name,p.Price, SUM(op.Quantity) As Quant, SUM(op.Quantity*p.Price) AS Total,o.Create_Date &#13;&#10;FROM(Orders o INNER JOIN  Order_Part op ON o.Order_Id = op.Order_Id) &#13;&#10;INNER JOIN Parts p ON op.Part_Id = p.Part_Id &#13;&#10;WHERE o.Create_Date BETWEEN '01-09-2020'  AND  '21-12-2020'&#13;&#10;GROUP BY p.Part_Id,p.Name,p.Price, o.Create_Date  &#13;&#10;">
+        <Column Name="Part_Id" DataType="System.Int32"/>
+        <Column Name="Name" DataType="System.String"/>
+        <Column Name="Price" DataType="System.Decimal"/>
+        <Column Name="Quant" DataType="System.Int32"/>
+        <Column Name="Total" DataType="System.Decimal"/>
+        <Column Name="Create_Date" DataType="System.DateTime"/>
+      </TableDataSource>
+    </MsSqlDataConnection>
+    <Parameter Name="From" DataType="System.String"/>
+    <Parameter Name="To" DataType="System.String"/>
+  </Dictionary>
+  <ReportPage Name="Page1" Watermark.Font="Arial, 60pt">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="37.8">
+      <TextObject Name="Text1" Left="302.4" Top="9.45" Width="141.75" Height="18.9" Text="Продані товари" Font="Arial, 10pt"/>
+    </ReportTitleBand>
+    <PageHeaderBand Name="PageHeader1" Top="41.8" Width="718.2" Height="103.95">
+      <TextObject Name="Text2" Left="292.95" Width="94.5" Height="18.9" Text="Період" Font="Arial, 10pt"/>
+      <TextObject Name="Text3" Left="226.8" Top="28.35" Width="94.5" Height="18.9" Text="[From]" Font="Arial, 10pt"/>
+      <TextObject Name="Text4" Left="132.3" Top="28.35" Width="94.5" Height="18.9" Fill.Color="Plum" Text="З" Font="Arial, 10pt"/>
+      <TextObject Name="Text5" Left="444.15" Top="28.35" Width="94.5" Height="18.9" Text="[To]" Font="Arial, 10pt"/>
+      <TextObject Name="Text6" Left="349.65" Top="28.35" Width="94.5" Height="18.9" Fill.Color="Plum" Text="По" Font="Arial, 10pt"/>
+      <TextObject Name="Text9" Left="283.5" Top="75.6" Width="66.15" Height="18.9" Text="Ціна" Font="Arial, 10pt"/>
+      <TextObject Name="Text7" Left="9.45" Top="75.6" Width="94.5" Height="18.9" Text="Код деталі" Font="Arial, 10pt"/>
+      <TextObject Name="Text8" Left="113.4" Top="75.6" Width="113.4" Height="18.9" Text="Назва деталі" Font="Arial, 10pt"/>
+      <TextObject Name="Text10" Left="368.55" Top="75.6" Width="66.15" Height="18.9" Text="Кількість" Font="Arial, 10pt"/>
+      <TextObject Name="Text11" Left="444.15" Top="75.6" Width="103.95" Height="18.9" Text="Загальна сума" Font="Arial, 10pt"/>
+      <TextObject Name="Text12" Left="557.55" Top="75.6" Width="94.5" Height="18.9" Text="Дата продажу" Font="Arial, 10pt"/>
+    </PageHeaderBand>
+    <DataBand Name="Data1" Top="149.75" Width="718.2" Height="103.95" DataSource="Table">
+      <TableObject Name="Table1" Left="18.9" Top="9.45" Width="652.17" Height="94.5">
+        <TableColumn Name="Column1" Width="75.63"/>
+        <TableColumn Name="Column2" Width="179.58"/>
+        <TableColumn Name="Column3" Width="85.08"/>
+        <TableColumn Name="Column4" Width="94.53"/>
+        <TableColumn Name="Column5" Width="85.08"/>
+        <TableColumn Name="Column6" Width="132.27"/>
+        <TableRow Name="Row1">
+          <TableCell Name="Cell1" Text="[Table.Part_Id]" Font="Arial, 10pt"/>
+          <TableCell Name="Cell2" Text="[Table.Name]" Font="Arial, 10pt"/>
+          <TableCell Name="Cell3" Text="[Table.Price]" Font="Arial, 10pt"/>
+          <TableCell Name="Cell4" Text="[Table.Quant]" Font="Arial, 10pt"/>
+          <TableCell Name="Cell5" Text="[Table.Total]" Font="Arial, 10pt"/>
+          <TableCell Name="Cell26" Text="[Table.Create_Date]" Font="Arial, 10pt"/>
+        </TableRow>
+        <TableRow Name="Row2">
+          <TableCell Name="Cell6" Font="Arial, 10pt"/>
+          <TableCell Name="Cell7" Font="Arial, 10pt"/>
+          <TableCell Name="Cell8" Font="Arial, 10pt"/>
+          <TableCell Name="Cell9" Font="Arial, 10pt"/>
+          <TableCell Name="Cell10" Font="Arial, 10pt"/>
+          <TableCell Name="Cell27" Font="Arial, 10pt"/>
+        </TableRow>
+        <TableRow Name="Row3">
+          <TableCell Name="Cell11" Font="Arial, 10pt"/>
+          <TableCell Name="Cell12" Font="Arial, 10pt"/>
+          <TableCell Name="Cell13" Font="Arial, 10pt"/>
+          <TableCell Name="Cell14" Font="Arial, 10pt"/>
+          <TableCell Name="Cell15" Font="Arial, 10pt"/>
+          <TableCell Name="Cell28" Font="Arial, 10pt"/>
+        </TableRow>
+        <TableRow Name="Row4">
+          <TableCell Name="Cell16" Font="Arial, 10pt"/>
+          <TableCell Name="Cell17" Font="Arial, 10pt"/>
+          <TableCell Name="Cell18" Font="Arial, 10pt"/>
+          <TableCell Name="Cell19" Font="Arial, 10pt"/>
+          <TableCell Name="Cell20" Font="Arial, 10pt"/>
+          <TableCell Name="Cell29" Font="Arial, 10pt"/>
+        </TableRow>
+        <TableRow Name="Row5">
+          <TableCell Name="Cell21" Font="Arial, 10pt"/>
+          <TableCell Name="Cell22" Font="Arial, 10pt"/>
+          <TableCell Name="Cell23" Font="Arial, 10pt"/>
+          <TableCell Name="Cell24" Font="Arial, 10pt"/>
+          <TableCell Name="Cell25" Font="Arial, 10pt"/>
+          <TableCell Name="Cell30" Font="Arial, 10pt"/>
+        </TableRow>
+      </TableObject>
+    </DataBand>
+    <PageFooterBand Name="PageFooter1" Top="257.7" Width="718.2" Height="18.9"/>
+  </ReportPage>
+</Report>

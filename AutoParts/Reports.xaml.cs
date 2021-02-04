@@ -15,6 +15,7 @@ using FastReport;
 using System.Data;
 using System.Data.SqlClient;
 using AutoParts.Model;
+using System.Configuration;
 
 namespace AutoParts
 {
@@ -23,23 +24,30 @@ namespace AutoParts
     /// </summary>
     public partial class Reports : Window
     {
+
         FastReport.Preview.PreviewControl prew = new FastReport.Preview.PreviewControl();
         Report report = new Report();
         private DBManager manager = new DBManager();
+
+        private static string connectionString = ConfigurationManager.ConnectionStrings["Autoparts"].ConnectionString;
         public Reports(bool order, int id)
         {
             InitializeComponent();
 
             if(order)
             {
-                string sql = $"SELECT Concat(U.Name,' ',u.Second_name,' ',u.Surname) AS FIO, o.Order_Id, O.Create_Date, O.Create_Time, U.City, u.Adress, SUM(op.Quantity) As Quant, SUM(op.Quantity*p.Price) AS Total FROM((Orders o INNER JOIN Order_Part op ON o.Order_Id = op.Order_Id) INNER JOIN Parts p ON op.Part_Id = p.Part_Id) INNER JOIN Users u ON o.User_Id = u.User_Id WHERE o.Order_Id = {id} GROUP BY u.Name, u.Second_name, u.Surname,o.Order_Id, O.Create_Date, O.Create_Time, U.City, u.Adress";
+                string sql = $"SELECT Concat(U.Name,' ',u.Second_name,' ',u.Surname) AS FIO, o.Order_Id, O.Create_Date, O.Create_Time, U.City, u.Adress, SUM(op.Quantity) As Quant, SUM(op.Quantity*p.Price) AS Total " +
+                    $"FROM((Orders o INNER JOIN Order_Part op ON o.Order_Id = op.Order_Id) INNER JOIN Parts p ON op.Part_Id = p.Part_Id) INNER JOIN Users u ON o.User_Id = u.User_Id" +
+                    $" WHERE o.Order_Id = {id} " +
+                    $"GROUP BY u.Name, u.Second_name, u.Surname,o.Order_Id, O.Create_Date, O.Create_Time, U.City, u.Adress";
                 DataSet ds = new DataSet();
-                SqlConnection connection = new SqlConnection(@"Data Source=ASUS\SQLEXPRESS;Initial Catalog=CourseWorkdb;Integrated Security=True");
+                SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["Autoparts"].ConnectionString);
                 connection.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter(sql, connection);
                 adapter.Fill(ds);
 
                 report.Load(@"Reports/Check.frx");
+                report.Dictionary.Connections[0].ConnectionString = connectionString; 
                 report.RegisterData(ds);
                 report.SetParameterValue("MyP", 1);
 
@@ -55,7 +63,9 @@ namespace AutoParts
                 if (id == -1)
                 {
                     report.Load(@"Reports\AllPart.frx");
-                  
+                    report.Dictionary.Connections[0].ConnectionString = connectionString;
+                    report.Dictionary.Connections[1].ConnectionString = connectionString;
+
                     report.Preview = prew;
                     report.Prepare();
                     report.ShowPrepared();
@@ -78,6 +88,8 @@ namespace AutoParts
                     tb.TableName = "Table1";
                     ds.Tables.Add(tb);
                     report.Load(@"Reports\Part.frx");
+                    report.Dictionary.Connections[0].ConnectionString = connectionString;
+                    report.Dictionary.Connections[1].ConnectionString = connectionString;
                     report.RegisterData(ds);
                     report.RegisterData(ds, "Table");
                     report.RegisterData(pr, "Table1");
@@ -103,6 +115,7 @@ namespace AutoParts
                        $"Group By o.Order_Id) Temp";
                 DataSet ds = manager.Select(sql);
             report.Load(@"Reports/Profit.frx");
+            report.Dictionary.Connections[0].ConnectionString = connectionString;      
             report.RegisterData(ds);
             report.SetParameterValue("From", from.ToString("MM/dd/yyyy"));
             report.SetParameterValue("To", to.ToString("MM/dd/yyyy"));
@@ -122,6 +135,7 @@ namespace AutoParts
                         $" GROUP BY p.Part_Id,p.Name,p.Price, o.Create_Date  ";
                 DataSet ds = manager.Select(sql);
                 report.Load(@"Reports/SoldParts.frx");
+                report.Dictionary.Connections[0].ConnectionString = connectionString;
                 report.RegisterData(ds);
                 report.SetParameterValue("From", from.ToString("MM/dd/yyyy"));
                 report.SetParameterValue("To", to.ToString("MM/dd/yyyy"));
@@ -144,6 +158,7 @@ namespace AutoParts
                     $"WHERE o.Create_Date BETWEEN '{from}'  AND  '{to}'";
                 DataSet ds = manager.Select(sql);
                 report.Load(@"Reports/ProfitPerMonth.frx");
+                report.Dictionary.Connections[0].ConnectionString = connectionString;
                 report.RegisterData(ds);
                 report.SetParameterValue("From", from.ToString("MM/dd/yyyy"));
                 report.SetParameterValue("To", to.ToString("MM/dd/yyyy"));
@@ -160,6 +175,7 @@ namespace AutoParts
                         "GROUP BY t.Name";
                 DataSet ds = manager.Select(sql);
                 report.Load(@"Reports/Pr_Types.frx");
+                report.Dictionary.Connections[0].ConnectionString = connectionString;
                 report.RegisterData(ds);
              
 
@@ -177,6 +193,7 @@ namespace AutoParts
                         "GROUP BY  Format(o.Create_Date,'MM-yy-dd')";
                 DataSet ds = manager.Select(sql);
                 report.Load(@"Reports/AverageCheck.frx");
+                report.Dictionary.Connections[0].ConnectionString = connectionString;
                 report.RegisterData(ds);
                 report.SetParameterValue("From", from.ToString("MM/dd/yyyy"));
                 report.SetParameterValue("To", to.ToString("MM/dd/yyyy"));
@@ -200,6 +217,7 @@ namespace AutoParts
                     $"WHERE o.Create_Date BETWEEN '{from}'  AND  '{to}'";
                 DataSet ds = manager.Select(sql);
                 report.Load(@"Reports/ProfitPerDay.frx");
+                report.Dictionary.Connections[0].ConnectionString = connectionString;
                 report.RegisterData(ds);
                 report.SetParameterValue("From", from.ToString("MM/dd/yyyy"));
                 report.SetParameterValue("To", to.ToString("MM/dd/yyyy"));
