@@ -1,8 +1,11 @@
-﻿using System;
+﻿using AutoParts.Model;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace AutoParts.PartPickers
 {
@@ -16,8 +19,9 @@ namespace AutoParts.PartPickers
         public const int Stabilizers = 7;
         public const int EItem = 8;
         public const int OilFilter = 9;
+        protected DBManager manager = new DBManager();
+        protected Picker picker;
         public abstract int GetTypeCode();
-
         public static PartPickerType NewType(int type)
         {
             switch (type)
@@ -44,6 +48,6 @@ namespace AutoParts.PartPickers
                     throw new ArgumentException("Incorrect PartPicker code");
             }
         }
-      
+        public abstract List<int> Pick(SelectPartArgs args);   
     }
 }

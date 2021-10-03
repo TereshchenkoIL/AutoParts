@@ -7,11 +7,16 @@ using System.Threading.Tasks;
 
 namespace AutoParts.PartPickers
 {
-    class AntifreezePicker : PartPickerType
+    class AntifreezePicker : ConsumablesPicker
     {
         public override int GetTypeCode()
         {
             return Antifreeze;
+        }
+
+        public override List<int> Pick(SelectPartArgs args)
+        {
+            return SelectConsumables(args);
         }
     }
 }

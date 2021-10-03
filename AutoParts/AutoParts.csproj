@@ -105,6 +105,7 @@
     <Compile Include="PartPickers\BatteryPicker.cs" />
     <Compile Include="PartPickers\BearingsPicker.cs" />
     <Compile Include="PartPickers\AntifreezePicker.cs" />
+    <Compile Include="PartPickers\ConsumablesPicker.cs" />
     <Compile Include="PartPickers\DisksPicker.cs" />
     <Compile Include="PartPickers\EItemsPicker.cs" />
     <Compile Include="PartPickers\EngineOilPicker.cs" />

@@ -297,11 +297,10 @@ namespace AutoParts.View
         {
             List<int> res;
 
-            res = picker.Pick(new SelectPartArgs(car.Id, type_id, car.Engine));
-          
+            picker.Type = type_id;
 
+            res = picker.Pick(new SelectPartArgs(car.Id, type_id, car.Engine));
          
-            
             IsFiltered = true;
             filtered = table.AsEnumerable();
             filtered = filtered.Where(x => res.Contains((int)x["Part_Id"]));
