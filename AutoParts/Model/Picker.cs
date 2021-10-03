@@ -25,7 +25,7 @@ namespace AutoParts.Model
             
             var res = direct.Concat(undirect);
 
-            return res.Select(x => x.id).ToList();
+            return res.Select(x => x.Id).ToList();
 
         }
 

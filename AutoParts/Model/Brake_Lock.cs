@@ -10,14 +10,14 @@ namespace AutoParts.Model
 {
     class Brake_Lock : IAnalog
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         public double Height { get; set; }
         public double Thick { get; set; }
         public double Width { get; set; }
         public string Placement { get; set; }
         public Brake_Lock(int id, string h, string p, string t, string w )
         {
-            this.id = id;
+            this.Id = id;
             CultureInfo temp_culture = Thread.CurrentThread.CurrentCulture;
             Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
             Height = double.Parse(h);

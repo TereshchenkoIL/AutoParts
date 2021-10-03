@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoParts.PartPickers;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -12,8 +13,15 @@ namespace AutoParts.Model
     {
         private DBManager manager = new DBManager();
         private Picker picker;
+        private SelectPartArgs _args;
+        private PartPickerType _type;
 
-        private List<int> SelectDisks(int Car_Id)
+        public int Type { 
+            get => _type.GetTypeCode();
+            set => _type = PartPickerType.NewType(value);
+          
+        }
+        private List<int> SelectDisks(SelectPartArgs selectPartArgs)
         {
             List<Brake_Disk> direct = new List<Brake_Disk>();
             List<Brake_Disk> possible = new List<Brake_Disk>();
@@ -22,8 +30,8 @@ namespace AutoParts.Model
                 $"FROM(Parts p INNER JOIN Prop_Part op ON p.Part_Id = op.Part_Id) " +
                 $"INNER JOIN Properties pr ON op.Prop_Id = pr.Prop_Id " +
                 $"Left OUTER JOIN Cars c ON c.Car_Id = P.Car_Id" +
-                $" WHERE p.Car_Id = { Car_Id} AND pr.Name IN('Зовнішній діаметр','Діаметр центрування', 'Товщина', 'Мінімальна товщина') " +
-                $"AND p.Type_Id = 2  " +
+                $" WHERE p.Car_Id = { selectPartArgs.CarId} AND pr.Name IN('Зовнішній діаметр','Діаметр центрування', 'Товщина', 'Мінімальна товщина') " +
+                $"AND p.Type_Id = {selectPartArgs.TypeId}  " +
                 $"GROUP BY p.Part_Id, PR.Name, OP.Value, p.Name,CONCAT(C.Mark, ' ', c.Model) " +
                 $"Order By p.Part_Id ASC, pr.Name ASC";
 
@@ -37,7 +45,7 @@ namespace AutoParts.Model
                 $" FROM(Parts p INNER JOIN Prop_Part op ON p.Part_Id = op.Part_Id)" +
                 $" INNER JOIN Properties pr ON op.Prop_Id = pr.Prop_Id " +
                 $"Left OUTER JOIN Cars c ON c.Car_Id = P.Car_Id " +
-                $"WHERE NOT p.Car_Id = { Car_Id} AND pr.Name IN('Зовнішній діаметр','Діаметр центрування', 'Товщина', 'Мінімальна товщина')" +
+                $"WHERE NOT p.Car_Id = { selectPartArgs.CarId} AND pr.Name IN('Зовнішній діаметр','Діаметр центрування', 'Товщина', 'Мінімальна товщина')" +
                 $" AND p.Type_Id = 2 " +
                 $" GROUP BY p.Part_Id, PR.Name, OP.Value, p.Name,CONCAT(C.Mark, ' ', c.Model) " +
                 $"Order By p.Part_Id ASC, pr.Name ASC";
@@ -51,7 +59,7 @@ namespace AutoParts.Model
             return picker.GetParts();
         }
 
-        private List<int> SelectBattery(int Car_Id)
+        private List<int> SelectBattery(SelectPartArgs selectPartArgs)
         {
             List<Battery> direct = new List<Battery>();
             List<Battery> possible = new List<Battery>();
@@ -60,7 +68,7 @@ namespace AutoParts.Model
                 $"FROM(Parts p INNER JOIN Prop_Part op ON p.Part_Id = op.Part_Id) " +
                 $"INNER JOIN Properties pr ON op.Prop_Id = pr.Prop_Id " +
                 $"Left OUTER JOIN Cars c ON c.Car_Id = P.Car_Id" +
-                $" WHERE p.Type_Id = 3 AND p.Car_Id = { Car_Id} AND pr.Name IN('Ємність,Ач','Пусковий струм','') " +
+                $" WHERE p.Type_Id = {selectPartArgs.TypeId} AND p.Car_Id = { selectPartArgs.CarId} AND pr.Name IN('Ємність,Ач','Пусковий струм','') " +
                 $"GROUP BY p.Part_Id, PR.Name, OP.Value, p.Name,CONCAT(C.Mark, ' ', c.Model) " +
                 $"Order By p.Part_Id ASC, pr.Name ASC; ";
             DataTable table = manager.Select(sql).Tables[0];
@@ -73,7 +81,7 @@ namespace AutoParts.Model
                 $"FROM(Parts p INNER JOIN Prop_Part op ON p.Part_Id = op.Part_Id) " +
                 $"INNER JOIN Properties pr ON op.Prop_Id = pr.Prop_Id" +
                 $" Left OUTER JOIN Cars c ON c.Car_Id = P.Car_Id " +
-                $"WHERE  p.Type_Id = 3 AND NOT p.Car_Id = { Car_Id} AND pr.Name IN('Ємність,Ач','Пусковий струм','') " +
+                $"WHERE  p.Type_Id = 3 AND NOT p.Car_Id = {selectPartArgs.CarId} AND pr.Name IN('Ємність,Ач','Пусковий струм','') " +
                 $"GROUP BY p.Part_Id, PR.Name, OP.Value, p.Name,CONCAT(C.Mark, ' ', c.Model) " +
                 $"Order By p.Part_Id ASC, pr.Name ASC; ";
              table = manager.Select(sql).Tables[0];
@@ -87,7 +95,7 @@ namespace AutoParts.Model
             return picker.GetParts();
         }
 
-        private List<int> SelectLocks(int Car_Id)
+        private List<int> SelectLocks(SelectPartArgs selectPartArgs)
         {
             List<Brake_Lock> direct = new List<Brake_Lock>();
             List<Brake_Lock> possible = new List<Brake_Lock>();
@@ -96,7 +104,7 @@ namespace AutoParts.Model
                 $" FROM(Parts p INNER JOIN Prop_Part op ON p.Part_Id = op.Part_Id) " +
                 $"INNER JOIN Properties pr ON op.Prop_Id = pr.Prop_Id " +
                 $"Left OUTER JOIN Cars c ON c.Car_Id = P.Car_Id" +
-                $" WHERE p.Car_Id = { Car_Id} AND pr.Name IN('Висота','Ширина','Товщина','Розміщення') AND p.Type_Id = 1 " +
+                $" WHERE p.Car_Id = { selectPartArgs.CarId} AND pr.Name IN('Висота','Ширина','Товщина','Розміщення') AND p.Type_Id = {selectPartArgs.TypeId} " +
                 $"GROUP BY p.Part_Id, PR.Name, OP.Value " +
                 $"Order By p.Part_Id ASC, pr.Name ASC;";
             DataTable table = manager.Select(sql).Tables[0];
@@ -109,7 +117,7 @@ namespace AutoParts.Model
             sql = $"SELECT p.Part_Id,   PR.Name, OP.Value" +
                 $" FROM(Parts p INNER JOIN Prop_Part op ON p.Part_Id = op.Part_Id) " +
                 $"INNER JOIN Properties pr ON op.Prop_Id = pr.Prop_Id" +
-                $" Left OUTER JOIN Cars c ON c.Car_Id = P.Car_Id WHERE NOT p.Car_Id = { Car_Id} AND pr.Name IN('Висота','Ширина','Товщина','Розміщення')" +
+                $" Left OUTER JOIN Cars c ON c.Car_Id = P.Car_Id WHERE NOT p.Car_Id = {selectPartArgs.CarId} AND pr.Name IN('Висота','Ширина','Товщина','Розміщення')" +
                 $" AND p.Type_Id = 1 " +
                 $"GROUP BY p.Part_Id, PR.Name, OP.Value" +
                 $" Order By p.Part_Id ASC, pr.Name ASC;";
@@ -123,7 +131,7 @@ namespace AutoParts.Model
             return picker.GetParts();
         }
 
-        private List<int> SelectBearings(int Car_Id)
+        private List<int> SelectBearings(SelectPartArgs selectPartArgs)
         {
             List<Bearing> direct = new List<Bearing>();
             List<Bearing> possible = new List<Bearing>();
@@ -131,8 +139,8 @@ namespace AutoParts.Model
             string sql = $"SELECT p.Part_Id,   PR.Name, OP.Value " +
                 $"FROM(Parts p INNER JOIN Prop_Part op ON p.Part_Id = op.Part_Id) " +
                 $"INNER JOIN Properties pr ON op.Prop_Id = pr.Prop_Id" +
-                $" Left OUTER JOIN Cars c ON c.Car_Id = P.Car_Id WHERE p.Car_Id = { Car_Id} AND pr.Name IN('Ширина','Діаметр','Зовнішній діаметр')" +
-                $" AND p.Type_Id = 6 " +
+                $" Left OUTER JOIN Cars c ON c.Car_Id = P.Car_Id WHERE p.Car_Id = {selectPartArgs.CarId} AND pr.Name IN('Ширина','Діаметр','Зовнішній діаметр')" +
+                $" AND p.Type_Id = {selectPartArgs.TypeId} " +
                 $"GROUP BY p.Part_Id, PR.Name, OP.Value" +
                 $" Order By p.Part_Id ASC, pr.Name ASC; ";
             DataTable table = manager.Select(sql).Tables[0];
@@ -146,7 +154,7 @@ namespace AutoParts.Model
                 $"FROM(Parts p INNER JOIN Prop_Part op ON p.Part_Id = op.Part_Id)" +
                 $" INNER JOIN Properties pr ON op.Prop_Id = pr.Prop_Id " +
                 $"Left OUTER JOIN Cars c ON c.Car_Id = P.Car_Id" +
-                $" WHERE NOT p.Car_Id = { Car_Id} AND pr.Name IN('Ширина','Діаметр','Зовнішній діаметр')" +
+                $" WHERE NOT p.Car_Id = {selectPartArgs.CarId} AND pr.Name IN('Ширина','Діаметр','Зовнішній діаметр')" +
                 $" AND p.Type_Id = 6" +
                 $" GROUP BY p.Part_Id, PR.Name, OP.Value" +
                 $" Order By p.Part_Id ASC, pr.Name ASC; ";
@@ -160,7 +168,7 @@ namespace AutoParts.Model
             return picker.GetParts();
         }
 
-        private List<int> SelectStabilizers(int Car_Id)
+        private List<int> SelectStabilizers(SelectPartArgs selectPartArgs)
         {
             List<Stabilizer> direct = new List<Stabilizer>();
             List<Stabilizer> possible = new List<Stabilizer>();
@@ -169,8 +177,8 @@ namespace AutoParts.Model
                 $"FROM(Parts p INNER JOIN Prop_Part op ON p.Part_Id = op.Part_Id)" +
                 $" INNER JOIN Properties pr ON op.Prop_Id = pr.Prop_Id " +
                 $"Left OUTER JOIN Cars c ON c.Car_Id = P.Car_Id " +
-                $"WHERE p.Car_Id = { Car_Id} AND pr.Name IN('Розміщення','Длина','Сторона')" +
-                $" AND p.Type_Id = 7" +
+                $"WHERE p.Car_Id = {selectPartArgs.CarId} AND pr.Name IN('Розміщення','Длина','Сторона')" +
+                $" AND p.Type_Id = {selectPartArgs.TypeId}" +
                 $" GROUP BY p.Part_Id, PR.Name, OP.Value " +
                 $"Order By p.Part_Id ASC, pr.Name ASC; ";
             DataTable table = manager.Select(sql).Tables[0];
@@ -183,7 +191,7 @@ namespace AutoParts.Model
             sql = $"SELECT p.Part_Id,   PR.Name, OP.Value " +
                 $"FROM(Parts p INNER JOIN Prop_Part op ON p.Part_Id = op.Part_Id) " +
                 $"INNER JOIN Properties pr ON op.Prop_Id = pr.Prop_Id" +
-                $" Left OUTER JOIN Cars c ON c.Car_Id = P.Car_Id WHERE NOT p.Car_Id = { Car_Id} AND pr.Name IN('Розміщення','Длина','Сторона') AND p.Type_Id = 7" +
+                $" Left OUTER JOIN Cars c ON c.Car_Id = P.Car_Id WHERE NOT p.Car_Id = {selectPartArgs.CarId} AND pr.Name IN('Розміщення','Длина','Сторона') AND p.Type_Id = 7" +
                 $" GROUP BY p.Part_Id, PR.Name, OP.Value " +
                 $"Order By p.Part_Id ASC, pr.Name ASC; ";
             table = manager.Select(sql).Tables[0];
@@ -196,7 +204,7 @@ namespace AutoParts.Model
             return picker.GetParts();
         }
 
-        private List<int> SelectEItems(int car_id, int type_id, int engine_id)
+        private List<int> SelectEItems(SelectPartArgs args)
         {
             List<EngineItem> direct = new List<EngineItem>();
             List<EngineItem> possible = new List<EngineItem>();
@@ -205,7 +213,7 @@ namespace AutoParts.Model
                 $" From Parts p INNER JOIN Cars c ON p.Car_Id = c.Car_Id " +
                 $"INNER JOIN Modifications m ON m.Car_Id = c.Car_Id " +
                 $"INNER JOIN Engines e ON e.Engine_Id = m.Engine_Id" +
-                $" WHERE c.Car_Id = { car_id} AND p.Type_Id = { type_id} AND e.Engine_Id = { engine_id} ";
+                $" WHERE c.Car_Id = { args.CarId} AND p.Type_Id = { args.TypeId} AND e.Engine_Id = {args.EngineId} ";
             DataTable table = manager.Select(sql).Tables[0];
            foreach(DataRow row in table.Rows)
             { 
@@ -218,7 +226,8 @@ namespace AutoParts.Model
                 $"INNER JOIN Cars c ON p.Car_Id = c.Car_Id " +
                 $"INNER JOIN Modifications m ON m.Car_Id = c.Car_Id " +
                 $"INNER JOIN Engines e ON e.Engine_Id = m.Engine_Id" +
-                $" WHERE(c.Car_Id = { car_id} AND NOT e.Engine_Id = { engine_id} AND p.Type_Id = { type_id} OR NOT c.Car_Id = { car_id} AND  e.Engine_Id = {engine_id}  AND p.Type_Id = { type_id}) OR NOT c.Car_Id = { car_id} AND NOT e.Engine_Id = { engine_id} AND p.Type_Id = { type_id} ";
+                $" WHERE(c.Car_Id = { args.CarId} AND NOT e.Engine_Id = { args.EngineId} AND p.Type_Id = { args.TypeId} OR NOT c.Car_Id = { args.CarId} " +
+                $"AND  e.Engine_Id = {args.EngineId}  AND p.Type_Id = { args.TypeId}) OR NOT c.Car_Id = { args.CarId} AND NOT e.Engine_Id = { args.EngineId} AND p.Type_Id = { args.TypeId} ";
              table = manager.Select(sql).Tables[0];
             foreach (DataRow row in table.Rows)
             {
@@ -228,59 +237,10 @@ namespace AutoParts.Model
             picker = new Picker(direct.OfType<IAnalog>().ToList(), possible.OfType<IAnalog>().ToList());
             return picker.GetParts();
         }
-
-        private List<int> SelectConsumables(int type_id)
-        {
-            DataTable table = manager.Select("SELECT p.PART_iD" +
-                " FROM PARTS p INNER JOIN Pr_Types pt ON P.Type_Id = pt.Type_Id " +
-                $"WHERE pt.Type_Id = {type_id}").Tables[0];
-
-           return table.AsEnumerable().Select(x => (int)x["Part_Id"]).ToList(); 
-
-        }
-
-        public List<int> Pick(int car_id, int type_id, int engine_id = -1)
-        {
-            switch (type_id)
-            {
-                case 1:
-                    return SelectLocks(car_id);                    
-                case 2:
-                    return SelectDisks(car_id);
-                case 3:
-                    return SelectBattery(car_id);
-                case 4:
-                    return SelectConsumables(type_id);
-                case 5:
-                    return SelectConsumables(type_id);
-                case 6:
-                    return SelectBearings(car_id);
-                case 7:
-                    return SelectStabilizers(car_id);
-                case 8:
-                    if(engine_id == -1)
-                    {
-                        MessageBox.Show("Виберіть модифікацію");
-                        return new List<int>();
-                    }
-                    return SelectEItems(car_id, type_id, engine_id);
-                case 9:
-                    if (engine_id == -1)
-                    {
-                        MessageBox.Show("Виберіть модифікацію");
-                        return new List<int>();
-                    }
-                    return SelectOilFilters(car_id,  engine_id);
-                default:
-                    return new List<int>();
-              
-            }
-        }
-
-        public List<int> SelectOilFilters(int car_id, int engine_id)
+        public List<int> SelectOilFilters(SelectPartArgs args)
         {
             List<int> res = new List<int>();
-            res.AddRange(SelectEItems(car_id, 9, engine_id));
+            res.AddRange(SelectEItems(args));
 
 
 
@@ -291,8 +251,8 @@ namespace AutoParts.Model
                 $"FROM(Parts p INNER JOIN Prop_Part op ON p.Part_Id = op.Part_Id) " +
                 $"INNER JOIN Properties pr ON op.Prop_Id = pr.Prop_Id" +
                 $" Left OUTER JOIN Cars c ON c.Car_Id = P.Car_Id " +
-                $"WHERE p.Car_Id = { car_id} AND pr.Name IN('Висота','Діаметр','Зовнішній діаметр')" +
-                $" AND p.Type_Id = 9 " +
+                $"WHERE p.Car_Id = {args.CarId} AND pr.Name IN('Висота','Діаметр','Зовнішній діаметр')" +
+                $" AND p.Type_Id = {args.TypeId} " +
                 $"GROUP BY p.Part_Id, PR.Name, OP.Value" +
                 $" Order By p.Part_Id ASC, pr.Name ASC; ";
             DataTable table = manager.Select(sql).Tables[0];
@@ -306,7 +266,7 @@ namespace AutoParts.Model
                 $"FROM(Parts p INNER JOIN Prop_Part op ON p.Part_Id = op.Part_Id) " +
                 $"INNER JOIN Properties pr ON op.Prop_Id = pr.Prop_Id " +
                 $"Left OUTER JOIN Cars c ON c.Car_Id = P.Car_Id " +
-                $"WHERE NOT p.Car_Id = { car_id} AND pr.Name IN('Висота','Діаметр','Зовнішній діаметр') " +
+                $"WHERE NOT p.Car_Id = { args.CarId} AND pr.Name IN('Висота','Діаметр','Зовнішній діаметр') " +
                 $"AND p.Type_Id = 9 " +
                 $"GROUP BY p.Part_Id, PR.Name, OP.Value " +
                 $"Order By p.Part_Id ASC, pr.Name ASC; ";
@@ -322,5 +282,56 @@ namespace AutoParts.Model
 
             return res.Distinct().ToList(); ;
         }
+
+        private List<int> SelectConsumables(SelectPartArgs selectPartArgs)
+        {
+            DataTable table = manager.Select("SELECT p.PART_iD" +
+                " FROM PARTS p INNER JOIN Pr_Types pt ON P.Type_Id = pt.Type_Id " +
+                $"WHERE pt.Type_Id = {selectPartArgs.TypeId}").Tables[0];
+
+           return table.AsEnumerable().Select(x => (int)x["Part_Id"]).ToList(); 
+
+        }
+
+    
+        public List<int> Pick(SelectPartArgs args)
+        {
+            switch (Type)
+            {
+                case PartPickerType.Locks:
+                    return SelectLocks(args);                    
+                case PartPickerType.Disks:
+                    return SelectDisks(args);
+                case PartPickerType.Battery:
+                    return SelectBattery(args);
+                case PartPickerType.Antifreeze:
+                    return SelectConsumables(args);
+                case PartPickerType.EngineOil:
+                    return SelectConsumables(args);
+                case PartPickerType.Bearings:
+                    return SelectBearings(args);
+                case PartPickerType.Stabilizers:
+                    return SelectStabilizers(args);
+                case PartPickerType.EItem:
+                    if(args.EngineId == -1)
+                    {
+                        MessageBox.Show("Виберіть модифікацію");
+                        return new List<int>();
+                    }
+                    return SelectEItems(args);
+                case PartPickerType.OilFilter:
+                    if (args.EngineId == -1)
+                    {
+                        MessageBox.Show("Виберіть модифікацію");
+                        return new List<int>();
+                    }
+                    return SelectOilFilters(args);
+                default:
+                    return new List<int>();
+              
+            }
+        }
+
+        
     }
 }

@@ -11,14 +11,14 @@ namespace AutoParts.Model
 {
     class EngineItem : IAnalog
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         public string Drive_Type { get; set; }
         public int Power { get; set; }
         public double Volume { get; set; }
         public string Type { get; set; }
         public EngineItem(DataRow row)
         {        
-            this.id = (int)row["Part_Id"];
+            this.Id = (int)row["Part_Id"];
             Drive_Type = (string)row["Drive_Type"];
             this.Power = (int)row["Power"];
             this.Volume = (double)row["Volume"];
@@ -28,7 +28,11 @@ namespace AutoParts.Model
         public virtual bool HasAnalog(IAnalog item)
         {
             EngineItem o = (EngineItem)item;
-            if (Drive_Type == o.Drive_Type && o.Power >= Power - 40 && o.Power <= Power + 40 && o.Volume >= Volume - 0.5 && o.Volume <= Volume + 0.5 && o.Type == Type)
+            if (Drive_Type == o.Drive_Type && o.Power >= Power - 40 
+                && o.Power <= Power + 40 
+                && o.Volume >= Volume - 0.5 
+                && o.Volume <= Volume + 0.5 
+                && o.Type == Type)
                 return true;
             return false;
         }

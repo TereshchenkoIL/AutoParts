@@ -10,7 +10,7 @@ namespace AutoParts.Model
 {
     class Bearing : IAnalog
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         public double Width { get; set; }
         public double Diametr { get; set; }
         public double ExDiametr { get; set; }
@@ -19,7 +19,7 @@ namespace AutoParts.Model
         {
             CultureInfo temp_culture = Thread.CurrentThread.CurrentCulture;
             Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
-            this.id = id;
+            this.Id = id;
             Diametr = double.Parse(d);
             ExDiametr = double.Parse(ex);
             Width = double.Parse(w);

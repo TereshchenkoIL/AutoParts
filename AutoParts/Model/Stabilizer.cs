@@ -10,7 +10,7 @@ namespace AutoParts.Model
 {
     class Stabilizer : IAnalog
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         public double Length { get; set; }
         public string Placement { get; set; }
         public string Side { get; set; }
@@ -18,7 +18,7 @@ namespace AutoParts.Model
         {
             CultureInfo temp_culture = Thread.CurrentThread.CurrentCulture;
             Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
-            this.id = id;
+            this.Id = id;
             Length = double.Parse(l);
             Placement = pl;
             Side = s;

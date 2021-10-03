@@ -14,7 +14,7 @@
             <MenuItem Header="Статистика" Click="MenuItem_Click" ></MenuItem>
             <MenuItem Header="Довільний запит" Click="Sql_Click" ></MenuItem>
         </Menu>
-        <Button x:Name="Parts_Button" BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" Background="White" Margin="15,70,0,0" Click="Button_Click" Height="113">
+        <Button x:Name="PartsButton" BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" Background="White" Margin="15,70,0,0" Click="Button_Click" Height="113">
             <StackPanel Orientation="Vertical">
                 <Image Source="Images/A_Parts.png" Width="75" Height="83" />
 

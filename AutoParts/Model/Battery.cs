@@ -11,7 +11,7 @@ namespace AutoParts.Model
 {
     class Battery : IAnalog
     {
-        public int id { get ; set ; }
+        public int Id { get ; set ; }
         public double Volume { get; set; }
         public double SCurrent { get; set; }
 
@@ -19,7 +19,7 @@ namespace AutoParts.Model
         {
             CultureInfo temp_culture = Thread.CurrentThread.CurrentCulture;
             Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
-            this.id = id;
+            this.Id = id;
             this.Volume = double.Parse( volume);
             this.SCurrent = double.Parse(sc);
             Thread.CurrentThread.CurrentCulture = temp_culture;

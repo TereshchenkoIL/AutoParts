@@ -12,14 +12,14 @@ namespace AutoParts.Model
         public double Height { get; set; }
         public double InternalDiametr { get; set; }
         public double ExternalDIametr { get; set; }
-        public int id { get; set ; }
+        public int Id { get; set ; }
 
         public OilFilter(int _id, double h, double d, double externalD) 
         {
             Height = h;
             InternalDiametr = d;
             ExternalDIametr = externalD;
-            id = _id;
+            Id = _id;
         }
         public  bool HasAnalog(IAnalog item)
         {

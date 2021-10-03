@@ -297,10 +297,8 @@ namespace AutoParts.View
         {
             List<int> res;
 
-            if (car.Engine != 0)
-                res = picker.Pick(car.Id, type_id, car.Engine);
-            else
-                res = picker.Pick(car.Id, type_id);
+            res = picker.Pick(new SelectPartArgs(car.Id, type_id, car.Engine));
+          
 
          
             

@@ -11,7 +11,7 @@ namespace AutoParts.Model
 {
     class Brake_Disk : IAnalog
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         
         public double ExDleiametr { get; set; }
         public double CDiametr { get; set; }
@@ -32,7 +32,7 @@ namespace AutoParts.Model
         //}
         public Brake_Disk(int _id, string _dc, string _ed, string _mt, string _t, string name, string car)
         {
-            id = _id;
+            Id = _id;
             CultureInfo temp_culture = Thread.CurrentThread.CurrentCulture;
             Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
             

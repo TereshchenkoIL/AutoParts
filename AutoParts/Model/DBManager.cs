@@ -12,11 +12,15 @@ namespace AutoParts.Model
 {
     class DBManager
     {
-        private static string connectionString = ConfigurationManager.ConnectionStrings["Autoparts"].ConnectionString;
+        private static string s_connectionString =
+            ConfigurationManager.ConnectionStrings["Autoparts"].ConnectionString;
 
+        [ThreadStatic]
+        private static int t_numberOfCalls;
         public DataSet GetUserInformation(int Id)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            var a = t_numberOfCalls;
+            using (SqlConnection connection = new SqlConnection(s_connectionString))
             {
                 connection.Open();
                 string sql = $"SELECT * FROM Users WHERE USER_ID = {Id}";
@@ -30,7 +34,7 @@ namespace AutoParts.Model
         }
         public DataSet GetUserOrderDetails(int Id)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(s_connectionString))
             {
                 connection.Open();
                 string sql = $"SELECT o.Order_Id, o.Create_Date, SUM(p.Price*op.Quantity) AS Total " +
@@ -47,7 +51,7 @@ namespace AutoParts.Model
         }
         public void UpdateUser(DataRow user)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(s_connectionString))
             {
                 connection.Open();
                 SqlCommand command = new SqlCommand("sp_UpdateUser", connection);
@@ -84,7 +88,7 @@ namespace AutoParts.Model
         public DataSet GetOrderInformation(int id)
         {
             
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(s_connectionString))
             {
                 connection.Open();
                 string sql = $"SELECT u.Name, u.Second_name, u.Surname, o.Order_Id, o.Create_Date, o.Create_Time, o.Curr " +
@@ -102,7 +106,7 @@ namespace AutoParts.Model
         public DataSet GetPartInOrder(int id)
         {
             
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(s_connectionString))
             {
                 connection.Open();
                 string sql = $"SELECT p.Name,op.Quantity, p.Price " +
@@ -120,7 +124,7 @@ namespace AutoParts.Model
 
         public DataSet GetTypes()
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(s_connectionString))
             {
                 connection.Open();
                 string sql = "Select * FROM Pr_Types";
@@ -133,7 +137,7 @@ namespace AutoParts.Model
         }
         public DataSet GetParts(int id = -1)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(s_connectionString))
             {
                 connection.Open();
                 string sql = "SELECT p.Part_Id, P.Name, P.Price,P.Producer_Name, pt.Name AS 'Тип', p.Warranty AS 'Гарантія', CONCAT(c.Mark, ' ' , c.Model, ' ', C.Year) AS Car,  COUNT(r.Response_Id) AS 'Кількість оцінок', AVG(R.Rate) AS 'Середня оцінка' " +
@@ -154,7 +158,7 @@ namespace AutoParts.Model
 
         public DataSet Select(string sql)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(s_connectionString))
             {
                 connection.Open();               
                 SqlDataAdapter adapter = new SqlDataAdapter(sql, connection);
@@ -166,7 +170,7 @@ namespace AutoParts.Model
         }
         public async Task<DataSet> SelectAsync(string sql)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(s_connectionString))
             {
                 connection.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter(sql, connection);
@@ -179,7 +183,7 @@ namespace AutoParts.Model
 
         public DataSet GetProperties(int id)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(s_connectionString))
             {
                 connection.Open();
                 string sql = $"Select p.Name,CONCAT(pp.value,p.Unit) As Значення  " +
@@ -195,7 +199,7 @@ namespace AutoParts.Model
 
         public void AddOrder(int user_id, Basket basket)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(s_connectionString))
             {
                 connection.Open();
                 SqlCommand command = new SqlCommand("sp_CreateOrder", connection);
@@ -236,7 +240,7 @@ namespace AutoParts.Model
 
         public int AddRewiev(int user, int part, int mark, string text)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(s_connectionString))
             {
                 connection.Open();
                 SqlCommand command = new SqlCommand("sp_CreateReview", connection);
@@ -283,7 +287,7 @@ namespace AutoParts.Model
 
         public int Create_User(User user)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(s_connectionString))
             {
                 connection.Open();
                 SqlCommand command = new SqlCommand("sp_CreateUser", connection);
@@ -320,7 +324,7 @@ namespace AutoParts.Model
 
         public void Add_Producer(string name, string desc, int year)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(s_connectionString))
             {
                 connection.Open();
                 string sql = "INSERT INTO Producers (Producer_Name, Descript, Year)" +
@@ -333,7 +337,7 @@ namespace AutoParts.Model
         }
         public void Update_Producer(string name, string desc, int year)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(s_connectionString))
             {
                 connection.Open();
                 string sql = "Update Producers SET " +
@@ -347,7 +351,7 @@ namespace AutoParts.Model
         }
         public void Delete_Producer(string name)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(s_connectionString))
             {
                 connection.Open();
                 string sql = "DELETE FROM Producers " +                 
@@ -361,7 +365,7 @@ namespace AutoParts.Model
 
         public void Add_Car(string mark, string model,string type, int year)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(s_connectionString))
             {
                 connection.Open();
                 string sql = "INSERT INTO Cars (Mark, Model,Type, Year)" +
@@ -374,7 +378,7 @@ namespace AutoParts.Model
         }
         public void Update_Car(int car_id, string mark, string model, string type, int year)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(s_connectionString))
             {
                 connection.Open();
                 string sql = "Update Cars SET " +
@@ -389,7 +393,7 @@ namespace AutoParts.Model
         }
         public void Delete_Car(int car_id)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(s_connectionString))
             {
                 connection.Open();
                 string sql = "DELETE FROM Cars  " +
@@ -413,7 +417,7 @@ namespace AutoParts.Model
 
         public void Add_Modification(string name, string complect, string type, int car_id, int engine_id)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(s_connectionString))
             {
                 connection.Open();
                 string sql = "INSERT INTO Modifications (Name, Complect,Drive_Type, Car_Id, Engine_Id)" +
@@ -426,7 +430,7 @@ namespace AutoParts.Model
         }
         public void Update_Modification(int id, string name, string complect, string type, int car_id, int engine_id)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(s_connectionString))
             {
                 connection.Open();
                 string sql = "Update Modifications SET " +
@@ -442,7 +446,7 @@ namespace AutoParts.Model
         }
         public void Delete_Modification(int id)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(s_connectionString))
             {
                 connection.Open();
                 string sql = "DELETE FROM Modifications  " +
@@ -456,7 +460,7 @@ namespace AutoParts.Model
 
         public void Add_Engine(string name, int power, double volume, string type)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(s_connectionString))
             {
                 connection.Open();
                 string sql = "INSERT INTO Engines (Name, Power,Volume, Type)" +
@@ -469,7 +473,7 @@ namespace AutoParts.Model
         }
         public void Update_Engine(int id, string name, int power, double volume, string type)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(s_connectionString))
             {
                 connection.Open();
                 string sql = "Update Engines SET " +
@@ -484,7 +488,7 @@ namespace AutoParts.Model
         }
         public void Delete_Engine(int id)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(s_connectionString))
             {
                 connection.Open();
                 string sql = "DELETE FROM Engines  " +
@@ -498,7 +502,7 @@ namespace AutoParts.Model
 
         public void Add_Disc(string name, string desc, int disc)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(s_connectionString))
             {
                 connection.Open();
                 string sql = "INSERT INTO Discounts (Discount_Name, Descript,Disc)" +
@@ -511,7 +515,7 @@ namespace AutoParts.Model
         }
         public void Update_Disc(string name, string desc, int disc)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(s_connectionString))
             {
                 connection.Open();
                 string sql = "Update Discounts SET " +
@@ -526,7 +530,7 @@ namespace AutoParts.Model
         }
         public void Delete_Disc(string name)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(s_connectionString))
             {
                 connection.Open();
                 string sql = "DELETE FROM Discounts  " +
@@ -540,7 +544,7 @@ namespace AutoParts.Model
 
         public void Delete_Part_Prop(int prop_id, int part_id)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(s_connectionString))
             {
                 connection.Open();
                 string sql = "DELETE FROM Prop_Part  " +
@@ -553,7 +557,7 @@ namespace AutoParts.Model
         }
         public void Delete_Order_Part(int order_id, int part_id)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(s_connectionString))
             {
                 connection.Open();
                 string sql = "DELETE FROM Order_Part  " +
